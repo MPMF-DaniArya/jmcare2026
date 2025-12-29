@@ -1,0 +1,23 @@
+import 'package:jmcare/helper/Endpoint.dart';
+import 'package:jmcare/model/api/EsignRegisterRespon.dart';
+import 'package:jmcare/model/api/EsignSentotpRespon.dart';
+import 'package:jmcare/model/api/EsignsignRespon.dart';
+import 'package:jmcare/model/api/EsignstatussignRespon.dart';
+import 'package:jmcare/model/api/EsignunsignedRespon.dart';
+import 'package:jmcare/service/BaseService.dart';
+
+class EsignstatussignService extends BaseService {
+  static EsignstatussignService instance = EsignstatussignService();
+
+  Future<EsignstatussignRespon?> checkStatus(String refNumber) async {
+    await Future.delayed(const Duration(seconds: 0));
+    try {
+      return postEsign(Endpoint.TAG_ESIGN_CHECK_STATUS_SIGN, body: {
+        "audit": {"callerId": "User${Endpoint.TAG_ESIGN_TENANT_CODE}"},
+        "refNumber": refNumber
+      });
+    } catch (e) {
+      return EsignstatussignError();
+    }
+  }
+}
