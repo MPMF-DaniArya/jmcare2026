@@ -64,17 +64,21 @@ class LayananPengaduanScreen extends StatelessWidget {
                             ),
                             Obx(
                               () {
-                                if (logic.isDebitur.value) {
+                                if (logic.isDebitur.value &&
+                                    logic.ddNomorKontrak.isNotEmpty) {
                                   return Column(
                                     children: [
                                       Align(
-                                          alignment: AlignmentGeometry.centerLeft,
-                                          child:
-                                              Komponen.astericText('No Agreement')),
+                                          alignment:
+                                              AlignmentGeometry.centerLeft,
+                                          child: Komponen.astericText(
+                                              'No Agreement')),
                                       DropdownButtonFormField<String>(
                                           isExpanded: true,
                                           items: logic.ddNomorKontrak,
-                                          value: logic.idxDdNomorKontrak.value == ""
+                                          value: logic.idxDdNomorKontrak
+                                                      .value ==
+                                                  ""
                                               ? null
                                               : logic.idxDdNomorKontrak.value,
                                           onChanged: (newValue) {
@@ -84,7 +88,8 @@ class LayananPengaduanScreen extends StatelessWidget {
                                         height: 30,
                                       ),
                                       const Align(
-                                          alignment: AlignmentGeometry.centerLeft,
+                                          alignment:
+                                              AlignmentGeometry.centerLeft,
                                           child: Text('Tipe Unit')),
                                       MyReadOnlyITextFormField(
                                         controller: state.tecTipeUnit,
@@ -93,8 +98,9 @@ class LayananPengaduanScreen extends StatelessWidget {
                                         height: 30,
                                       ),
                                       const Align(
-                                          alignment: AlignmentGeometry.centerLeft,
-                                          child:Text('No. Plat')),
+                                          alignment:
+                                              AlignmentGeometry.centerLeft,
+                                          child: Text('No. Plat')),
                                       MyReadOnlyITextFormField(
                                         controller: state.tecNoPlat,
                                       ),
@@ -112,9 +118,16 @@ class LayananPengaduanScreen extends StatelessWidget {
                                 child: Komponen.astericText(
                                     'Kritik & Saran / Pengaduan')),
                             TextFormField(
-                              textInputAction: TextInputAction.next,
+                              controller: state.tecKritikDanSaran,
+                              textInputAction: TextInputAction.done,
+                              keyboardType: TextInputType.text,
                               minLines: 1,
                               maxLines: 5,
+                              validator: (value) {
+                                return value!.isEmpty
+                                    ? Konstan.tagrequired
+                                    : null;
+                              },
                               decoration: const InputDecoration(
                                   hintText:
                                       'Tuliskan kritik & saran / pengaduan anda...'),
@@ -124,7 +137,7 @@ class LayananPengaduanScreen extends StatelessWidget {
                             ),
                             const Align(
                               alignment: AlignmentGeometry.centerLeft,
-                              child: Text('Lampiran',
+                              child: Text('Lampiran (opsional)',
                                   style: TextStyle(
                                       color: Colors.black,
                                       fontSize: 12,
@@ -140,7 +153,10 @@ class LayananPengaduanScreen extends StatelessWidget {
                             SizedBox(
                               width: double.infinity,
                               child: ElevatedButton(
-                                  onPressed: () {}, child: const Text("Submit")),
+                                  onPressed: () {
+                                    logic.submit(context);
+                                  },
+                                  child: const Text("Submit")),
                             ),
                           ],
                         ),

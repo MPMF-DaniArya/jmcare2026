@@ -4,10 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/date_symbol_data_local.dart';
+import 'package:intl/intl.dart';
 import 'package:jmcare/model/api/PilihkontrakRespon.dart';
 import 'package:jmcare/screens/layanan_pengaduan/state.dart';
+import 'package:jmcare/service/LayananPengaduanSubmitFormService.dart';
 
 import '../../helper/Fungsi.dart';
+import '../../helper/Konstan.dart';
 import '../../model/api/LoginRespon.dart';
 import '../../service/PilihkontrakService.dart';
 import '../../service/Service.dart';
@@ -23,6 +27,7 @@ class LayananPengaduanLogic extends BaseLogic {
   String jenisDebitur = '';
   var isDebitur = false.obs;
   var jmlRow = 0.obs;
+  int user_id = 0;
   String nama = '';
   String noHp = '';
   String email = '';
@@ -46,6 +51,7 @@ class LayananPengaduanLogic extends BaseLogic {
         nama = authStorage.data!.namaUser!;
         noHp = authStorage.data!.noHp!;
         email = authStorage.data!.email!;
+        user_id = int.tryParse(authStorage.data!.loginUserId!)!;
         state.tecNamaLengkap!.text = nama;
         state.tecNoHp!.text = noHp;
         state.tecEmail!.text = email;
@@ -143,5 +149,68 @@ class LayananPengaduanLogic extends BaseLogic {
 
     state.lampiran = File(croppedFile.path);
     update();
+  }
+
+  void submit(BuildContext context) async {
+    if (state.formKey!.currentState!.validate()) {
+      is_loading.value = true;
+      final hasil = await getService<LayananPengaduanSubmitFormService>()!
+          .submitFormLayananPengaduan(
+              login_user_id: user_id,
+              nama_lengkap: state.tecNamaLengkap!.text.trim(),
+              nomor_hp: state.tecNoHp!.text.trim(),
+              agreement_no: idxDdNomorKontrak.value,
+              kritikSaranPengaduan: state.tecKritikDanSaran!.text.trim());
+
+      if (hasil == null) {
+        Fungsi.koneksiError();
+      } else {
+        if (hasil.code == Konstan.tag_100) {
+          Fungsi.warningToast(hasil.message!);
+        } else {
+          await initializeDateFormatting('id_ID');
+          showDialog(
+              context: context,
+              builder: (context) {
+                final textTheme = Theme.of(context).textTheme;
+
+                return AlertDialog(
+                  actionsAlignment: MainAxisAlignment.center,
+                  title: RichText(
+                    textAlign: TextAlign.center,
+                    text: TextSpan(
+                        text: 'Nomor Tiket\n',
+                        style: textTheme.headlineSmall,
+                        children: [
+                          TextSpan(
+                              text: hasil.message,
+                              style: textTheme.headlineSmall!
+                                  .copyWith(fontWeight: FontWeight.bold))
+                        ]),
+                  ),
+                  content: Text(
+                    'Pengaduan bapak/ibu telah berhasil dikirimkan pada hari ${DateFormat('EEEE, d MMMM y', 'id_ID').format(DateTime.now())}',
+                    style: textTheme.bodyMedium,
+                    textAlign: TextAlign.center,
+                  ),
+                  actions: [
+                    TextButton(
+                        onPressed: () {
+                          Get.offAllNamed(Konstan.rute_home);
+                        },
+                        child: Text(
+                          'OK',
+                          style: textTheme.bodyMedium!
+                              .copyWith(fontWeight: FontWeight.bold)
+                              .copyWith(color: Colors.green),
+                        ))
+                  ],
+                );
+              });
+        }
+      }
+
+      is_loading.value = false;
+    }
   }
 }

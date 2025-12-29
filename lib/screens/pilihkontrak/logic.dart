@@ -1,9 +1,10 @@
 import 'dart:io';
-import 'package:intl/intl.dart';
-import 'package:open_file_plus/open_file_plus.dart';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:jmcare/helper/Fungsi.dart';
 import 'package:jmcare/model/api/EpolisRespon.dart';
 import 'package:jmcare/model/api/LoginRespon.dart';
@@ -22,10 +23,10 @@ import 'package:jmcare/service/SubmitlogdownloadService.dart';
 import 'package:jmcare/storage/storage.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
+
 import '../../helper/Konstan.dart';
 import '../../model/api/BaseRespon.dart';
 import '../../service/klaimasuransi/CheckclaimavailableService.dart';
-import 'package:flutter/material.dart';
 
 class PilihkontrakLogic extends BaseLogic {
   final PilihkontrakState state = PilihkontrakState();
@@ -60,8 +61,7 @@ class PilihkontrakLogic extends BaseLogic {
   }
 
   void detail(int index) {
-    switch (state.rute){
-
+    switch (state.rute) {
       case Konstan.rute_agreement_card:
         Get.toNamed(Konstan.rute_agreement_card,
             arguments: {'detail': pilihKontrak.value.data![index].aGRMNTID});
@@ -88,17 +88,19 @@ class PilihkontrakLogic extends BaseLogic {
   //udah ga bisa klaim lagi
   void checkClaimAvailable(int index) async {
     is_loading.value = true;
-    final respon = await getService<CheckclaimavailableService>()?.checkClaimAvailable(pilihKontrak.value.data![index].aGRMNTNO!);
-    if (respon is BaseError || respon == null){
+    final respon = await getService<CheckclaimavailableService>()
+        ?.checkClaimAvailable(pilihKontrak.value.data![index].aGRMNTNO!);
+    if (respon is BaseError || respon == null) {
       Fungsi.koneksiError();
-    }else{
-      if (respon.code == "200"){
+    } else {
+      if (respon.code == "200") {
         Get.offAndToNamed(Konstan.rute_klaimasuransi_detail_agreementinsco,
             arguments: {
-               Konstan.tag_detail : pilihKontrak.value.data![index].aGRMNTNO,
-               Konstan.tag_branch_name : pilihKontrak.value.data![index].oFFICENAME
+              Konstan.tag_detail: pilihKontrak.value.data![index].aGRMNTNO,
+              Konstan.tag_branch_name:
+                  pilihKontrak.value.data![index].oFFICENAME
             });
-      }else{
+      } else {
         Fungsi.errorToast(respon.message!);
       }
     }
@@ -106,8 +108,9 @@ class PilihkontrakLogic extends BaseLogic {
   }
 
   void getEContract(int index) async {
-    try{
+    try {
       is_download.value = true;
+      await initializeDateFormatting('id_ID', null);
       //dialog untuk permission storage'
       // var statusStorage = await Permission.storage.request();
       final usiaGoLive = pilihKontrak.value.data![index].uSIAGOLIVE;
@@ -126,10 +129,6 @@ class PilihkontrakLogic extends BaseLogic {
       final authStorage = await getStorage<LoginRespon>();
       final String login_id = authStorage.data!.loginUserId!;
       int? jumlah;
-
-      // cek apakah kontrak telah melewati batas masa berlaku > 90
-
-
       //cek apakah sudah pernah download eContract atau belum
       debugPrint("is_android");
       jumlah = await state.databaseHelper!.selectEContract(cleanNoKontrak);
@@ -140,40 +139,48 @@ class PilihkontrakLogic extends BaseLogic {
         //karena ada case: dia sudah download eAgreement, lalu uninstal jmcare
         //dia lalu instal jmcare lagi, pas di bagian ini dia error
         Directory? dir;
-        if (Platform.isAndroid){
+        if (Platform.isAndroid) {
           dir = Directory('/storage/emulated/0/Download/');
-        }else{
+        } else {
           dir = await getApplicationDocumentsDirectory();
         }
         // final file_yang_sdh_ada = '/storage/emulated/0/Download/$no_kontrak' + '.pdf';
-        if (usiaGoLive!.toLowerCase() == "available"){
+        if (usiaGoLive!.toLowerCase() == "available") {
           //kalau available, cek apakah sudah 3x download ini
           obsLoadJumlahDownload.value = true;
-          final jumlah = await getService<JumlahdownloadService>()!.getJumlahDownload(int.parse(login_id!), no_kontrak!, "eContract");
+          final jumlah = await getService<JumlahdownloadService>()!
+              .getJumlahDownload(
+                  int.parse(login_id!), no_kontrak!, "eContract");
           obsLoadJumlahDownload.value = false;
-          if (jumlah == null){
+          if (jumlah == null) {
             Fungsi.koneksiError();
-          }else{
-            if (jumlah.code == Konstan.tag_200){
+          } else {
+            if (jumlah.code == Konstan.tag_200) {
               //disable untuk maksimal 3x download
               //download dokumen EContract dari Google Cloud Platform
               obsLoadJumlahDownload.value = true;
-              final hasil = await getService<EContractdownloadService>()!.downloadDocument(no_kontrak);
+              final hasil = await getService<EContractdownloadService>()!
+                  .downloadDocument(no_kontrak);
               obsLoadJumlahDownload.value = false;
-              if (hasil == null){
+              if (hasil == null) {
                 Fungsi.koneksiError();
                 //kalau download error, arahkan ke form keluhan
-                Get.toNamed(Konstan.rute_eContract, arguments: {Konstan.tag_detail: pilihKontrak.value.data![index].aGRMNTNO});
-              }else{
+                Get.toNamed(Konstan.rute_eContract, arguments: {
+                  Konstan.tag_detail: pilihKontrak.value.data![index].aGRMNTNO
+                });
+              } else {
                 //disini dia sukses dapat link
-                if (hasil.code == Konstan.tag_200){
+                if (hasil.code == Konstan.tag_200) {
                   var dt = DateTime.now().millisecondsSinceEpoch;
                   final String suffix = dt.toString();
                   // final String namaFile = "Econtract-$suffix.pdf";
                   String namaFile = "$no_kontrak.pdf";
                   debugPrint("msgg_ ${hasil.message!}");
                   if (hasil.message == null) {
-                    Get.toNamed(Konstan.rute_eContract, arguments: {Konstan.tag_detail: pilihKontrak.value.data![index].aGRMNTNO});
+                    Get.toNamed(Konstan.rute_eContract, arguments: {
+                      Konstan.tag_detail:
+                          pilihKontrak.value.data![index].aGRMNTNO
+                    });
                     Fungsi.errorToast("File tidak tersedia!");
                     //kalau API download eContract sukses, tapi di Google Platform-nya error
                     //arahkan ke formulir keluhan
@@ -186,33 +193,45 @@ class PilihkontrakLogic extends BaseLogic {
                       var path = "${dir.path}/eContract-$time.pdf";
                       var file = File(path);
                       //download eContract di IOS
-                      try{
+                      try {
                         var res = await Dio().download(hasil.message!, path);
-                        Fungsi.suksesToast("File berhasil diunduh. Periksa di folder JMCare");
-                        Get.toNamed(Konstan.rute_pdf_view, arguments: {'detail': path});
+                        Fungsi.suksesToast(
+                            "File berhasil diunduh. Periksa di folder JMCare");
+                        Get.toNamed(Konstan.rute_pdf_view,
+                            arguments: {'detail': path});
                         //kalau download sukses, hit API submit download
                         //biar row nambah, soalnya kalau sudah 3x, ga bisa download lagi
                         obsLoadJumlahDownload.value = true;
-                        final tambah = await getService<SubmitlogdownloadService>()!.submitLogDownload(int.parse(login_id), no_kontrak, "eContract");
+                        final tambah =
+                            await getService<SubmitlogdownloadService>()!
+                                .submitLogDownload(int.parse(login_id),
+                                    no_kontrak, "eContract");
                         obsLoadJumlahDownload.value = false;
-                      }catch(e){
+                      } catch (e) {
                         Fungsi.errorToast("Terjadi error download file");
-                        Get.toNamed(Konstan.rute_eContract, arguments: {Konstan.tag_detail: pilihKontrak.value.data![index].aGRMNTNO});
+                        Get.toNamed(Konstan.rute_eContract, arguments: {
+                          Konstan.tag_detail:
+                              pilihKontrak.value.data![index].aGRMNTNO
+                        });
                       }
                     } else {
                       //download eContract di Android
-                      namaFile = "$no_kontrak"+ "_" + suffix + ".pdf";
+                      namaFile = "$no_kontrak" + "_" + suffix + ".pdf";
                       debugPrint("ganti_file " + namaFile);
-                      final angka = await getService<DownloadepolisService>()!.downloadEAgreement(hasil.message!, namaFile, no_kontrak);
+                      final angka = await getService<DownloadepolisService>()!
+                          .downloadEAgreement(
+                              hasil.message!, namaFile, no_kontrak);
                       //simpan file URL di storage
                       Directory? dir;
                       try {
-                        dir = Directory('/storage/emulated/0/Download/'); // for android
+                        dir = Directory(
+                            '/storage/emulated/0/Download/'); // for android
                         if (!await dir.exists()) {
                           dir = (await getExternalStorageDirectory())!;
                         }
                         //simpan nomor agreement di sqlite
-                        saveEcontract(cleanNoKontrak, "/storage/emulated/0/Download/$namaFile");
+                        saveEcontract(cleanNoKontrak,
+                            "/storage/emulated/0/Download/$namaFile");
                         //preview PDF
                         Get.toNamed(Konstan.rute_pdf_view, arguments: {
                           'detail': '/storage/emulated/0/Download/$namaFile'
@@ -220,12 +239,19 @@ class PilihkontrakLogic extends BaseLogic {
                         //kalau download sukses, hit API submit download
                         //biar row nambah, soalnya kalau sudah 3x, ga bisa download lagi
                         obsLoadJumlahDownload.value = true;
-                        final tambah = await getService<SubmitlogdownloadService>()!.submitLogDownload(int.parse(login_id), no_kontrak, "eContract");
+                        final tambah =
+                            await getService<SubmitlogdownloadService>()!
+                                .submitLogDownload(int.parse(login_id),
+                                    no_kontrak, "eContract");
                         obsLoadJumlahDownload.value = false;
                         debugPrint('try opening file...');
                       } catch (err) {
-                        Fungsi.errorToast("Gagal mendapatkan path folder: $err");
-                        Get.toNamed(Konstan.rute_eContract, arguments: {Konstan.tag_detail: pilihKontrak.value.data![index].aGRMNTNO});
+                        Fungsi.errorToast(
+                            "Gagal mendapatkan path folder: $err");
+                        Get.toNamed(Konstan.rute_eContract, arguments: {
+                          Konstan.tag_detail:
+                              pilihKontrak.value.data![index].aGRMNTNO
+                        });
                       }
                       // if (angka == 0){
                       //   Fungsi.warningToast("Nomor kontrak yang Anda pilih belum tersedia file e-Contract. Silakan menghubungi customer service atau mengisi form ini.");
@@ -235,59 +261,70 @@ class PilihkontrakLogic extends BaseLogic {
                       // }
                     }
                   }
-                }else{
+                } else {
                   Fungsi.errorToast(hasil.message!);
-                  Get.toNamed(Konstan.rute_eContract, arguments: {Konstan.tag_detail: pilihKontrak.value.data![index].aGRMNTNO});
+                  Get.toNamed(Konstan.rute_eContract, arguments: {
+                    Konstan.tag_detail: pilihKontrak.value.data![index].aGRMNTNO
+                  });
                 }
               }
-            }else{
+            } else {
               Fungsi.errorToast(jumlah.message!);
             }
           }
-        }else{
-          if (usiaGoLive == "lebih dari 90 hari"){
-            Get.toNamed(Konstan.rute_eContract, arguments: {Konstan.tag_detail: pilihKontrak.value.data![index].aGRMNTNO});
-            Fungsi.warningToast("Nomor kontrak yang Anda pilih sudah lebih dari 90 hari dari tanggal golive. Silakan hubungi customer service 1500309, atau isi formulir berikut.");
-          }else{
+        } else {
+          if (usiaGoLive == "lebih dari 90 hari") {
+            Get.toNamed(Konstan.rute_layanan_pengaduan);
+            Fungsi.warningToast(
+                "Nomor kontrak yang Anda pilih sudah lebih dari 90 hari dari tanggal golive. Silakan isi form kritik & saran / pengaduan berikut.");
+          } else {
             Fungsi.warningToast(usiaGoLive);
           }
         }
       } else {
         // Fungsi.suksesToast("File sudah ada di folder Download!");
         //berarti sudah ada datanya di sqlite, jadi cari dulu pathnya
-        var filepath = await state.databaseHelper!.getFilepathEContract(cleanNoKontrak);
+        var filepath =
+            await state.databaseHelper!.getFilepathEContract(cleanNoKontrak);
         //cek dulu apakah file fisik ada di path tersebug
-        if (File(filepath).existsSync()){
+        if (File(filepath).existsSync()) {
           //kalau ada, langsung open filenya di preview PDF
           debugPrint('filepath $filepath');
           debugPrint('try opening file...');
           Get.toNamed(Konstan.rute_pdf_view, arguments: {'detail': filepath});
-        }else{
+        } else {
           //kalau tidak ada, otomatis download file lagi
           //disable jumlah download maksimal 3x
           //hit api untuk mengetahui berapa kali download file ini
           obsLoadJumlahDownload.value = true;
-          final jumlah = await getService<JumlahdownloadService>()!.getJumlahDownload(int.parse(login_id), no_kontrak!, "eContract");
+          final jumlah = await getService<JumlahdownloadService>()!
+              .getJumlahDownload(int.parse(login_id), no_kontrak!, "eContract");
           obsLoadJumlahDownload.value = false;
-          if (jumlah == null){
+          if (jumlah == null) {
             Fungsi.koneksiError();
-          }else{
-            if (jumlah.code == Konstan.tag_200){
+          } else {
+            if (jumlah.code == Konstan.tag_200) {
               //disable maksimal 3x download....
               //download dokumen EContract dari Google Cloud Platform
               obsLoadJumlahDownload.value = true;
-              final hasil = await getService<EContractdownloadService>()!.downloadDocument(no_kontrak);
+              final hasil = await getService<EContractdownloadService>()!
+                  .downloadDocument(no_kontrak);
               obsLoadJumlahDownload.value = false;
-              if (hasil == null){
+              if (hasil == null) {
                 Fungsi.koneksiError();
                 //kalau download error, arahkan ke form keluhan
-                Get.toNamed(Konstan.rute_eContract, arguments: {Konstan.tag_detail: pilihKontrak.value.data![index].aGRMNTNO});
-              }else{
-                if (hasil.code == Konstan.tag_200){
+                Get.toNamed(Konstan.rute_eContract, arguments: {
+                  Konstan.tag_detail: pilihKontrak.value.data![index].aGRMNTNO
+                });
+              } else {
+                if (hasil.code == Konstan.tag_200) {
                   final String namaFile = "$no_kontrak.pdf";
                   debugPrint("msgg_ ${hasil.message!}");
                   if (hasil.message == null) {
-                    Get.toNamed(Konstan.rute_eContract, arguments: {Konstan.tag_detail: pilihKontrak.value.data![index].aGRMNTNO});
+                    Get.toNamed(Konstan.rute_eContract, arguments: {
+                      Konstan.tag_detail:
+                          pilihKontrak.value.data![index].aGRMNTNO
+                    });
                     Fungsi.errorToast("File tidak tersedia!");
                     //kalau API download eContract sukses, tapi di Google Platform-nya error
                     //arahkan ke formulir keluhan
@@ -299,35 +336,51 @@ class PilihkontrakLogic extends BaseLogic {
                       var path = "${dir.path}/eContract-$time.pdf";
                       var file = File(path);
                       //download eContract di IOS
-                      try{
+                      try {
                         var res = await Dio().download(hasil.message!, path);
-                        Fungsi.suksesToast("File berhasil diunduh. Periksa di folder JMCare");
-                        Get.toNamed(Konstan.rute_pdf_view, arguments: {'detail': path});
+                        Fungsi.suksesToast(
+                            "File berhasil diunduh. Periksa di folder JMCare");
+                        Get.toNamed(Konstan.rute_pdf_view,
+                            arguments: {'detail': path});
                         //kalau download sukses, hit API submit download
                         //biar row nambah, soalnya kalau sudah 3x, ga bisa download lagi
                         obsLoadJumlahDownload.value = true;
-                        final tambah = await getService<SubmitlogdownloadService>()!.submitLogDownload(int.parse(login_id), no_kontrak, "eContract");
+                        final tambah =
+                            await getService<SubmitlogdownloadService>()!
+                                .submitLogDownload(int.parse(login_id),
+                                    no_kontrak, "eContract");
                         obsLoadJumlahDownload.value = false;
-                      }catch(e){
+                      } catch (e) {
                         Fungsi.errorToast("Terjadi error download file");
-                        Get.toNamed(Konstan.rute_eContract, arguments: {Konstan.tag_detail: pilihKontrak.value.data![index].aGRMNTNO});
+                        Get.toNamed(Konstan.rute_eContract, arguments: {
+                          Konstan.tag_detail:
+                              pilihKontrak.value.data![index].aGRMNTNO
+                        });
                       }
                     } else {
                       //download eContract di Android
-                      final angka = await getService<DownloadepolisService>()!.downloadEAgreement(hasil.message!, namaFile, no_kontrak);
-                      if (angka == 0){
-                        Fungsi.warningToast("Nomor kontrak yang Anda pilih belum tersedia file E-Contract. Silakan menghubungi customer service atau mengisi form ini.");
-                        Get.toNamed(Konstan.rute_eContract, arguments: {Konstan.tag_detail: pilihKontrak.value.data![index].aGRMNTNO});
-                      }else{
+                      final angka = await getService<DownloadepolisService>()!
+                          .downloadEAgreement(
+                              hasil.message!, namaFile, no_kontrak);
+                      if (angka == 0) {
+                        Fungsi.warningToast(
+                            "Nomor kontrak yang Anda pilih belum tersedia file E-Contract. Silakan menghubungi customer service atau mengisi form ini.");
+                        Get.toNamed(Konstan.rute_eContract, arguments: {
+                          Konstan.tag_detail:
+                              pilihKontrak.value.data![index].aGRMNTNO
+                        });
+                      } else {
                         //simpan file URL di storage
                         Directory? dir;
                         try {
-                          dir = Directory('/storage/emulated/0/Download/'); // for android
+                          dir = Directory(
+                              '/storage/emulated/0/Download/'); // for android
                           if (!await dir.exists()) {
                             dir = (await getExternalStorageDirectory())!;
                           }
                           //simpan nomor agreement di sqlite
-                          saveEcontract(cleanNoKontrak, "/storage/emulated/0/Download/$namaFile");
+                          saveEcontract(cleanNoKontrak,
+                              "/storage/emulated/0/Download/$namaFile");
                           //preview PDF
                           Get.toNamed(Konstan.rute_pdf_view, arguments: {
                             'detail': '/storage/emulated/0/Download/$namaFile'
@@ -335,28 +388,37 @@ class PilihkontrakLogic extends BaseLogic {
                           //kalau download sukses, hit API submit download
                           //biar row nambah, soalnya kalau sudah 3x, ga bisa download lagi
                           obsLoadJumlahDownload.value = true;
-                          final tambah = await getService<SubmitlogdownloadService>()!.submitLogDownload(int.parse(login_id), no_kontrak, "eContract");
+                          final tambah =
+                              await getService<SubmitlogdownloadService>()!
+                                  .submitLogDownload(int.parse(login_id),
+                                      no_kontrak, "eContract");
                           obsLoadJumlahDownload.value = false;
                         } catch (err) {
-                          Fungsi.errorToast("Gagal mendapatkan path folder: $err");
-                          Get.toNamed(Konstan.rute_eContract, arguments: {Konstan.tag_detail: pilihKontrak.value.data![index].aGRMNTNO});
+                          Fungsi.errorToast(
+                              "Gagal mendapatkan path folder: $err");
+                          Get.toNamed(Konstan.rute_eContract, arguments: {
+                            Konstan.tag_detail:
+                                pilihKontrak.value.data![index].aGRMNTNO
+                          });
                         }
                       }
                     }
                   }
-                }else{
+                } else {
                   Fungsi.errorToast(hasil.message!);
-                  Get.toNamed(Konstan.rute_eContract, arguments: {Konstan.tag_detail: pilihKontrak.value.data![index].aGRMNTNO});
+                  Get.toNamed(Konstan.rute_eContract, arguments: {
+                    Konstan.tag_detail: pilihKontrak.value.data![index].aGRMNTNO
+                  });
                 }
               }
-            }else{
+            } else {
               Fungsi.errorToast(jumlah.message!);
             }
           }
         }
       }
       is_download.value = false;
-    }catch(e){
+    } catch (e) {
       is_download.value = false;
       Fungsi.errorToast("Error download: $e");
     }
@@ -380,8 +442,8 @@ class PilihkontrakLogic extends BaseLogic {
       //jika belum pernah download
       if (jumlah == 0) {
         //download link api
-        final epolis = await getService<EpolisService>()
-            ?.getEpolis(agreementNo, login_id);
+        final epolis =
+            await getService<EpolisService>()?.getEpolis(agreementNo, login_id);
         if (epolis is EpolisError || epolis == null) {
           Fungsi.errorToast("Gagal mendapatkan ePolis!");
         } else {
@@ -397,8 +459,7 @@ class PilihkontrakLogic extends BaseLogic {
               var path = "${dir.path}/epolis-$time.pdf";
               var file = File(path);
               var res = await Dio().download(epolis.fileurl!, path);
-              Get.toNamed(Konstan.rute_pdf_view,
-                  arguments: {'detail': path});
+              Get.toNamed(Konstan.rute_pdf_view, arguments: {'detail': path});
               Fungsi.suksesToast(
                   "File berhasil diunduh. Periksa di folder JMCare");
             } else {
@@ -410,16 +471,15 @@ class PilihkontrakLogic extends BaseLogic {
                 Directory? dir;
                 try {
                   if (Platform.isIOS) {
-                    dir =
-                        await getApplicationDocumentsDirectory(); // for iOS
+                    dir = await getApplicationDocumentsDirectory(); // for iOS
                   } else {
                     dir = Directory(
                         '/storage/emulated/0/Download/'); // for android
                     if (!await dir.exists())
                       dir = (await getExternalStorageDirectory())!;
                     //simpan nomor agreement di sqlite
-                    saveSqlite(agreementNo,
-                        "/storage/emulated/0/Download/$namaFile");
+                    saveSqlite(
+                        agreementNo, "/storage/emulated/0/Download/$namaFile");
                     Get.toNamed(Konstan.rute_pdf_view, arguments: {
                       'detail': '/storage/emulated/0/Download/$namaFile'
                     });
@@ -440,16 +500,15 @@ class PilihkontrakLogic extends BaseLogic {
         Get.toNamed(Konstan.rute_pdf_view, arguments: {'detail': filepath});
       }
     } else {
-      final epolis = await getService<EpolisService>()
-          ?.getEpolis(agreementNo, login_id);
+      final epolis =
+          await getService<EpolisService>()?.getEpolis(agreementNo, login_id);
       var time = DateTime.now().millisecondsSinceEpoch;
       var dir = await getApplicationDocumentsDirectory();
       var path = "${dir.path}/epolis-$time.pdf";
       var file = File(path);
       var res = await Dio().download(epolis!.fileurl!, path);
       Get.toNamed(Konstan.rute_pdf_view, arguments: {'detail': path});
-      Fungsi.suksesToast(
-          "File berhasil diunduh. Periksa di folder JMCare");
+      Fungsi.suksesToast("File berhasil diunduh. Periksa di folder JMCare");
     }
     is_download.value = false;
   }
@@ -458,11 +517,12 @@ class PilihkontrakLogic extends BaseLogic {
     is_loading.value = true;
     final authStorage = await getStorage<LoginRespon>();
     final String noKTP = authStorage.data!.noKtp!;
-    final respon = await getService<PilihkontrakService>()?.getListKontrak(noKTP);
-    if (respon == null){
+    final respon =
+        await getService<PilihkontrakService>()?.getListKontrak(noKTP);
+    if (respon == null) {
       Fungsi.errorToast("Tidak dapat menampilkan nomor kontrak!");
       jmlRow.value = 0;
-    }else{
+    } else {
       if (respon is PilihkontrakError) {
         Fungsi.errorToast("Error : Tidak dapat menampilkan nomor kontrak!");
         jmlRow.value = 0;
@@ -476,8 +536,7 @@ class PilihkontrakLogic extends BaseLogic {
   }
 
   void filter() {
-    if (state.tecSearch!.text.isEmpty ||
-        state.tecSearch!.text.length == 0) {
+    if (state.tecSearch!.text.isEmpty || state.tecSearch!.text.length == 0) {
       pilihKontrak.value.data = realKontrak.data;
       jmlRow.value = realKontrak.data!.length;
     } else {

@@ -59,7 +59,6 @@ class Konstan {
   // =================================================================
 
   static const String rute_layanan_pengaduan = '/layananpengaduan';
-  static const String rute_layanan_pengaduan_kontrak_tidak_aktif = '/layananpengaduankontraktidakaktif';
 
   // =================================================================
 

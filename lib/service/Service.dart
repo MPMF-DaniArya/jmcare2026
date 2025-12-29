@@ -33,6 +33,7 @@ import 'package:jmcare/service/JumlahdownloadService.dart';
 import 'package:jmcare/service/KategoriService.dart';
 import 'package:jmcare/service/KodeposService.dart';
 import 'package:jmcare/service/KonfirmasikedatanganService.dart';
+import 'package:jmcare/service/LayananPengaduanSubmitFormService.dart';
 import 'package:jmcare/service/LupapinService.dart';
 import 'package:jmcare/service/NotifikasiService.dart';
 import 'package:jmcare/service/OnesignalUpdateIdService.dart';
@@ -150,7 +151,8 @@ class Service {
       JumlahdownloadService: JumlahdownloadService.instance,
       GantipasswordService: GantipasswordService.instance,
       DownloadsuratkeputusanService: DownloadsuratkeputusanService.instance,
-      DetailFormLanjutanService: DetailFormLanjutanService.instance
+      DetailFormLanjutanService: DetailFormLanjutanService.instance,
+      LayananPengaduanSubmitFormService: LayananPengaduanSubmitFormService.instance
     };
   }
 

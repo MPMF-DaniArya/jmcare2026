@@ -143,6 +143,8 @@ class Endpoint {
   static const String TAG_ONESIGNAL_GETNOTIF = "OneSignal_GetNotif";
 
   static const String TAG_ECONTRACT_SUBMIT_FORMPENGADUAN = "eContractSubmitFormPengaduan.json";
+  static const String TAG_LAYANAN_PENGADUAN_SUBMIT = 'insertKomplain.json';
+
   static const String TAG_SUBMIT_LOG_DOWNLOAD = "submitLogDownload.json";
   static const String TAG_JUMLAH_DOWNLOAD = "GetJumlahDownload.json";
   static const String TAG_DOWNLOAD_ECONTRACT = "DownloadEContract.json";
