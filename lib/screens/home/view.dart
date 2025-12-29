@@ -450,6 +450,12 @@ class HomeScreen extends StatelessWidget {
                                                           () => logic
                                                               .klikJaringanKami()),
                                                       Komponen.homeButtonMenu(
+                                                          Icons.person,
+                                                          Warna.hijau1,
+                                                          Warna.hijau2,
+                                                          'Layanan Pengaduan',
+                                                              () => logic.klikLayananPengaduan()),
+                                                      Komponen.homeButtonMenu(
                                                           Icons.security,
                                                           Warna.hijau1,
                                                           Warna.hijau2,

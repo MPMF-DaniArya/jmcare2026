@@ -56,9 +56,23 @@ class LayananPengaduanScreen extends StatelessWidget {
                             Align(
                                 alignment: AlignmentGeometry.centerLeft,
                                 child: Komponen.astericText('Email')),
-                            MyReadOnlyITextFormField(
-                              controller: state.tecEmail,
-                            ),
+                            logic.isDebitur.value == false
+                                ? TextFormField(
+                                    controller: state.tecEmail,
+                                    textInputAction: TextInputAction.done,
+                                    keyboardType: TextInputType.emailAddress,
+                                    validator: (value) {
+                                      return value!.isEmpty
+                                          ? Konstan.tagrequired
+                                          : null;
+                                    },
+                                    decoration: const InputDecoration(
+                                        hintText:
+                                            'Tuliskan email anda...'),
+                                  )
+                                : MyReadOnlyITextFormField(
+                                    controller: state.tecEmail,
+                                  ),
                             const SizedBox(
                               height: 30,
                             ),
