@@ -152,7 +152,7 @@ class Endpoint {
   static List<Interceptor> dioInterceptors = [
     PrettyDioLogger(
       requestHeader: false,
-      requestBody: true,
+      requestBody: false,
       responseHeader: false,
       responseBody: true,
     )

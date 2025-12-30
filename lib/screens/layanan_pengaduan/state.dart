@@ -1,5 +1,4 @@
-import 'dart:io';
-
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 
 class LayananPengaduanState {
@@ -9,8 +8,15 @@ class LayananPengaduanState {
   TextEditingController? tecEmail;
   TextEditingController? tecTipeUnit;
   TextEditingController? tecNoPlat;
-  TextEditingController?  tecKritikDanSaran;
-  File? lampiran;
+  TextEditingController? tecKritikDanSaran;
+  FilePickerResult? lampiran;
+  PlatformFile? platformFile;
+  String base64_file = "";
+  String fileName = "";
+  String fileBytes = "";
+  String fileSizes = "";
+  String fileExtension = "";
+  String filePath = "";
 
   LayananPengaduanState() {
     formKey = GlobalKey<FormState>();

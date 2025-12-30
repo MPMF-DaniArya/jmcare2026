@@ -1,9 +1,9 @@
+import 'dart:convert';
 import 'dart:io';
 
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:image_cropper/image_cropper.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:jmcare/model/api/PilihkontrakRespon.dart';
@@ -123,32 +123,61 @@ class LayananPengaduanLogic extends BaseLogic {
     }
   }
 
-  Future<void> pickImage(ImageSource source) async {
-    final imagePicker = ImagePicker();
-    final pickedImage = await imagePicker.pickImage(
-      source: source,
-      imageQuality: 70,
-    );
+  // Future<void> pickImage(ImageSource source) async {
+  //   final imagePicker = ImagePicker();
+  //   final pickedImage = await imagePicker.pickImage(
+  //     source: source,
+  //     imageQuality: 70,
+  //   );
+  //
+  //   if (pickedImage == null) return;
+  //
+  //   final croppedFile = await ImageCropper().cropImage(
+  //     sourcePath: pickedImage.path,
+  //     uiSettings: [
+  //       AndroidUiSettings(
+  //         toolbarTitle: 'Sesuaikan Gambar',
+  //         toolbarColor: Colors.green,
+  //         toolbarWidgetColor: Colors.white,
+  //         initAspectRatio: CropAspectRatioPreset.square,
+  //         lockAspectRatio: true,
+  //       ),
+  //     ],
+  //   );
+  //
+  //   if (croppedFile == null) return;
+  //
+  //   state.lampiran = File(croppedFile.path);
+  //   update();
+  // }
 
-    if (pickedImage == null) return;
+  void pickFile() async {
+    state.lampiran = await FilePicker.platform.pickFiles(
+        type: FileType.custom,
+        allowedExtensions: ['pdf', 'png', 'jpg', 'jpeg', 'heic', 'doc', 'docx'],
+        allowMultiple: false,
+        allowCompression: true);
+    if (state.lampiran != null) {
+      state.platformFile = state.lampiran!.files.first;
+      state.fileSizes = state.platformFile!.size.toString();
+      state.filePath = state.platformFile!.path.toString();
 
-    final croppedFile = await ImageCropper().cropImage(
-      sourcePath: pickedImage.path,
-      uiSettings: [
-        AndroidUiSettings(
-          toolbarTitle: 'Sesuaikan Gambar',
-          toolbarColor: Colors.green,
-          toolbarWidgetColor: Colors.white,
-          initAspectRatio: CropAspectRatioPreset.square,
-          lockAspectRatio: true,
-        ),
-      ],
-    );
+      // print('file name: ${state.fileName}');
+      // print('file bytes: ${state.fileBytes}');
+      // print('file size: ${state.fileSizes}');
+      // print('file extension: ${state.fileExtension}');
+      // print('file path: ${state.filePath}');
 
-    if (croppedFile == null) return;
-
-    state.lampiran = File(croppedFile.path);
-    update();
+      if (int.parse(state.fileSizes) >= 10000000) {
+        Fungsi.warningToast("File tidak boleh lebih besar dari 10MB");
+        return;
+      } else {
+        File file = File(state.filePath);
+        final b = await file.readAsBytes();
+        state.base64_file = base64Encode(b);
+        update();
+      }
+    }
   }
 
   void submit(BuildContext context) async {
@@ -160,13 +189,14 @@ class LayananPengaduanLogic extends BaseLogic {
               nama_lengkap: state.tecNamaLengkap!.text.trim(),
               nomor_hp: state.tecNoHp!.text.trim(),
               agreement_no: idxDdNomorKontrak.value,
-              kritikSaranPengaduan: state.tecKritikDanSaran!.text.trim());
+              kritikSaranPengaduan: state.tecKritikDanSaran!.text.trim(),
+              lampiran: state.base64_file);
 
       if (hasil == null) {
         Fungsi.koneksiError();
       } else {
         if (hasil.code == Konstan.tag_100) {
-          Fungsi.warningToast(hasil.message!);
+          Fungsi.warningToast('Terjadi kesalahan dari server');
         } else {
           await initializeDateFormatting('id_ID');
           showDialog(

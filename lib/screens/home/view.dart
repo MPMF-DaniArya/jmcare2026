@@ -405,7 +405,7 @@ class HomeScreen extends StatelessWidget {
                                                           () => logic
                                                               .klikEpolis()),
                                                       Komponen.homeButtonMenu(
-                                                          Icons.person,
+                                                          Icons.feedback,
                                                           Warna.hijau1,
                                                           Warna.hijau2,
                                                           'Layanan Pengaduan',
@@ -450,7 +450,7 @@ class HomeScreen extends StatelessWidget {
                                                           () => logic
                                                               .klikJaringanKami()),
                                                       Komponen.homeButtonMenu(
-                                                          Icons.person,
+                                                          Icons.feedback,
                                                           Warna.hijau1,
                                                           Warna.hijau2,
                                                           'Layanan Pengaduan',

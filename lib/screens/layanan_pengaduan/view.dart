@@ -4,7 +4,7 @@ import 'package:jmcare/helper/Komponen.dart';
 import 'package:jmcare/screens/base/jmcare_bar_screen.dart';
 import 'package:jmcare/screens/layanan_pengaduan/logic.dart';
 import 'package:jmcare/screens/layanan_pengaduan/state.dart';
-import 'package:jmcare/screens/layanan_pengaduan/widgets/lampiran_image_picker.dart';
+import 'package:jmcare/screens/layanan_pengaduan/widgets/lampiran_picker.dart';
 
 import '../../helper/Konstan.dart';
 
@@ -17,7 +17,7 @@ class LayananPengaduanScreen extends StatelessWidget {
     final LayananPengaduanState state = Get.find<LayananPengaduanLogic>().state;
 
     return JmcareBarScreen(
-      title: 'Formulir Kritik & Saran / Pengaduan',
+      title: 'Form Kritik & Saran / Pengaduan',
       body: SingleChildScrollView(
         child: GetBuilder<LayananPengaduanLogic>(
           assignId: true,
@@ -62,13 +62,19 @@ class LayananPengaduanScreen extends StatelessWidget {
                                     textInputAction: TextInputAction.done,
                                     keyboardType: TextInputType.emailAddress,
                                     validator: (value) {
-                                      return value!.isEmpty
-                                          ? Konstan.tagrequired
-                                          : null;
+                                      if (value!.isEmpty) {
+                                        return Konstan.tagrequired;
+                                      }
+                                      final bool isValid =
+                                          RegExp(r'^[^@]+@[^@]+\.[^@]+')
+                                              .hasMatch(value);
+                                      if (!isValid) {
+                                        return 'Email yang dimasukkan tidak valid';
+                                      }
+                                      return null;
                                     },
                                     decoration: const InputDecoration(
-                                        hintText:
-                                            'Tuliskan email anda...'),
+                                        hintText: 'Tuliskan email anda...'),
                                   )
                                 : MyReadOnlyITextFormField(
                                     controller: state.tecEmail,
@@ -138,9 +144,13 @@ class LayananPengaduanScreen extends StatelessWidget {
                               minLines: 1,
                               maxLines: 5,
                               validator: (value) {
-                                return value!.isEmpty
-                                    ? Konstan.tagrequired
-                                    : null;
+                                if (value!.isEmpty) {
+                                  return Konstan.tagrequired;
+                                }
+                                if (value.trim().length < 6) {
+                                  return 'Teks harus lebih dari 6 karakter';
+                                }
+                                return null;
                               },
                               decoration: const InputDecoration(
                                   hintText:
@@ -160,7 +170,7 @@ class LayananPengaduanScreen extends StatelessWidget {
                             const SizedBox(
                               height: 5,
                             ),
-                            const LampiranImagePicker(),
+                            const LampiranPicker(),
                             const SizedBox(
                               height: 41,
                             ),

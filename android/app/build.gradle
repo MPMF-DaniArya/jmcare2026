@@ -16,7 +16,6 @@ if (keystorePropertiesFile.exists()) {
 }
 
 
-
 android {
     namespace = "com.mpmfinance.jmcare"
     compileSdk = 36
@@ -65,8 +64,10 @@ android {
         release {
             shrinkResources false
             minifyEnabled false
-            signingConfig signingConfigs.getByName("release")
-            minifyEnabled true
+            // aktifkan lagi ini ketika release
+//            signingConfig signingConfigs.getByName("release")
+            signingConfig signingConfigs.debug
+//            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -78,7 +79,8 @@ android {
 }
 
 dependencies {
-    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.4'// use compatible version e.g 2.1.4
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.4'
+// use compatible version e.g 2.1.4
 }
 
 flutter {

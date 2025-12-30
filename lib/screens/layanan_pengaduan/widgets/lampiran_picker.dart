@@ -1,18 +1,16 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:jmcare/screens/layanan_pengaduan/logic.dart';
-import 'package:path/path.dart' as p;
 
-class LampiranImagePicker extends StatefulWidget {
-  const LampiranImagePicker({super.key});
+class LampiranPicker extends StatefulWidget {
+  const LampiranPicker({super.key});
 
   @override
-  State<LampiranImagePicker> createState() => _LampiranImagePicker();
+  State<LampiranPicker> createState() => _LampiranImagePicker();
 }
 
-class _LampiranImagePicker extends State<LampiranImagePicker> {
+class _LampiranImagePicker extends State<LampiranPicker> {
   final logic = Get.put(LayananPengaduanLogic());
   final state = Get.find<LayananPengaduanLogic>().state;
 
@@ -36,14 +34,19 @@ class _LampiranImagePicker extends State<LampiranImagePicker> {
                         )),
                     child: Row(
                       children: [
-                        const Expanded(
+                        Expanded(
                           child: Row(
                             children: [
-                              Icon(Icons.insert_drive_file_outlined),
-                              SizedBox(
+                              const Icon(Icons.insert_drive_file_outlined),
+                              const SizedBox(
                                 width: 5,
                               ),
-                              Text('1 Gambar telah terpilih')
+                              Expanded(
+                                  child: Text(
+                                state.lampiran!.files.single.name,
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
+                              ))
                             ],
                           ),
                         ),
@@ -57,7 +60,7 @@ class _LampiranImagePicker extends State<LampiranImagePicker> {
                     ),
                   )
                 : GestureDetector(
-                    onTap: () => logic.pickImage(ImageSource.gallery),
+                    onTap: () => logic.pickFile(),
                     child: DottedBorder(
                       color: Colors.grey,
                       dashPattern: const [10, 10],
