@@ -40,6 +40,7 @@ import 'package:jmcare/screens/listcabang/view.dart';
 import 'package:jmcare/screens/login/view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:jmcare/screens/onesignal/notif/detail_notifikasi_view.dart';
 import 'package:jmcare/screens/onesignal/notif/view.dart';
 import 'package:jmcare/screens/paginationuser/view.dart';
 import 'package:jmcare/screens/pdfview/view.dart';
@@ -84,7 +85,6 @@ void main() async {
 // The promptForPushNotificationsWithUserResponse function will show the iOS or Android push notification prompt. We recommend removing the following code and instead using an In-App Message to prompt for notification permission
 //   OneSignal.Notifications.requestPermission(true);
 
-
   HttpOverrides.global = DioOverrides();
   await initializeService();
   runApp(const MyApp());
@@ -107,7 +107,6 @@ class MyApp extends StatelessWidget {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
         overlays: [SystemUiOverlay.bottom, SystemUiOverlay.top]);
 
-
     OneSignal.Notifications.addClickListener((event) {
       Get.toNamed(Konstan.rute_onesignal_notif);
       // final data = event.notification.additionalData;
@@ -119,8 +118,7 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       getPages: [
-        GetPage(
-            name: Konstan.rute_splash, page: () => const SplashScreen()),
+        GetPage(name: Konstan.rute_splash, page: () => const SplashScreen()),
         GetPage(name: Konstan.rute_login, page: () => const LoginScreen()),
         GetPage(name: Konstan.rute_home, page: () => const HomeScreen()),
         GetPage(
@@ -150,8 +148,7 @@ class MyApp extends StatelessWidget {
         GetPage(
             name: Konstan.rute_detail_slide,
             page: () => const DetailslideScreen()),
-        GetPage(
-            name: Konstan.rute_welcome, page: () => const WelcomeScreen()),
+        GetPage(name: Konstan.rute_welcome, page: () => const WelcomeScreen()),
         GetPage(
             name: Konstan.rute_histori_poin,
             page: () => const HistoripoinScreen()),
@@ -162,34 +159,28 @@ class MyApp extends StatelessWidget {
             name: Konstan.rute_search_user,
             page: () => const SearchuserScreen()),
         GetPage(
-            name: Konstan.rute_list_cabang,
-            page: () => const CabangScreen()),
+            name: Konstan.rute_list_cabang, page: () => const CabangScreen()),
         GetPage(
             name: Konstan.rute_register_pin,
             page: () => const RegisterpinScreen()),
-        GetPage(
-            name: Konstan.rute_auth_pin,
-            page: () => const AuthpinScreen()),
+        GetPage(name: Konstan.rute_auth_pin, page: () => const AuthpinScreen()),
         GetPage(
             name: Konstan.rute_pilih_no_kontrak,
             page: () => const PilihkontrakScreen()),
         GetPage(
             name: Konstan.rute_agreement_card,
             page: () => const AgreementcardScreen()),
-        GetPage(
-            name: Konstan.rute_antrian, page: () => const AntrianScreen()),
+        GetPage(name: Konstan.rute_antrian, page: () => const AntrianScreen()),
         GetPage(
             name: Konstan.rute_tujuan_kedatangan,
             page: () => const DialogTujuankedatangan()),
         GetPage(
-            name: Konstan.rute_dialog_cabang,
-            page: () => const DialogCabang()),
+            name: Konstan.rute_dialog_cabang, page: () => const DialogCabang()),
         GetPage(
             name: Konstan.rute_detail_riwayat_antrian,
             page: () => const DetailRiwayatAntrian()),
         GetPage(
-            name: Konstan.rute_kuisioner,
-            page: () => const KuisionerScreen()),
+            name: Konstan.rute_kuisioner, page: () => const KuisionerScreen()),
         GetPage(
             name: Konstan.rute_pengkinian_data,
             page: () => const PengkiniandataScreen()),
@@ -197,8 +188,7 @@ class MyApp extends StatelessWidget {
             name: Konstan.rute_dialog_wilayah,
             page: () => const DialogWilayahScreen()),
         GetPage(
-            name: Konstan.rute_dialog_jmo,
-            page: () => const DialogjmoScreen()),
+            name: Konstan.rute_dialog_jmo, page: () => const DialogjmoScreen()),
         GetPage(name: Konstan.rute_esign, page: () => const EsignScreen()),
         GetPage(
             name: Konstan.rute_esign_invitation,
@@ -207,71 +197,54 @@ class MyApp extends StatelessWidget {
             name: Konstan.rute_esign_register,
             page: () => const EsignRegisterScreen()),
         GetPage(
-            name: Konstan.rute_esign_home,
-            page: () => const EsignhomeScreen()),
-        GetPage(
-            name: Konstan.rute_pdf_view,
-            page: () => const PdfviewScreen()),
+            name: Konstan.rute_esign_home, page: () => const EsignhomeScreen()),
+        GetPage(name: Konstan.rute_pdf_view, page: () => const PdfviewScreen()),
         GetPage(
             name: Konstan.rute_klaimasuransi_detail_agreementinsco,
-            page: () => const DetailAgreementinscoScreen()
-        ),
+            page: () => const DetailAgreementinscoScreen()),
         GetPage(
             name: Konstan.rute_klaimasuransi_kontak_insco,
-            page: () => const KontakinscoScreen()
-        ),
+            page: () => const KontakinscoScreen()),
         GetPage(
             name: Konstan.rute_klaimasuransi_formawal,
-            page: () => const FormawalScreen()
-        ),
+            page: () => const FormawalScreen()),
         GetPage(
             name: Konstan.rute_klaimasuransi_riwayat_formawal,
-            page: () => const RiwayatformawalScreen()
-        ),
+            page: () => const RiwayatformawalScreen()),
         GetPage(
             name: Konstan.rute_klaimasuransi_formlanjut,
-            page: () => const FormlanjutScreen()
-        ),
+            page: () => const FormlanjutScreen()),
         GetPage(
             name: Konstan.rute_klaimasuransi_upload_sttlp,
-            page: () => const UploadsttlpScreen()
-        ),
+            page: () => const UploadsttlpScreen()),
         GetPage(
             name: Konstan.rute_klaimasuransi_document_checklist,
-            page: () => const DocumentchecklistScreen()
-        ),
-        GetPage(
-            name: Konstan.rute_faq,
-            page: () => const FaqScreen()
-        ),
+            page: () => const DocumentchecklistScreen()),
+        GetPage(name: Konstan.rute_faq, page: () => const FaqScreen()),
         GetPage(
             name: Konstan.rute_onesignal_notif,
-            page: () => const OnesignalnotifScreen()
-        ),
+            page: () => const OnesignalnotifScreen()),
         GetPage(
             name: Konstan.rute_eContract,
-            page: () => const FormpengaduanEContractScreen()
-        ),
+            page: () => const FormpengaduanEContractScreen()),
+        GetPage(
+            name: Konstan.rute_detail_notif,
+            page: () => const DetailNotifikasiView()),
         GetPage(
             name: Konstan.rute_gantipassword,
-            page: () => const GantipasswordScreen()
-        ),
+            page: () => const GantipasswordScreen()),
         GetPage(
             name: Konstan.rute_layanan_pengaduan,
             page: () => const LayananPengaduanScreen()),
-
       ],
       title: 'JM CARE',
       theme: ThemeData(
-        useMaterial3: false,
-        primarySwatch: Colors.green,
-        fontFamily: 'Nexa'
-      ),
+          useMaterial3: false, primarySwatch: Colors.green, fontFamily: 'Nexa'),
       // theme: ThemeData.dark(
       //   useMaterial3: false,
       //
       // ),
-      home:  const SafeArea(
+      home: const SafeArea(
         child: SplashScreen(),
       ),
     );
@@ -313,8 +286,7 @@ Future<void> initializeService() async {
     'MY FOREGROUND SERVICE', // title
     description:
         'This channel is used for important notifications.', // description
-    importance:
-        Importance.low, // importance must be at low or higher level
+    importance: Importance.low, // importance must be at low or higher level
   );
 
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
@@ -327,9 +299,8 @@ Future<void> initializeService() async {
           android: AndroidInitializationSettings('ic_notifjmcare'),
         ), onDidReceiveNotificationResponse:
             (NotificationResponse notificationresponse) {
-      Get.toNamed(Konstan.rute_kuisioner, arguments: {
-        Konstan.tag_id_antrian: notificationresponse.payload
-      });
+      Get.toNamed(Konstan.rute_kuisioner,
+          arguments: {Konstan.tag_id_antrian: notificationresponse.payload});
     });
   }
 

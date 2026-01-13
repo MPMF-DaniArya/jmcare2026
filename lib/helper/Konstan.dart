@@ -59,6 +59,7 @@ class Konstan {
   // =================================================================
 
   static const String rute_layanan_pengaduan = '/layananpengaduan';
+  static const String rute_detail_notif = '/detail_notif';
 
   // =================================================================
 
