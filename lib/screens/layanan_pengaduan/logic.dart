@@ -43,6 +43,13 @@ class LayananPengaduanLogic extends BaseLogic {
     getDetailUser();
   }
 
+  @override
+  void onClose() {
+    // TODO: implement onClose
+    state.dispose();
+    super.onClose();
+  }
+
   void getDetailUser() async {
     final authStorage = await getStorage<LoginRespon>();
     if (authStorage.data != null) {
@@ -123,34 +130,6 @@ class LayananPengaduanLogic extends BaseLogic {
     }
   }
 
-  // Future<void> pickImage(ImageSource source) async {
-  //   final imagePicker = ImagePicker();
-  //   final pickedImage = await imagePicker.pickImage(
-  //     source: source,
-  //     imageQuality: 70,
-  //   );
-  //
-  //   if (pickedImage == null) return;
-  //
-  //   final croppedFile = await ImageCropper().cropImage(
-  //     sourcePath: pickedImage.path,
-  //     uiSettings: [
-  //       AndroidUiSettings(
-  //         toolbarTitle: 'Sesuaikan Gambar',
-  //         toolbarColor: Colors.green,
-  //         toolbarWidgetColor: Colors.white,
-  //         initAspectRatio: CropAspectRatioPreset.square,
-  //         lockAspectRatio: true,
-  //       ),
-  //     ],
-  //   );
-  //
-  //   if (croppedFile == null) return;
-  //
-  //   state.lampiran = File(croppedFile.path);
-  //   update();
-  // }
-
   void pickFile() async {
     state.lampiran = await FilePicker.platform.pickFiles(
         type: FileType.custom,
@@ -161,12 +140,6 @@ class LayananPengaduanLogic extends BaseLogic {
       state.platformFile = state.lampiran!.files.first;
       state.fileSizes = state.platformFile!.size.toString();
       state.filePath = state.platformFile!.path.toString();
-
-      // print('file name: ${state.fileName}');
-      // print('file bytes: ${state.fileBytes}');
-      // print('file size: ${state.fileSizes}');
-      // print('file extension: ${state.fileExtension}');
-      // print('file path: ${state.filePath}');
 
       if (int.parse(state.fileSizes) >= 10000000) {
         Fungsi.warningToast("File tidak boleh lebih besar dari 10MB");

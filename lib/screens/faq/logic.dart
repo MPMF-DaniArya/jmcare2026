@@ -17,6 +17,7 @@ class FaqLogic extends BaseLogic {
   var obsFaqRespon = FaqRespon().obs;
   var realFaq = FaqRespon();
 
+
   @override
   void onInit() {
     // TODO: implement onInit
@@ -24,6 +25,12 @@ class FaqLogic extends BaseLogic {
     allFAQ();
   }
 
+  @override
+  void onClose() {
+    // TODO: implement onClose
+    state.dispose();
+    super.onClose();
+  }
 
   Future<bool> hariYangSama() async {
     final faqRespon = await getStorage<FaqRespon>();

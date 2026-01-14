@@ -27,4 +27,13 @@ class LayananPengaduanState {
     tecTipeUnit = TextEditingController();
     tecNoPlat = TextEditingController();
   }
+
+  void dispose() {
+    tecNamaLengkap?.dispose();
+    tecNoHp?.dispose();
+    tecEmail?.dispose();
+    tecTipeUnit?.dispose();
+    tecNoPlat?.dispose();
+    tecKritikDanSaran?.dispose();
+  }
 }
