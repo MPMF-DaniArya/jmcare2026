@@ -1,5 +1,7 @@
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import '../../helper/Konstan.dart';
+
 class PengkiniandataState {
   final List<Map<String, dynamic>> menu_pengkinian_data = [
     {
@@ -7,34 +9,30 @@ class PengkiniandataState {
       'title': 'Kebijakan Perlindungan Data Pribadi',
       'description':
           'Lihat Informasi Kebijakan Perlindungan Data Pribadi JACCS MPM Finance Indonesia',
-      // 'route': Get.offNamed(Konstan.rute_pengkinian_data_kebijakan_perlindungan)
+      'route': Konstan.rute_pengkinian_data_kebijakan_perlindungan
     },
     {
       'icon': FontAwesomeIcons.solidUser,
       'title': 'Request Penampilan Data Pribadi',
       'description': 'Lihat Informasi Pribadi Anda yang Terdaftar',
-      // 'route': Get.offNamed(Konstan.rute_pengkinian_data_kebijakan_perlindungan)
     },
     {
       'icon': FontAwesomeIcons.pen,
       'title': 'Request Pengkinian Data Pribadi',
       'description':
           'Ajukan Perubahan nama, alamat, atau data diri anda yang lain',
-      // 'route': Get.offNamed(Konstan.rute_pengkinian_data_kebijakan_perlindungan)
     },
     {
       'icon': FontAwesomeIcons.trash,
       'title': 'Request Penghapusan Data Pribadi',
       'description':
           'Ajukan Penghapusan Data jika sudah tidak memiliki kewajiban',
-      // 'route': Get.offNamed(Konstan.rute_pengkinian_data_kebijakan_perlindungan)
     },
     {
       'icon': FontAwesomeIcons.clockRotateLeft,
       'title': 'Riwayat Status Pengajuan',
       'description':
           'Ajukan Penghapusan Data jika sudah tidak memiliki kewajiban',
-      // 'route': Get.offNamed(Konstan.rute_pengkinian_data_kebijakan_perlindungan)
     },
   ];
 

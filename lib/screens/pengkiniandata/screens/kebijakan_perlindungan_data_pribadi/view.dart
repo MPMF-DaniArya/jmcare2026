@@ -16,7 +16,6 @@ class KebijakanPerlindunganDataScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Kebijakan Perlindungan Data Pribadi"),
         actions: [
           IconButton(
             icon: const Icon(Icons.refresh),
