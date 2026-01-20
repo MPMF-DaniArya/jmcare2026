@@ -44,6 +44,7 @@ import 'package:jmcare/screens/onesignal/notif/detail_notifikasi_view.dart';
 import 'package:jmcare/screens/onesignal/notif/view.dart';
 import 'package:jmcare/screens/paginationuser/view.dart';
 import 'package:jmcare/screens/pdfview/view.dart';
+import 'package:jmcare/screens/pengkiniandata/screens/kebijakan_perlindungan_data_pribadi/view.dart';
 import 'package:jmcare/screens/pilihkontrak/view.dart';
 import 'package:jmcare/screens/pilihregister/view.dart';
 import 'package:jmcare/screens/pin/auth/view.dart';
@@ -236,6 +237,9 @@ class MyApp extends StatelessWidget {
         GetPage(
             name: Konstan.rute_layanan_pengaduan,
             page: () => const LayananPengaduanScreen()),
+        GetPage(
+            name: Konstan.rute_pengkinian_data_kebijakan_perlindungan,
+            page: () => const KebijakanPerlindunganDataScreen())
       ],
       title: 'JM CARE',
       theme: ThemeData(

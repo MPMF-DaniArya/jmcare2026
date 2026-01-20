@@ -89,7 +89,7 @@ class HomeLogic extends BaseLogic {
   }
 
   void klikPengkinianData() async {
-    cekPengkinianData();
+    Get.toNamed(Konstan.rute_pengkinian_data);
   }
 
   void klikAgreementCard() {
@@ -324,28 +324,6 @@ class HomeLogic extends BaseLogic {
             ),
           )));
     }
-  }
-
-  Future<void> cekPengkinianData() async {
-    Get.toNamed(Konstan.rute_pengkinian_data);
-    // is_loading_pengkiniandata.value = true;
-    // final authStorage = await getStorage<LoginRespon>();
-    // var noktp = authStorage.data!.noKtp;
-    // final baseRespon = await getService<CekpengkiniandataService>()?.cekPengkinian(noktp!);
-    // if (baseRespon == null){
-    //   Fungsi.warningToast("Maaf, Anda belum dapat melakukan pengkinian data. Silakan menunggu konfirmasi via SMS/WA dari telesales.");
-    // }else{
-    //   if (baseRespon is BaseError) {
-    //     Fungsi.warningToast("Maaf, Anda belum dapat melakukan pengkinian data. Silakan menunggu konfirmasi via SMS/WA dari telesales.");
-    //   } else {
-    //     if (baseRespon.code == "404") {
-    //       Fungsi.warningToast("Maaf, Anda belum dapat melakukan pengkinian data. Silakan menunggu konfirmasi via SMS/WA dari telesales.");
-    //     } else {
-    //       Get.toNamed(Konstan.rute_pengkinian_data);
-    //     }
-    //   }
-    // }
-    // is_loading_pengkiniandata.value = false;
   }
 
   Future<bool> deleteAkun() async {
