@@ -15,6 +15,7 @@ class PengkiniandataState {
       'icon': FontAwesomeIcons.solidUser,
       'title': 'Request Penampilan Data Pribadi',
       'description': 'Lihat Informasi Pribadi Anda yang Terdaftar',
+      'route': Konstan.rute_penampilan_data_pribadi
     },
     {
       'icon': FontAwesomeIcons.pen,

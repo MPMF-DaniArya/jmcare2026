@@ -2,11 +2,14 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'dart:ui';
+
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';
-import 'package:intl/date_symbol_data_file.dart';
-import 'package:intl/intl.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:get/get.dart';
 import 'package:jmcare/helper/Endpoint.dart';
 import 'package:jmcare/helper/Konstan.dart';
 import 'package:jmcare/model/api/SingleNotifikasiRespon.dart';
@@ -38,13 +41,13 @@ import 'package:jmcare/screens/klaim_asuransi/upload_sttlp/view.dart';
 import 'package:jmcare/screens/layanan_pengaduan/view.dart';
 import 'package:jmcare/screens/listcabang/view.dart';
 import 'package:jmcare/screens/login/view.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:jmcare/screens/onesignal/notif/detail_notifikasi_view.dart';
 import 'package:jmcare/screens/onesignal/notif/view.dart';
 import 'package:jmcare/screens/paginationuser/view.dart';
 import 'package:jmcare/screens/pdfview/view.dart';
 import 'package:jmcare/screens/pengkiniandata/screens/kebijakan_perlindungan_data_pribadi/view.dart';
+import 'package:jmcare/screens/pengkiniandata/screens/penampilan_data_pribadi/view.dart';
+import 'package:jmcare/screens/pengkiniandata/view.dart';
 import 'package:jmcare/screens/pilihkontrak/view.dart';
 import 'package:jmcare/screens/pilihregister/view.dart';
 import 'package:jmcare/screens/pin/auth/view.dart';
@@ -59,16 +62,13 @@ import 'package:jmcare/screens/resetpassword/webview/view.dart';
 import 'package:jmcare/screens/searchuser/view.dart';
 import 'package:jmcare/screens/splash/view.dart';
 import 'package:jmcare/screens/welcome/view.dart';
-import 'package:jmcare/screens/pengkiniandata/view.dart';
 import 'package:jmcare/service/BaseService.dart';
 import 'package:jmcare/service/Service.dart';
 import 'package:jmcare/storage/storage.dart';
-import 'package:permission_handler/permission_handler.dart';
-import 'package:flutter_background_service_android/flutter_background_service_android.dart';
-import 'package:device_info_plus/device_info_plus.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'model/api/LoginRespon.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
+import 'package:permission_handler/permission_handler.dart';
+
+import 'model/api/LoginRespon.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -239,7 +239,10 @@ class MyApp extends StatelessWidget {
             page: () => const LayananPengaduanScreen()),
         GetPage(
             name: Konstan.rute_pengkinian_data_kebijakan_perlindungan,
-            page: () => const KebijakanPerlindunganDataScreen())
+            page: () => const KebijakanPerlindunganDataScreen()),
+        GetPage(
+            name: Konstan.rute_penampilan_data_pribadi,
+            page: () => const PenampilanDataPribadiScreen())
       ],
       title: 'JM CARE',
       theme: ThemeData(

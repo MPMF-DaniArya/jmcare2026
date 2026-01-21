@@ -60,7 +60,11 @@ class Konstan {
 
   static const String rute_layanan_pengaduan = '/layananpengaduan';
   static const String rute_detail_notif = '/detail_notif';
-  static const String rute_pengkinian_data_kebijakan_perlindungan = '/pengkiniandatakebijakanperlindungan';
+  static const String rute_pengkinian_data_kebijakan_perlindungan = '/pengkinian_data_kebijakan_perlindungan';
+  static const String rute_penampilan_data_pribadi = '/penampilan_data_pribadi';
+
+  static const String tag_pdf_data_pribadi = 'PDF Anda Akan Dilindungi Dengan PIN yang Sama Dengan PIN Masuk Aplikasi Anda (Contoh: ****12)';
+  static const String tag_disclaimer_data_pribadi = 'Data pribadi yang ditampilkan di sini adalah data yang terdaftar dalam sistem kami. Pastikan keakuratan informasi ini. Jika Anda menemukan ketidaksesuaian, silakan ajukan permintaan perubahan melalui tab "Perubahan". Perlindungan data Anda adalah prioritas utama kami.';
 
   // =================================================================
 
