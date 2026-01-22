@@ -22,6 +22,7 @@ class PengkiniandataState {
       'title': 'Request Pengkinian Data Pribadi',
       'description':
           'Ajukan Perubahan nama, alamat, atau data diri anda yang lain',
+      'route': Konstan.rute_request_pengkinian_data_pribadi
     },
     {
       'icon': FontAwesomeIcons.trash,

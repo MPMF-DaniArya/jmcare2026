@@ -89,7 +89,7 @@ class HomeLogic extends BaseLogic {
   }
 
   void klikPengkinianData() async {
-    Get.toNamed(Konstan.rute_pengkinian_data);
+    Get.toNamed(Konstan.rute_menu_pengkinian_data);
   }
 
   void klikAgreementCard() {

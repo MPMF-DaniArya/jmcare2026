@@ -47,6 +47,7 @@ import 'package:jmcare/screens/paginationuser/view.dart';
 import 'package:jmcare/screens/pdfview/view.dart';
 import 'package:jmcare/screens/pengkiniandata/screens/kebijakan_perlindungan_data_pribadi/view.dart';
 import 'package:jmcare/screens/pengkiniandata/screens/penampilan_data_pribadi/view.dart';
+import 'package:jmcare/screens/pengkiniandata/screens/request_pengkinian_data_pribadi/view.dart';
 import 'package:jmcare/screens/pengkiniandata/view.dart';
 import 'package:jmcare/screens/pilihkontrak/view.dart';
 import 'package:jmcare/screens/pilihregister/view.dart';
@@ -183,7 +184,7 @@ class MyApp extends StatelessWidget {
         GetPage(
             name: Konstan.rute_kuisioner, page: () => const KuisionerScreen()),
         GetPage(
-            name: Konstan.rute_pengkinian_data,
+            name: Konstan.rute_menu_pengkinian_data,
             page: () => const PengkiniandataScreen()),
         GetPage(
             name: Konstan.rute_dialog_wilayah,
@@ -242,7 +243,10 @@ class MyApp extends StatelessWidget {
             page: () => const KebijakanPerlindunganDataScreen()),
         GetPage(
             name: Konstan.rute_penampilan_data_pribadi,
-            page: () => const PenampilanDataPribadiScreen())
+            page: () => const PenampilanDataPribadiScreen()),
+        GetPage(
+            name: Konstan.rute_request_pengkinian_data_pribadi,
+            page: () => const RequestPengkinianDataPribadiScreen()),
       ],
       title: 'JM CARE',
       theme: ThemeData(

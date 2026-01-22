@@ -8,8 +8,7 @@ class Konstan {
   static const String rute_cek_nomor_hp = '/ceknomorhp';
   static const String rute_pilih_metode_reset_password =
       '/pilihmetoderesetpassword';
-  static const String rute_reset_password_webview =
-      '/resetpasswordwebview';
+  static const String rute_reset_password_webview = '/resetpasswordwebview';
   static const String rute_verifikasi_otp = '/verifikasiotp';
   static const String rute_password_baru = '/passwordbaru';
   static const String rute_detail_slide = '/detailslide';
@@ -28,25 +27,32 @@ class Konstan {
   static const String rute_tujuan_kedatangan = "/tujuankedatangan";
   static const String rute_dialog_cabang = "/dialogcabang";
   static const String rute_dialog_jmo = "/dialogjmo";
-  static const String rute_detail_riwayat_antrian =
-      "/detail_riwayat_antrian";
+  static const String rute_detail_riwayat_antrian = "/detail_riwayat_antrian";
   static const String rute_dialog_wilayah = "/dialogwilayah";
   static const String rute_kuisioner = "/kuisioner";
-  static const String rute_pengkinian_data = "/pengkiniandata";
+  static const String rute_menu_pengkinian_data = "/pengkiniandata";
   static const String rute_esign = "/esign";
   static const String rute_esign_invitation = "/esigninvitation";
   static const String rute_esign_register = "/esignregister";
   static const String rute_esign_home = "/esignhome";
   static const String rute_pdf_view = "/pdfview";
-  static const String rute_klaimasuransi_agreementinsco = "/klaim_asuransi_agreementinsco";
-  static const String rute_klaimasuransi_detail_agreementinsco = "/klaim_asuransi_detail_agreementinsco";
-  static const String rute_klaimasuransi_kontak_insco = "/klaim_asuransi_kontak_insco";
+  static const String rute_klaimasuransi_agreementinsco =
+      "/klaim_asuransi_agreementinsco";
+  static const String rute_klaimasuransi_detail_agreementinsco =
+      "/klaim_asuransi_detail_agreementinsco";
+  static const String rute_klaimasuransi_kontak_insco =
+      "/klaim_asuransi_kontak_insco";
   static const String rute_klaimasuransi_formawal = "/klaim_asuransi_formawal";
-  static const String rute_klaimasuransi_riwayat_formawal = "/klaim_asuransi_riwayat_formawal";
-  static const String rute_klaimasuransi_formlanjut = "/klaim_asuransi_formlanjut";
-  static const String rute_klaimasuransi_upload_sttlp = "/klaim_asuransi_upload_sttlp";
-  static const String rute_klaimasuransi_document_checklist = "/klaim_asuransi_document_checklist";
-  static const String rute_klaimasuransi_upload_document_checklist = "/klaim_asuransi_updateChecklistDokumen";
+  static const String rute_klaimasuransi_riwayat_formawal =
+      "/klaim_asuransi_riwayat_formawal";
+  static const String rute_klaimasuransi_formlanjut =
+      "/klaim_asuransi_formlanjut";
+  static const String rute_klaimasuransi_upload_sttlp =
+      "/klaim_asuransi_upload_sttlp";
+  static const String rute_klaimasuransi_document_checklist =
+      "/klaim_asuransi_document_checklist";
+  static const String rute_klaimasuransi_upload_document_checklist =
+      "/klaim_asuransi_updateChecklistDokumen";
   static const String rute_faq = "/faq";
   static const String rute_onesignal_notif = "/onesignal_notif";
   static const String rute_gantipassword = "/ganti_password";
@@ -60,11 +66,18 @@ class Konstan {
 
   static const String rute_layanan_pengaduan = '/layananpengaduan';
   static const String rute_detail_notif = '/detail_notif';
-  static const String rute_pengkinian_data_kebijakan_perlindungan = '/pengkinian_data_kebijakan_perlindungan';
+  static const String rute_pengkinian_data_kebijakan_perlindungan =
+      '/pengkinian_data_kebijakan_perlindungan';
   static const String rute_penampilan_data_pribadi = '/penampilan_data_pribadi';
+  static const String rute_request_pengkinian_data_pribadi =
+      '/request_pengkinian_data_pribadi';
 
-  static const String tag_pdf_data_pribadi = 'PDF Anda Akan Dilindungi Dengan PIN yang Sama Dengan PIN Masuk Aplikasi Anda (Contoh: ****12)';
-  static const String tag_disclaimer_data_pribadi = 'Data pribadi yang ditampilkan di sini adalah data yang terdaftar dalam sistem kami. Pastikan keakuratan informasi ini. Jika Anda menemukan ketidaksesuaian, silakan ajukan permintaan perubahan melalui tab "Perubahan". Perlindungan data Anda adalah prioritas utama kami.';
+  static const String tag_pdf_data_pribadi =
+      'PDF Anda Akan Dilindungi Dengan PIN yang Sama Dengan PIN Masuk Aplikasi Anda (Contoh: ****12)';
+  static const String tag_disclaimer_data_pribadi =
+      'Data pribadi yang ditampilkan di sini adalah data yang terdaftar dalam sistem kami. Pastikan keakuratan informasi ini. Jika Anda menemukan ketidaksesuaian, silakan ajukan permintaan perubahan melalui tab "Perubahan". Perlindungan data Anda adalah prioritas utama kami.';
+  static const String tag_ketentuan_pengkinian_data =
+      'Permintaan Pengkinian data pribadi Anda akan diproses sesuai dengan kebijakan privasi JM CARE. Harap tinjau poin-poin penting di bawah ini sebelum melanjutkan.';
 
   // =================================================================
 
@@ -72,14 +85,14 @@ class Konstan {
 
   // =================================================================
 
-
   static const String tag_hint_nama_lengkap = "Contoh : Aji Wibowo";
   static const String tag_hint_nomor_kontrak = "Contoh : 123456789";
   static const String tag_hint_nomor_hp = "Contoh : 08123456789";
   static const String tag_hint_email = "Contoh : ajiwibowo@gmail.com";
   static const String tag_hint_keluhan = "Ketikkan keluhan Anda di sini";
 
-  static const String tag_kekuatan_password = "Kata sandi harus terdiri dari 6-20 karakter dengan setidaknya satu angka, satu karakter huruf besar, dan satu karakter khusus";
+  static const String tag_kekuatan_password =
+      "Kata sandi harus terdiri dari 6-20 karakter dengan setidaknya satu angka, satu karakter huruf besar, dan satu karakter khusus";
   static const String tag_strip = "-";
   static const String tag_now_loading = 'Sedang memproses...';
   static const String tag_downloading = 'Sedang mengunduh...';
@@ -164,7 +177,8 @@ class Konstan {
   static const String tag_ya = "YA";
   static const String tag_tidak = "TIDAK";
 
-  static const String tag_tidak_ada_data = "Menyadari tingginya kebutuhan masyarakat akan motor/mobil baru, JACCS MPM Indonesia menyediakan fasilitas pembiayaan mobil/motor baru untuk berbagai pilihan merk, yang diperkuat dengan jaringan authorized dealer yang luas, sehingga calon debitur akan semakin mudah untuk membeli mobil baru idaman. JACCS MPM Indonesia juga menyediakan pembiayaan mobil baru dengan struktur pembiayaan yang kompetitif dan pilihan tenor angsuran yang sesuai dengan kemampuan konsumen. Didukung juga dengan perlindungan asuransi, jaringan pembayaran angsuran yang luas, mitra channel payment dan keamanan penyimpanan BPKB kendaraan.";
+  static const String tag_tidak_ada_data =
+      "Menyadari tingginya kebutuhan masyarakat akan motor/mobil baru, JACCS MPM Indonesia menyediakan fasilitas pembiayaan mobil/motor baru untuk berbagai pilihan merk, yang diperkuat dengan jaringan authorized dealer yang luas, sehingga calon debitur akan semakin mudah untuk membeli mobil baru idaman. JACCS MPM Indonesia juga menyediakan pembiayaan mobil baru dengan struktur pembiayaan yang kompetitif dan pilihan tenor angsuran yang sesuai dengan kemampuan konsumen. Didukung juga dengan perlindungan asuransi, jaringan pembayaran angsuran yang luas, mitra channel payment dan keamanan penyimpanan BPKB kendaraan.";
 
   static const String tag_kecelakaan = "KECELAKAAN";
   static const String tag_kehilangan = "KEHILANGAN";
@@ -180,11 +194,16 @@ class Konstan {
   static const String tag_status_klaim_return = "RTN";
 
   static const String tag_onesignal_alias = "jmcare_id";
-  static const String tag_default_img_produk = "https://www.jaccs-mpmfinance.com/images/product/20210818_122558_phpskruve_resized.png";
+  static const String tag_default_img_produk =
+      "https://www.jaccs-mpmfinance.com/images/product/20210818_122558_phpskruve_resized.png";
 
   static const String tag_file_tidak_ditemukan = "File tidak ditemukan";
-  static const String tag_tandatangan_kosong = "iVBORw0KGgoAAAANSUhEUgAAAroAAAEsCAYAAAAsKhDaAAAAAXNSR0IArs4c6QAAAARzQklUCAgICHwIZIgAAAXXSURBVHic7dbBDcAgEMCw0p2Z/5gCIUX2BHlmzcx8AADQsv/XBQAAcIPRBQAgyeg";
-  static const String tag_secret_key_mpmi = "mpminsurancesecretKey3212311lmjjlghyftdrysdglkhjiugy765578g696064218106A1AC8E727A2E0BDDB15BC814E18D651FEEFB946B210850E4F1C9";
-  static const String tag_saya_bersedia_memenuhi_dokumen = "Saya bersedia untuk memenuhi semua dokumen dan persyaratan yang diperlukan dalam pengajuan klaim";
-  static const String tag_bersedia = "Demikian pernyataan ini saya buat dengan sebenarnya dan penuh rasa tanggung jawab. Apabila dikemudian hari ditemukan bahwa data/dokumen yang saya sampaikan tidak benar dan/atau ada pemalsuan, maka seluruh keputusan yang telah ditetapkan berdasarkan berkas tersebut batal berdasarkan hukum dan saya bersedia dikenakan sanksi sesuai ketentuan peraturan perundang-undangan yang berlaku";
+  static const String tag_tandatangan_kosong =
+      "iVBORw0KGgoAAAANSUhEUgAAAroAAAEsCAYAAAAsKhDaAAAAAXNSR0IArs4c6QAAAARzQklUCAgICHwIZIgAAAXXSURBVHic7dbBDcAgEMCw0p2Z/5gCIUX2BHlmzcx8AADQsv/XBQAAcIPRBQAgyeg";
+  static const String tag_secret_key_mpmi =
+      "mpminsurancesecretKey3212311lmjjlghyftdrysdglkhjiugy765578g696064218106A1AC8E727A2E0BDDB15BC814E18D651FEEFB946B210850E4F1C9";
+  static const String tag_saya_bersedia_memenuhi_dokumen =
+      "Saya bersedia untuk memenuhi semua dokumen dan persyaratan yang diperlukan dalam pengajuan klaim";
+  static const String tag_bersedia =
+      "Demikian pernyataan ini saya buat dengan sebenarnya dan penuh rasa tanggung jawab. Apabila dikemudian hari ditemukan bahwa data/dokumen yang saya sampaikan tidak benar dan/atau ada pemalsuan, maka seluruh keputusan yang telah ditetapkan berdasarkan berkas tersebut batal berdasarkan hukum dan saya bersedia dikenakan sanksi sesuai ketentuan peraturan perundang-undangan yang berlaku";
 }
