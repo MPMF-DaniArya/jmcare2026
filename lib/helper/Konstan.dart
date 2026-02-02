@@ -71,6 +71,7 @@ class Konstan {
   static const String rute_penampilan_data_pribadi = '/penampilan_data_pribadi';
   static const String rute_request_pengkinian_data_pribadi =
       '/request_pengkinian_data_pribadi';
+  static const String rute_request_penghapusan_data_pribadi = '/request_penghapusan_data_pribadi';
 
   static const String tag_pdf_data_pribadi =
       'PDF Anda Akan Dilindungi Dengan PIN yang Sama Dengan PIN Masuk Aplikasi Anda (Contoh: ****12)';
@@ -78,7 +79,8 @@ class Konstan {
       'Data pribadi yang ditampilkan di sini adalah data yang terdaftar dalam sistem kami. Pastikan keakuratan informasi ini. Jika Anda menemukan ketidaksesuaian, silakan ajukan permintaan perubahan melalui tab "Perubahan". Perlindungan data Anda adalah prioritas utama kami.';
   static const String tag_ketentuan_pengkinian_data =
       'Permintaan Pengkinian data pribadi Anda akan diproses sesuai dengan kebijakan privasi JM CARE. Harap tinjau poin-poin penting di bawah ini sebelum melanjutkan.';
-
+  static const String tag_ketentuan_hapus_data =
+      'Permintaan Penghapusan data pribadi Anda akan diproses sesuai dengan kebijakan privasi JM CARE. Harap tinjau poin-poin penting di bawah ini sebelum melanjutkan.';
   // =================================================================
 
   // Develop by Arya End

@@ -29,6 +29,7 @@ class PengkiniandataState {
       'title': 'Request Penghapusan Data Pribadi',
       'description':
           'Ajukan Penghapusan Data jika sudah tidak memiliki kewajiban',
+      'route': Konstan.rute_request_penghapusan_data_pribadi
     },
     {
       'icon': FontAwesomeIcons.clockRotateLeft,

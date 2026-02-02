@@ -1,14 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jmcare/custom/container_menu.dart';
-import 'package:jmcare/helper/Komponen.dart';
 import 'package:jmcare/helper/Konstan.dart';
 import 'package:jmcare/screens/base/jmcare_bar_screen.dart';
+import 'package:jmcare/screens/pengkiniandata/screens/widgets/row_ketentuan_pengkinian.dart';
 
 import 'logic.dart';
 
-class RequestPengkinianDataPribadiScreen extends StatelessWidget {
+class RequestPengkinianDataPribadiScreen extends StatefulWidget {
   const RequestPengkinianDataPribadiScreen({super.key});
+
+  @override
+  State<RequestPengkinianDataPribadiScreen> createState() =>
+      _RequestPengkinianDataPribadiScreenState();
+}
+
+class _RequestPengkinianDataPribadiScreenState
+    extends State<RequestPengkinianDataPribadiScreen> {
+  bool _isAgreed = false;
 
   @override
   Widget build(BuildContext context) {
@@ -38,21 +47,24 @@ class RequestPengkinianDataPribadiScreen extends StatelessWidget {
                 const SizedBox(
                   height: 8,
                 ),
-                _rowKetentuanPengkinianData(
-                    'Proses verifikasi identitas diperlukan untuk memastikan keamanan data Anda.',
-                    textTheme),
+                RowKetentuanPengkinian(
+                    ketentuan:
+                        'Proses verifikasi identitas diperlukan untuk memastikan keamanan data Anda.',
+                    textTheme: textTheme),
                 const SizedBox(
                   height: 8,
                 ),
-                _rowKetentuanPengkinianData(
-                    'Proses verifikasi identitas diperlukan untuk memastikan keamanan data Anda.',
-                    textTheme),
+                RowKetentuanPengkinian(
+                    ketentuan:
+                        'Proses verifikasi identitas diperlukan untuk memastikan keamanan data Anda.',
+                    textTheme: textTheme),
                 const SizedBox(
                   height: 8,
                 ),
-                _rowKetentuanPengkinianData(
-                    'Proses verifikasi identitas diperlukan untuk memastikan keamanan data Anda.',
-                    textTheme),
+                RowKetentuanPengkinian(
+                    ketentuan:
+                        'Proses verifikasi identitas diperlukan untuk memastikan keamanan data Anda.',
+                    textTheme: textTheme),
               ],
             )),
             const SizedBox(
@@ -126,6 +138,41 @@ class RequestPengkinianDataPribadiScreen extends StatelessWidget {
             const SizedBox(
               height: 24,
             ),
+            Row(
+              children: [
+                Checkbox(
+                  value: _isAgreed,
+                  onChanged: (value) {
+                    setState(() {
+                      _isAgreed = value!;
+                    });
+                  },
+                ),
+                Expanded(
+                  child: Wrap(
+                    crossAxisAlignment: WrapCrossAlignment.center,
+                    children: [
+                      Text(
+                        'Saya telah membaca dan menyetujui ',
+                        style: textTheme.bodyMedium!
+                            .copyWith(fontWeight: FontWeight.bold),
+                      ),
+                      GestureDetector(
+                        onTap: () => print('Link Ditekan'),
+                        child: Text(
+                          "syarat dan ketentuan penghapusan data pribadi.",
+                          style: textTheme.bodyMedium!.copyWith(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.blueAccent,
+                            decoration: TextDecoration.underline,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            ),
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
@@ -139,28 +186,6 @@ class RequestPengkinianDataPribadiScreen extends StatelessWidget {
             ),
           ]),
         ));
-  }
-
-  Widget _rowKetentuanPengkinianData(String ketentuan, TextTheme textTheme) {
-    return Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Icon(
-            Icons.check_circle_outline,
-            size: 24,
-            color: Colors.green,
-          ),
-          const SizedBox(
-            width: 12,
-          ),
-          Expanded(
-            child: Text(
-              ketentuan,
-              style: textTheme.bodyMedium,
-            ),
-          )
-        ]);
   }
 
   Widget _buildFormCard(
@@ -223,6 +248,7 @@ class RequestPengkinianDataPribadiScreen extends StatelessWidget {
               const SizedBox(height: 8),
               TextFormField(
                 initialValue: 'Sementara',
+                readOnly: true,
                 decoration: InputDecoration(
                   filled: true,
                   fillColor: Colors.grey.shade300,
@@ -256,6 +282,55 @@ class RequestPengkinianDataPribadiScreen extends StatelessWidget {
                       borderRadius: BorderRadius.circular(12)),
                 ),
               ),
+              const SizedBox(height: 12),
+              Container(
+                padding: const EdgeInsets.all(16.0),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(16.0),
+                  color: Colors.white,
+                  border: Border.all(
+                    color: Colors.green,
+                    width: 1.5,
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.1),
+                      spreadRadius: 1,
+                      blurRadius: 5,
+                      offset: const Offset(0, 2),
+                    ),
+                  ],
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Text(
+                      'Unggah Dokumen Pendukung',
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                    ),
+                    const SizedBox(height: 8),
+                    const Text(
+                      'Disini pesan beda tiap jenis data',
+                      style: TextStyle(color: Colors.grey),
+                    ),
+                    const SizedBox(height: 16),
+                    ElevatedButton.icon(
+                      onPressed: () {},
+                      icon: const Icon(Icons.upload_sharp),
+                      label: const Text('Pilih Dokumen'),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.green,
+                        foregroundColor: Colors.white,
+                        minimumSize: const Size(double.infinity, 45),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8)),
+                      ),
+                    ),
+                  ],
+                ),
+              )
             ],
           ),
         ),
