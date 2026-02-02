@@ -182,8 +182,14 @@ class _RequestHapusDataScreenState extends State<RequestHapusDataScreen> {
               onPressed: _isAgreed ? () {} : null,
               child: Text(
                 "Submit",
-                style: textTheme.titleMedium!
-                    .copyWith(fontWeight: _isAgreed? FontWeight.bold : FontWeight.normal, color: _isAgreed? Colors.white : Colors.black38),
+                style: textTheme.titleMedium!.copyWith(
+                    fontWeight: _isAgreed ? FontWeight.bold : FontWeight.normal,
+                    color: _isAgreed
+                        ? Theme.of(context).colorScheme.onSurface
+                        : Theme.of(context)
+                            .colorScheme
+                            .onSurface
+                            .withOpacity(0.6)),
               ),
             ),
           ),

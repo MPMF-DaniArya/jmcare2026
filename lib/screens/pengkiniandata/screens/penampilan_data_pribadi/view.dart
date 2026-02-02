@@ -24,7 +24,7 @@ class PenampilanDataPribadiScreen extends StatelessWidget {
       body: Obx(() => logic.is_loading.value
           ? Center(child: Komponen.getLoadingWidget())
           : SingleChildScrollView(
-            child: Column(
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   ContainerMenu(
@@ -68,13 +68,13 @@ class PenampilanDataPribadiScreen extends StatelessWidget {
                       const SizedBox(
                         height: 12,
                       ),
-                      _buildRow('Nomor Telepon', state.dummyData['nomorTelepon'],
-                          textTheme),
+                      _buildRow('Nomor Telepon',
+                          state.dummyData['nomorTelepon'], textTheme),
                       const SizedBox(
                         height: 12,
                       ),
-                      _buildRow('Nomor Kontrak', state.dummyData['nomorKontrak'],
-                          textTheme),
+                      _buildRow('Nomor Kontrak',
+                          state.dummyData['nomorKontrak'], textTheme),
                     ],
                   )),
                   const SizedBox(
@@ -102,7 +102,8 @@ class PenampilanDataPribadiScreen extends StatelessWidget {
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(12),
                               ),
-                              padding: const EdgeInsets.symmetric(vertical: 10)),
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 10)),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -124,10 +125,10 @@ class PenampilanDataPribadiScreen extends StatelessWidget {
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Icon(
+                          Icon(
                             Icons.info_outline,
                             size: 24,
-                            color: Colors.grey,
+                            color: Theme.of(context).colorScheme.secondary,
                           ),
                           const SizedBox(
                             width: 12,
@@ -135,8 +136,11 @@ class PenampilanDataPribadiScreen extends StatelessWidget {
                           Expanded(
                             child: Text(
                               Konstan.tag_pdf_data_pribadi,
-                              style: textTheme.bodyMedium!
-                                  .copyWith(color: Colors.black54),
+                              style: textTheme.bodyMedium!.copyWith(
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onSurface
+                                      .withOpacity(0.8)),
                             ),
                           )
                         ],
@@ -162,15 +166,17 @@ class PenampilanDataPribadiScreen extends StatelessWidget {
                       const SizedBox(
                         height: 12,
                       ),
-                      Text(
-                        Konstan.tag_disclaimer_data_pribadi,
-                        style: textTheme.bodyMedium!.copyWith(color: Colors.black54),
-                      ),
+                      Text(Konstan.tag_disclaimer_data_pribadi,
+                          style: textTheme.bodyMedium!.copyWith(
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .onSurface
+                                  .withOpacity(0.8))),
                     ],
                   ))
                 ],
               ),
-          )),
+            )),
     );
   }
 
@@ -178,8 +184,7 @@ class PenampilanDataPribadiScreen extends StatelessWidget {
     return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
       Text(
         label,
-        style: textTheme.bodyMedium!
-            .copyWith(color: Colors.black54, fontWeight: FontWeight.bold),
+        style: textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.bold),
       ),
       Text(
         value,

@@ -58,7 +58,7 @@ class FaqScreen extends StatelessWidget {
                                       itemBuilder: (context, index){
                                         return ExpansionTile(
                                           title: logic.obsIsSearch.value == false
-                                              ? Text(logic.obsFaqRespon.value.data![index].pertanyaan!)
+                                              ? Text(logic.obsFaqRespon.value.data![index].pertanyaan!, style: TextStyle(color: Colors.black),)
                                               : TextHighlight(
                                                   text: logic.obsFaqRespon.value.data![index].pertanyaan!,
                                                   words: state.words

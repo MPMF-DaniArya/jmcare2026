@@ -11,7 +11,7 @@ class ContainerMenu extends StatelessWidget {
       width: double.infinity,
       padding: const EdgeInsetsGeometry.all(18),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(8),
         boxShadow: [
           BoxShadow(

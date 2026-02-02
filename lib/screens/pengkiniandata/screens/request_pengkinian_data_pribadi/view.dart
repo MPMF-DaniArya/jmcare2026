@@ -251,7 +251,8 @@ class _RequestPengkinianDataPribadiScreenState
                 readOnly: true,
                 decoration: InputDecoration(
                   filled: true,
-                  fillColor: Colors.grey.shade300,
+                  fillColor:
+                      Theme.of(context).colorScheme.onSurface.withOpacity(0.3),
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12)),
                 ),
@@ -287,7 +288,7 @@ class _RequestPengkinianDataPribadiScreenState
                 padding: const EdgeInsets.all(16.0),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(16.0),
-                  color: Colors.white,
+                  color: Theme.of(context).colorScheme.surface,
                   border: Border.all(
                     color: Colors.green,
                     width: 1.5,
@@ -305,15 +306,21 @@ class _RequestPengkinianDataPribadiScreenState
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Text(
+                    Text(
                       'Unggah Dokumen Pendukung',
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                          color: Theme.of(context).colorScheme.onSurface),
                     ),
                     const SizedBox(height: 8),
-                    const Text(
+                    Text(
                       'Disini pesan beda tiap jenis data',
-                      style: TextStyle(color: Colors.grey),
+                      style: TextStyle(
+                          color: Theme.of(context)
+                              .colorScheme
+                              .onSurface
+                              .withOpacity(0.8)),
                     ),
                     const SizedBox(height: 16),
                     ElevatedButton.icon(
