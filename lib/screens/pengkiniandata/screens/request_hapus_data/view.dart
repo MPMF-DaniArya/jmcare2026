@@ -37,7 +37,7 @@ class _RequestHapusDataScreenState extends State<RequestHapusDataScreen> {
                 height: 12,
               ),
               Text(Konstan.tag_ketentuan_hapus_data,
-                  style: textTheme.bodyMedium),
+                    style: textTheme.bodyLarge),
               const SizedBox(
                 height: 8,
               ),

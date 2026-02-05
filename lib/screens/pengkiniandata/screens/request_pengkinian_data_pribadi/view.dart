@@ -56,14 +56,14 @@ class _RequestPengkinianDataPribadiScreenState
                 ),
                 RowKetentuanPengkinian(
                     ketentuan:
-                        'Proses verifikasi identitas diperlukan untuk memastikan keamanan data Anda.',
+                        'Permintaan akan diproses dalam waktu 3 hari kerja.',
                     textTheme: textTheme),
                 const SizedBox(
                   height: 8,
                 ),
                 RowKetentuanPengkinian(
                     ketentuan:
-                        'Proses verifikasi identitas diperlukan untuk memastikan keamanan data Anda.',
+                        'JACCS MPM Finance berhak melakukan penolakan permintaan apabila data/dokumen yang dicantumkan tidak sesuai, atau pengajuan tidak dilakukan oleh Subjek Data Pribadi sendiri.',
                     textTheme: textTheme),
               ],
             )),
@@ -315,7 +315,7 @@ class _RequestPengkinianDataPribadiScreenState
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      'Disini pesan beda tiap jenis data',
+                      'Unggah dokumen pendukung sebagai bukti perubahan.',
                       style: TextStyle(
                           color: Theme.of(context)
                               .colorScheme
@@ -334,6 +334,14 @@ class _RequestPengkinianDataPribadiScreenState
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8)),
                       ),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      'Status: Dokumen berhasil diunggah.',
+                      style: textTheme.labelMedium!.copyWith(color: Theme.of(context)
+                          .colorScheme
+                          .onSurface
+                          .withOpacity(0.8))
                     ),
                   ],
                 ),

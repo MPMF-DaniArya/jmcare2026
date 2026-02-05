@@ -14,39 +14,38 @@ import 'package:jmcare/model/api/PilihkontrakRespon.dart' as pilihkontrak;
 import 'package:jmcare/model/api/AgreementinscoRespon.dart' as agrmntInsco;
 import 'package:jmcare/model/api/ProdukRespon.dart';
 import 'package:jmcare/model/api/PromoRespon.dart';
-import 'package:jmcare/model/api/RiwayatantrianRespon.dart'
-    as riwayatantrian;
-import 'package:jmcare/model/api/AntriansekarangRespon.dart'
-    as antriansekarang;
+import 'package:jmcare/model/api/RiwayatantrianRespon.dart' as riwayatantrian;
+import 'package:jmcare/model/api/AntriansekarangRespon.dart' as antriansekarang;
 import 'package:get/get.dart';
 import 'dart:math' as math show sin, pi, sqrt;
 import 'package:flutter/animation.dart';
 import 'package:simple_ripple_animation/simple_ripple_animation.dart';
-import 'package:loading_animation_widget/loading_animation_widget.dart'
-    as la;
+import 'package:loading_animation_widget/loading_animation_widget.dart' as la;
 import 'package:jmcare/model/api/FormawalRespon.dart' as far;
 
 class Komponen {
-
-  static Widget teksPDK(){
-    return const Text("JACCS MPM Finance Indonesia berkomitmen untuk melindungi data dan/atau informasi milik pemohon serta tidak akan melakukan perubahan, penambahan, menyalin atau memberikan informasi/data pemohon kepada pihak lain selain pihak yang diizinkan dan/atau pihak-pihak yang dinyatakan dengan tegas dalam Pernyataan Pemohon. Ringkasan Kebijakan Perlindungan Data Pribadi secara lengkap dapat diakses di website JACCS MPM Finance Indonesia pada alamat www.jaccs-mpmfinance.com.",
-    textAlign: TextAlign.center);
+  static Widget teksPDK() {
+    return const Text(
+        "JACCS MPM Finance Indonesia berkomitmen untuk melindungi data dan/atau informasi milik pemohon serta tidak akan melakukan perubahan, penambahan, menyalin atau memberikan informasi/data pemohon kepada pihak lain selain pihak yang diizinkan dan/atau pihak-pihak yang dinyatakan dengan tegas dalam Pernyataan Pemohon. Ringkasan Kebijakan Perlindungan Data Pribadi secara lengkap dapat diakses di website JACCS MPM Finance Indonesia pada alamat www.jaccs-mpmfinance.com.",
+        textAlign: TextAlign.center);
   }
 
-  static Widget astericText(String label){
-    return RichText(
-      text: TextSpan(
-        // style: DefaultTextStyle.of(context).style,
-        // text: '* ',
-        children: <TextSpan>[
-          const TextSpan(text: "* ", style: TextStyle(color: Colors.red, fontSize: 12, fontFamily: Konstan.tag_default_font)),
-          TextSpan(text: label, style: const TextStyle(color: Colors.black, fontSize: 12, fontFamily: Konstan.tag_default_font)),
+  static Widget astericText(String label) {
+    return Text.rich(
+      TextSpan(
+        children: [
+          const TextSpan(
+            text: "* ",
+            style: TextStyle(color: Colors.red),
+          ),
+          TextSpan(text: label),
         ],
       ),
+      style: const TextStyle(fontSize: 12),
     );
   }
 
-  static Widget getNoInternet(){
+  static Widget getNoInternet() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.center,
@@ -62,13 +61,12 @@ class Komponen {
       int index,
       Function klikFormKlaim,
       Function klikUploadDokumen,
-      Function klikLihatSurat)
-  {
+      Function klikLihatSurat) {
     double diameterLingkaran = 30;
     Color warnaLingkaran = Warna.orange2;
     Color warnaGrey = Warna.greyMuda;
     int levelStatusKlaim = 0;
-    switch (data.data![index].statusKlaim){
+    switch (data.data![index].statusKlaim) {
       case Konstan.tag_status_klaim_new:
         levelStatusKlaim = 1;
         break;
@@ -107,122 +105,122 @@ class Komponen {
           border: Border.all(
             color: Colors.green,
           ),
-          borderRadius: const BorderRadius.all(Radius.circular(5))
-      ),
+          borderRadius: const BorderRadius.all(Radius.circular(5))),
       child: Column(
         children: [
           Column(
             children: [
-               data.data![index].noRegistrasi! == ""
+              data.data![index].noRegistrasi! == ""
                   ? const Text("-")
-                  : Text(data.data![index].noRegistrasi!, style: const TextStyle(color: Colors.green, fontWeight: FontWeight.bold),),
-              Text(data.data![index].createDate!, style: const TextStyle(color: Colors.green, fontWeight: FontWeight.bold) ,)
+                  : Text(
+                      data.data![index].noRegistrasi!,
+                      style: const TextStyle(
+                          color: Colors.green, fontWeight: FontWeight.bold),
+                    ),
+              Text(
+                data.data![index].createDate!,
+                style: const TextStyle(
+                    color: Colors.green, fontWeight: FontWeight.bold),
+              )
             ],
           ),
           const Divider(),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              OutlinedButton(onPressed: (){
-                klikFormKlaim();
-                }, child: const Text("FORM KLAIM")),
+              OutlinedButton(
+                  onPressed: () {
+                    klikFormKlaim();
+                  },
+                  child: const Text("FORM KLAIM")),
               const Padding(padding: EdgeInsets.only(left: 5)),
-              OutlinedButton(onPressed: (){
-                klikUploadDokumen();
-                }, child: const Text("UPLOAD DOKUMEN"))
+              OutlinedButton(
+                  onPressed: () {
+                    klikUploadDokumen();
+                  },
+                  child: const Text("UPLOAD DOKUMEN"))
             ],
           ),
           Table(
-            border: TableBorder.all(
-                color: Colors.green,
-                width: 0.5
-            ),
+            border: TableBorder.all(color: Colors.green, width: 0.5),
             children: <TableRow>[
-              TableRow(
-                  children: <Widget>[
-                    const Padding(
-                        padding: EdgeInsets.all(5),
-                        child: Text("Nomor kontrak")
-                    ),
-                    Padding(
-                        padding: const EdgeInsets.all(5),
-                        child:  Text(data.data![index].agreementNo!)
-                    ),
-                  ]
-              ),
-              TableRow(
-                  children: <Widget>[
-                    const Padding(
-                      padding: EdgeInsets.all(5),
-                      child:  Text("Nomor tertanggung"),
-                    ),
-                    Padding(
-                        padding: const EdgeInsets.all(5),
-                        child:   Text(data.data![index].namaTertanggung!)
-                    ),
-                  ]
-              ),
-              TableRow(
-                  children: <Widget>[
-                    const Padding(
-                      padding: EdgeInsets.all(5),
-                      child: Text("Nomor polis asuransi"),
-                    ),
-                    Padding(
-                        padding: const EdgeInsets.all(5),
-                        child: Text(data.data![index].nomorPolisAsuransi!)
-                    ),
-                  ]
-              ),
-              TableRow(
-                  children: <Widget>[
-                    const Padding(
-                      padding: EdgeInsets.all(5),
-                      child: Text("Tanggal kejadian"),
-                    ),
-                    Padding(
-                        padding: const EdgeInsets.all(5),
-                        child: Text(data.data![index].tglKejadian!)
-                    ),
-                  ]
-              ),
-              TableRow(
-                  children: <Widget>[
-                    const Padding(
-                      padding: EdgeInsets.all(5),
-                      child: Text("Jenis klaim"),
-                    ),
-                    Padding(
-                        padding: const EdgeInsets.all(5),
-                        child: Text(data.data![index].rEASONDESCR!)
-                    ),
-                  ]
-              ),
-              TableRow(
-                  children: <Widget>[
-                    const Padding(
-                      padding: EdgeInsets.all(5),
-                      child: Text("Surat keputusan"),
-                    ),
-                    Padding(
-                        padding: const EdgeInsets.all(5),
-                        child: (data.data![index].statusKlaim == Konstan.tag_status_klaim_insco_apv)
-                                ? TextButton(onPressed: (){klikLihatSurat();}, child: const Text("Lihat surat"))
-                                : (data.data![index].statusKlaim == Konstan.tag_status_klaim_decision_rjc )
-                                  ? TextButton(onPressed: (){klikLihatSurat();}, child: const Text("Lihat surat")) 
-                                  : data.data![index].statusKlaim == Konstan.tag_status_klaim_rjc
-                                    ? const Text("REJECTED")
-                                    : const Text("TIDAK TERSEDIA")
-                    ),
-                  ]
-              ),
+              TableRow(children: <Widget>[
+                const Padding(
+                    padding: EdgeInsets.all(5), child: Text("Nomor kontrak")),
+                Padding(
+                    padding: const EdgeInsets.all(5),
+                    child: Text(data.data![index].agreementNo!)),
+              ]),
+              TableRow(children: <Widget>[
+                const Padding(
+                  padding: EdgeInsets.all(5),
+                  child: Text("Nomor tertanggung"),
+                ),
+                Padding(
+                    padding: const EdgeInsets.all(5),
+                    child: Text(data.data![index].namaTertanggung!)),
+              ]),
+              TableRow(children: <Widget>[
+                const Padding(
+                  padding: EdgeInsets.all(5),
+                  child: Text("Nomor polis asuransi"),
+                ),
+                Padding(
+                    padding: const EdgeInsets.all(5),
+                    child: Text(data.data![index].nomorPolisAsuransi!)),
+              ]),
+              TableRow(children: <Widget>[
+                const Padding(
+                  padding: EdgeInsets.all(5),
+                  child: Text("Tanggal kejadian"),
+                ),
+                Padding(
+                    padding: const EdgeInsets.all(5),
+                    child: Text(data.data![index].tglKejadian!)),
+              ]),
+              TableRow(children: <Widget>[
+                const Padding(
+                  padding: EdgeInsets.all(5),
+                  child: Text("Jenis klaim"),
+                ),
+                Padding(
+                    padding: const EdgeInsets.all(5),
+                    child: Text(data.data![index].rEASONDESCR!)),
+              ]),
+              TableRow(children: <Widget>[
+                const Padding(
+                  padding: EdgeInsets.all(5),
+                  child: Text("Surat keputusan"),
+                ),
+                Padding(
+                    padding: const EdgeInsets.all(5),
+                    child: (data.data![index].statusKlaim ==
+                            Konstan.tag_status_klaim_insco_apv)
+                        ? TextButton(
+                            onPressed: () {
+                              klikLihatSurat();
+                            },
+                            child: const Text("Lihat surat"))
+                        : (data.data![index].statusKlaim ==
+                                Konstan.tag_status_klaim_decision_rjc)
+                            ? TextButton(
+                                onPressed: () {
+                                  klikLihatSurat();
+                                },
+                                child: const Text("Lihat surat"))
+                            : data.data![index].statusKlaim ==
+                                    Konstan.tag_status_klaim_rjc
+                                ? const Text("REJECTED")
+                                : const Text("TIDAK TERSEDIA")),
+              ]),
             ],
           ),
           const Padding(padding: EdgeInsets.only(top: 30)),
           Stack(
             children: [
-              const Padding(padding: EdgeInsets.only(top: 8, left: 30, right: 30),
-                child: Divider(color: Warna.greyMuda)),
+              const Padding(
+                  padding: EdgeInsets.only(top: 8, left: 30, right: 30),
+                  child: Divider(color: Warna.greyMuda)),
               Row(
                 children: [
                   Column(
@@ -237,15 +235,14 @@ class Komponen {
                             shape: BoxShape.circle,
                           ),
                           child: Container(
-                            color: levelStatusKlaim <= 0 ? warnaGrey : warnaLingkaran,
-                          )
-                      ),
+                            color: levelStatusKlaim <= 0
+                                ? warnaGrey
+                                : warnaLingkaran,
+                          )),
                       const Text(
                         "Laporan\nAwal\n",
                         textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold
-                        ),
+                        style: TextStyle(fontWeight: FontWeight.bold),
                       )
                     ],
                   ),
@@ -262,15 +259,14 @@ class Komponen {
                             shape: BoxShape.circle,
                           ),
                           child: Container(
-                            color: levelStatusKlaim <= 1 ? warnaGrey : warnaLingkaran,
-                          )
-                      ),
+                            color: levelStatusKlaim <= 1
+                                ? warnaGrey
+                                : warnaLingkaran,
+                          )),
                       const Text(
                         "Form\nKlaim\n",
                         textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold
-                        ),
+                        style: TextStyle(fontWeight: FontWeight.bold),
                       )
                     ],
                   ),
@@ -287,15 +283,14 @@ class Komponen {
                             shape: BoxShape.circle,
                           ),
                           child: Container(
-                            color: levelStatusKlaim <= 2 ? warnaGrey : warnaLingkaran,
-                          )
-                      ),
+                            color: levelStatusKlaim <= 2
+                                ? warnaGrey
+                                : warnaLingkaran,
+                          )),
                       const Text(
                         "Insco\nApproval\n",
                         textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold
-                        ),
+                        style: TextStyle(fontWeight: FontWeight.bold),
                       )
                     ],
                   ),
@@ -312,15 +307,14 @@ class Komponen {
                             shape: BoxShape.circle,
                           ),
                           child: Container(
-                            color: levelStatusKlaim <= 3 ? warnaGrey : warnaLingkaran,
-                          )
-                      ),
+                            color: levelStatusKlaim <= 3
+                                ? warnaGrey
+                                : warnaLingkaran,
+                          )),
                       const Text(
                         "Verifikasi\nDokumen\n",
                         textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold
-                        ),
+                        style: TextStyle(fontWeight: FontWeight.bold),
                       )
                     ],
                   ),
@@ -337,15 +331,14 @@ class Komponen {
                             shape: BoxShape.circle,
                           ),
                           child: Container(
-                            color: levelStatusKlaim <= 4 ? warnaGrey : warnaLingkaran,
-                          )
-                      ),
+                            color: levelStatusKlaim <= 4
+                                ? warnaGrey
+                                : warnaLingkaran,
+                          )),
                       const Text(
                         "Pencairan\n\n",
                         textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold
-                        ),
+                        style: TextStyle(fontWeight: FontWeight.bold),
                       )
                     ],
                   ),
@@ -387,8 +380,7 @@ class Komponen {
               maxLines: 3,
               textAlign: TextAlign.center,
               style: TextStyle(
-                  fontSize: 12,
-
+                fontSize: 12,
               ),
             )
           ],
@@ -584,8 +576,8 @@ class Komponen {
     );
   }
 
-  static Widget menuUtama(BuildContext context, String urlImage,
-      String titleMenu, Function klik) {
+  static Widget menuUtama(
+      BuildContext context, String urlImage, String titleMenu, Function klik) {
     return Expanded(
         flex: 1,
         child: InkWell(
@@ -633,14 +625,13 @@ class Komponen {
                           ? respon.nAMAPENGUNJUNG!.length >= 15
                               ? Text(
                                   "Nama \t\t\t\t\t\t\t\t\t\t: " +
-                                      respon.nAMAPENGUNJUNG!
-                                          .substring(0, 15),
+                                      respon.nAMAPENGUNJUNG!.substring(0, 15),
                                   style: TextStyle(fontSize: 12),
                                 )
                               : Text(
                                   "Nama \t\t\t\t\t\t\t\t\t\t: " +
-                                      respon.nAMAPENGUNJUNG!.substring(0,
-                                          respon.nAMAPENGUNJUNG!.length),
+                                      respon.nAMAPENGUNJUNG!.substring(
+                                          0, respon.nAMAPENGUNJUNG!.length),
                                   style: TextStyle(fontSize: 12),
                                 )
                           : Container()
@@ -662,8 +653,7 @@ class Komponen {
                       child: RawChip(
                           label: Text(
                             "ANDA",
-                            style: TextStyle(
-                                color: Colors.white, fontSize: 10),
+                            style: TextStyle(color: Colors.white, fontSize: 10),
                           ),
                           backgroundColor: Colors.green))
                   : Container()
@@ -672,13 +662,14 @@ class Komponen {
     );
   }
 
-  static Widget getCardRiwayatantrian(riwayatantrian.Data respon, BuildContext context) {
+  static Widget getCardRiwayatantrian(
+      riwayatantrian.Data respon, BuildContext context) {
     return Stack(
       children: [
         Container(
             padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
-              border:  Border.all(color: Theme.of(context).dividerColor ),
+              border: Border.all(color: Theme.of(context).dividerColor),
               borderRadius: const BorderRadius.all(Radius.circular(15)),
               color: respon.sUDAHKADALUWARSA! > 0
                   ? Theme.of(context).disabledColor
@@ -781,11 +772,11 @@ class Komponen {
               height: 30,
               width: 30,
               decoration: BoxDecoration(
-                  border: Border.all(color: respon.sUDAHKADALUWARSA! > 0
-                      ? Theme.of(context).dividerColor
-                      : Theme.of(context).dividerColor),
-                  borderRadius:
-                      const BorderRadius.all(Radius.circular(100)),
+                  border: Border.all(
+                      color: respon.sUDAHKADALUWARSA! > 0
+                          ? Theme.of(context).dividerColor
+                          : Theme.of(context).dividerColor),
+                  borderRadius: const BorderRadius.all(Radius.circular(100)),
                   color: Theme.of(context).canvasColor),
             ))
       ],
@@ -824,8 +815,8 @@ class Komponen {
             end: Alignment.bottomRight,
             colors: [Colors.green, Warna.hijau],
           ),
-          borderRadius: BorderRadius.all(Radius.circular(
-              15))), // Adds a gradient background and rounded corners to the container
+          borderRadius: BorderRadius.all(Radius.circular(15))),
+      // Adds a gradient background and rounded corners to the container
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -837,16 +828,15 @@ class Komponen {
                 children: [
                   Text(
                     respon.aGRMNTNO!,
-                    style:
-                        const TextStyle(fontSize: 24, color: Colors.white),
-                  ), // Adds a title to the card
+                    style: const TextStyle(fontSize: 24, color: Colors.white),
+                  ),
+                  // Adds a title to the card
                   const Spacer(),
                   Stack(
                     children: List.generate(
                       2,
                       (index) => Container(
-                        margin:
-                            EdgeInsets.only(left: (15 * index).toDouble()),
+                        margin: EdgeInsets.only(left: (15 * index).toDouble()),
                         height: 30,
                         width: 30,
                         decoration: const BoxDecoration(
@@ -855,7 +845,8 @@ class Komponen {
                             color: Colors.white54),
                       ),
                     ),
-                  ) // Adds a stack of two circular containers to the right of the title
+                  )
+                  // Adds a stack of two circular containers to the right of the title
                 ],
               ),
               Text(
@@ -883,8 +874,7 @@ class Komponen {
               border: Border.all(color: Colors.black12),
               color: Colors.white,
               borderRadius: const BorderRadius.only(
-                  topRight: Radius.circular(30),
-                  topLeft: Radius.circular(30))),
+                  topRight: Radius.circular(30), topLeft: Radius.circular(30))),
           height: tinggi,
           child: Center(
             child: Column(
@@ -897,8 +887,7 @@ class Komponen {
                       child: Text(
                         title,
                         textAlign: TextAlign.center,
-                        style:
-                            const TextStyle(fontWeight: FontWeight.bold),
+                        style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
                     ),
                     Expanded(
@@ -920,8 +909,8 @@ class Komponen {
         ));
   }
 
-  static Widget subMenu(BuildContext context, String imageUrl,
-      String title, String routeName) {
+  static Widget subMenu(
+      BuildContext context, String imageUrl, String title, String routeName) {
     return Expanded(
         flex: 1,
         child: InkWell(
@@ -1034,13 +1023,15 @@ class Komponen {
             fit: BoxFit.fill,
             width: double.infinity,
             height: double.infinity,
-            errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
+            errorBuilder: (BuildContext context, Object exception,
+                StackTrace? stackTrace) {
               return const SizedBox(
                 height: 300,
                 child: Center(
-                  child:
-                    Icon(Icons.image_not_supported_outlined, color: Colors.green,)
-                  ,
+                  child: Icon(
+                    Icons.image_not_supported_outlined,
+                    color: Colors.green,
+                  ),
                 ),
               );
             },
@@ -1066,19 +1057,18 @@ class Komponen {
         child: ListView.builder(
           shrinkWrap: true,
           scrollDirection: Axis.horizontal,
-          itemCount:
-              produkRespon.data == null ? 0 : produkRespon.data!.length,
+          itemCount: produkRespon.data == null ? 0 : produkRespon.data!.length,
           itemBuilder: (context, index) {
-
             return InkWell(
                 onTap: () {
                   //cek dulu apakah jalan di android atau ios
                   //kalau android, tampilkan screen Keterangan
                   //kalau ios, diamkan saja (biar gak disikat apple)
-                  Get.toNamed(Konstan.rute_detail_slide,
-                      arguments: {
-                        'detail': Platform.isAndroid ? produkRespon.data![index].descriptionId : Konstan.tag_tidak_ada_data
-                      });
+                  Get.toNamed(Konstan.rute_detail_slide, arguments: {
+                    'detail': Platform.isAndroid
+                        ? produkRespon.data![index].descriptionId
+                        : Konstan.tag_tidak_ada_data
+                  });
                 },
                 child: getBoxPromo(
                   produkRespon.data![index].imgUrl2!,
@@ -1101,33 +1091,34 @@ class Komponen {
           children: [
             ClipRRect(
               borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(10),
-                  topRight: Radius.circular(10)),
+                  topLeft: Radius.circular(10), topRight: Radius.circular(10)),
               child: Image.network(
                 imageUrl,
                 height: 130,
                 fit: BoxFit.fill,
                 errorBuilder: (BuildContext context, Object exception,
                     StackTrace? stackTrace) {
-                  return  SizedBox(
+                  return SizedBox(
                       height: 130,
                       child: Center(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Image.network(Konstan.tag_default_img_produk, height: 130, fit: BoxFit.fill,)
-                            // Icon(Icons.image_not_supported_outlined, color: Colors.green,),
-                            // Text("Gagal memuat gambar",
-                            //   style: TextStyle(
-                            //       fontStyle: FontStyle.italic,
-                            //     fontSize: 10
-                            //   ),
-                            // )
-                          ],
-                        )
-                      )
-                  );
+                          child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.network(
+                            Konstan.tag_default_img_produk,
+                            height: 130,
+                            fit: BoxFit.fill,
+                          )
+                          // Icon(Icons.image_not_supported_outlined, color: Colors.green,),
+                          // Text("Gagal memuat gambar",
+                          //   style: TextStyle(
+                          //       fontStyle: FontStyle.italic,
+                          //     fontSize: 10
+                          //   ),
+                          // )
+                        ],
+                      )));
                 },
                 loadingBuilder: (BuildContext context, Widget child,
                     ImageChunkEvent? loadingProgress) {
@@ -1169,14 +1160,15 @@ class Komponen {
           itemCount: promoRespon.data == null ? 0 : promoRespon.data!.length,
           itemBuilder: (context, index) {
             return InkWell(
-              //cek dulu apakah jalan di android atau ios
-              //kalau android, tampilkan screen Keterangan
-              //kalau ios, diamkan saja (biar gak disikat apple)
+                //cek dulu apakah jalan di android atau ios
+                //kalau android, tampilkan screen Keterangan
+                //kalau ios, diamkan saja (biar gak disikat apple)
                 onTap: () {
-                  Get.toNamed(Konstan.rute_detail_slide,
-                      arguments: {
-                        'detail': Platform.isAndroid ? promoRespon.data![index].descriptionId : Konstan.tag_tidak_ada_data
-                      });
+                  Get.toNamed(Konstan.rute_detail_slide, arguments: {
+                    'detail': Platform.isAndroid
+                        ? promoRespon.data![index].descriptionId
+                        : Konstan.tag_tidak_ada_data
+                  });
                 },
                 child: getBoxPromo(
                   promoRespon.data![index].imgUrl!,
@@ -1202,9 +1194,7 @@ class Komponen {
   }
 
   static Widget getTidakAdaData() {
-    return const Center(
-      child:  Text("Tidak ada data")
-    );
+    return const Center(child: Text("Tidak ada data"));
   }
 
   static Widget randomLoadingWidget() {
@@ -1281,107 +1271,101 @@ class Komponen {
   static Widget getLoadingWidget({String? loadingText}) {
     return Center(
         child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          randomLoadingWidget(),
-          const Padding(padding: EdgeInsets.only(top: 10)),
-          Text(
-            loadingText ?? Konstan.tag_now_loading,
-            textAlign: TextAlign.center,
-            style: const TextStyle(color: Colors.grey),
-          )
-        ],
-      ));
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        randomLoadingWidget(),
+        const Padding(padding: EdgeInsets.only(top: 10)),
+        Text(
+          loadingText ?? Konstan.tag_now_loading,
+          textAlign: TextAlign.center,
+          style: const TextStyle(color: Colors.grey),
+        )
+      ],
+    ));
   }
 
-  static Widget cardAgreementInsco(agrmntInsco.Data data){
+  static Widget cardAgreementInsco(agrmntInsco.Data data) {
     return Container(
-      decoration: BoxDecoration(
-          border: Border.all(
-            color: Colors.grey.shade400,
-          ),
-          borderRadius: const BorderRadius.all(Radius.circular(5))
-      ),
-      padding: const EdgeInsets.all(10),
-      child: Row(
-        children: [
-          Expanded(child: 
-            Column(
+        decoration: BoxDecoration(
+            border: Border.all(
+              color: Colors.grey.shade400,
+            ),
+            borderRadius: const BorderRadius.all(Radius.circular(5))),
+        padding: const EdgeInsets.all(10),
+        child: Row(
+          children: [
+            Expanded(
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("Nomor kontrak", style: TextStyle(
-                      color: Colors.grey.shade700,
-                      fontSize: 11
-                  ),),
+                  Text(
+                    "Nomor kontrak",
+                    style: TextStyle(color: Colors.grey.shade700, fontSize: 11),
+                  ),
                   Text(
                     data.aGRMNTNO!,
                   ),
                   const Padding(padding: EdgeInsets.only(top: 5)),
-    
-                  Text("Nama tertanggung", style: TextStyle(
-                      color: Colors.grey.shade700,
-                      fontSize: 10
-                  ),),
                   Text(
-                    data.pOLICYNAME! ,
+                    "Nama tertanggung",
+                    style: TextStyle(color: Colors.grey.shade700, fontSize: 10),
+                  ),
+                  Text(
+                    data.pOLICYNAME!,
                   ),
                   const Padding(padding: EdgeInsets.only(top: 5)),
-    
-                  Text("Nomor polis asuransi", style: TextStyle(
-                      color: Colors.grey.shade700,
-                      fontSize: 10
-                  ),),
                   Text(
-                    data.pOLICYNO! ,
+                    "Nomor polis asuransi",
+                    style: TextStyle(color: Colors.grey.shade700, fontSize: 10),
+                  ),
+                  Text(
+                    data.pOLICYNO!,
                   ),
                   const Padding(padding: EdgeInsets.only(top: 5)),
-    
-                  Text("Perusahaan asuransi", style: TextStyle(
-                      color: Colors.grey.shade700,
-                      fontSize: 10
-                  ),),
+                  Text(
+                    "Perusahaan asuransi",
+                    style: TextStyle(color: Colors.grey.shade700, fontSize: 10),
+                  ),
                   Text(
                     data.iNSCOBRANCHNAME!,
                   ),
                   const Padding(padding: EdgeInsets.only(top: 5)),
-    
-                  Text("Jenis pertanggungan", style: TextStyle(
-                      color: Colors.grey.shade700,
-                      fontSize: 10
-                  ),),
                   Text(
-                    data.mAINCVGTYPENAME! ,
+                    "Jenis pertanggungan",
+                    style: TextStyle(color: Colors.grey.shade700, fontSize: 10),
+                  ),
+                  Text(
+                    data.mAINCVGTYPENAME!,
                   ),
                   const Padding(padding: EdgeInsets.only(top: 5)),
                 ],
               ),
-          ),
-          const Icon(
-            Icons.arrow_circle_right,
-            color: Colors.green,
-          )
-        ],
-      )
-    );
+            ),
+            const Icon(
+              Icons.arrow_circle_right,
+              color: Colors.green,
+            )
+          ],
+        ));
   }
 
   static Widget getLoadingKodeposWidget() {
     return const Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children:  [
-            LinearProgressIndicator(),
-            Padding(padding: EdgeInsets.only(top: 10)),
-            Text(
-              "Mencari kodepos...",
-              textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.grey),
-            )
-          ],
-        ));
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        LinearProgressIndicator(),
+        Padding(padding: EdgeInsets.only(top: 10)),
+        Text(
+          "Mencari kodepos...",
+          textAlign: TextAlign.center,
+          style: TextStyle(color: Colors.grey),
+        )
+      ],
+    ));
   }
 
   // static Widget getLoadingWidget() {

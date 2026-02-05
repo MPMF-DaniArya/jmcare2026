@@ -48,7 +48,7 @@ class PenampilanDataPribadiScreen extends StatelessWidget {
                       const SizedBox(
                         height: 12,
                       ),
-                      _buildRow('Nomor Id', state.dummyData['id'].toString(),
+                      _buildRow('Nomor ID', state.dummyData['id'].toString(),
                           textTheme),
                       const SizedBox(
                         height: 12,
@@ -58,7 +58,7 @@ class PenampilanDataPribadiScreen extends StatelessWidget {
                       const SizedBox(
                         height: 12,
                       ),
-                      _buildRow('Alamat Sesuai Id',
+                      _buildRow('Alamat Sesuai ID',
                           state.dummyData['alamatSesuaiId'], textTheme),
                       const SizedBox(
                         height: 12,
@@ -181,15 +181,30 @@ class PenampilanDataPribadiScreen extends StatelessWidget {
   }
 
   Widget _buildRow(String label, String value, TextTheme textTheme) {
-    return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-      Text(
-        label,
-        style: textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.bold),
-      ),
-      Text(
-        value,
-        style: textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.bold),
-      )
-    ]);
+    return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(
+            child: Text(
+              label,
+              textAlign: TextAlign.start,
+              style: textTheme.bodyMedium!.copyWith(
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          const SizedBox(
+            width: 45,
+          ),
+          Expanded(
+            child: Text(
+              value,
+              textAlign: TextAlign.end,
+              style:
+                  textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.bold),
+            ),
+          )
+        ]);
   }
 }
