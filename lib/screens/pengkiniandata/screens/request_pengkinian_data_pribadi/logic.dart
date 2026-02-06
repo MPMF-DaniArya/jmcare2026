@@ -1,3 +1,7 @@
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jmcare/helper/Fungsi.dart';
@@ -9,12 +13,19 @@ import '../../../../helper/Konstan.dart';
 class RequestPengkinianDataPribadiLogic extends BaseLogic {
   final RequestPengkinianDataPribadiState state =
       RequestPengkinianDataPribadiState();
+  var ddJenisData = <DropdownMenuItem<String>>[].obs;
 
   @override
   void onInit() {
     // TODO: implement onInit
     super.onInit();
     addNewForm();
+    state.jenisData.forEach(
+      (element) => ddJenisData.add(DropdownMenuItem(
+        value: element,
+        child: Text(element),
+      )),
+    );
   }
 
   @override
@@ -43,6 +54,29 @@ class RequestPengkinianDataPribadiLogic extends BaseLogic {
     state.formList[index]['input2']?.dispose();
 
     state.formList.removeAt(index);
+  }
+
+  void pickFile() async {
+    state.lampiran = await FilePicker.platform.pickFiles(
+        type: FileType.custom,
+        allowedExtensions: ['pdf', 'png', 'jpg', 'jpeg', 'heic', 'doc', 'docx'],
+        allowMultiple: false,
+        allowCompression: true);
+    if (state.lampiran != null) {
+      state.platformFile = state.lampiran!.files.first;
+      state.fileSizes = state.platformFile!.size.toString();
+      state.filePath = state.platformFile!.path.toString();
+
+      if (int.parse(state.fileSizes) >= 10000000) {
+        Fungsi.warningToast("File tidak boleh lebih besar dari 10MB");
+        return;
+      } else {
+        File file = File(state.filePath);
+        final b = await file.readAsBytes();
+        state.base64_file = base64Encode(b);
+        update();
+      }
+    }
   }
 
   void submitData() {

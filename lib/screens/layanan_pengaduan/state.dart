@@ -12,10 +12,7 @@ class LayananPengaduanState {
   FilePickerResult? lampiran;
   PlatformFile? platformFile;
   String base64_file = "";
-  String fileName = "";
-  String fileBytes = "";
   String fileSizes = "";
-  String fileExtension = "";
   String filePath = "";
 
   LayananPengaduanState() {

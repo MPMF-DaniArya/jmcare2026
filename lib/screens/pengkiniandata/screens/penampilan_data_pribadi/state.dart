@@ -1,5 +1,5 @@
 class PenampilanDataPribadiState {
-  final Map<String,dynamic> dummyData = {
+  final Map<String, dynamic> dummyData = {
     'nama': 'Muhammad Dani Arya Putra',
     'id': 123456781234,
     'tempatTanggalLahir': 'Jakarta, 1 Januari 1990',

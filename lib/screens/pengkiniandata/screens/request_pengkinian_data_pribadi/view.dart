@@ -233,13 +233,20 @@ class _RequestPengkinianDataPribadiScreenState
                 ),
               ),
               const SizedBox(height: 8),
-              TextFormField(
-                controller: item['input1'],
-                decoration: InputDecoration(
-                  labelText: "Input Pertama",
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12)),
+              DropdownButtonFormField<String>(
+                isExpanded: true,
+                hint: const Text(
+                  '---Pilih Jenis Data---',
                 ),
+                icon: const Icon(Icons.keyboard_arrow_down),
+                decoration: InputDecoration(
+                    contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 12, vertical: 16),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    )),
+                items: logic.ddJenisData,
+                onChanged: (value) {},
               ),
               const SizedBox(height: 16),
               Text('Data Saat Ini',
@@ -247,9 +254,13 @@ class _RequestPengkinianDataPribadiScreenState
                       .copyWith(fontWeight: FontWeight.bold)),
               const SizedBox(height: 8),
               TextFormField(
-                initialValue: 'Sementara',
+                initialValue: 'Testing',
                 readOnly: true,
+                maxLines: 4,
+                minLines: 1,
                 decoration: InputDecoration(
+                  contentPadding:
+                      const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
                   filled: true,
                   fillColor:
                       Theme.of(context).colorScheme.onSurface.withOpacity(0.3),
@@ -277,13 +288,17 @@ class _RequestPengkinianDataPribadiScreenState
               const SizedBox(height: 8),
               TextFormField(
                 controller: item['input2'],
+                minLines: 1,
+                maxLines: 3,
                 decoration: InputDecoration(
+                  contentPadding:
+                      const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
                   labelText: "Input Kedua",
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12)),
                 ),
               ),
-              const SizedBox(height: 12),
+              const SizedBox(height: 16),
               Container(
                 padding: const EdgeInsets.all(16.0),
                 decoration: BoxDecoration(
@@ -324,7 +339,7 @@ class _RequestPengkinianDataPribadiScreenState
                     ),
                     const SizedBox(height: 16),
                     ElevatedButton.icon(
-                      onPressed: () {},
+                      onPressed: () => logic.pickFile(),
                       icon: const Icon(Icons.upload_sharp),
                       label: const Text('Pilih Dokumen'),
                       style: ElevatedButton.styleFrom(
@@ -336,13 +351,21 @@ class _RequestPengkinianDataPribadiScreenState
                       ),
                     ),
                     const SizedBox(height: 8),
-                    Text(
-                      'Status: Dokumen berhasil diunggah.',
-                      style: textTheme.labelMedium!.copyWith(color: Theme.of(context)
-                          .colorScheme
-                          .onSurface
-                          .withOpacity(0.8))
-                    ),
+                    GetBuilder<RequestPengkinianDataPribadiLogic>(
+                      builder: (logic) => logic.state.lampiran != null
+                          ? Text('Status: Dokumen berhasil diunggah.',
+                              style: textTheme.labelMedium!.copyWith(
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onSurface
+                                      .withOpacity(0.8)))
+                          : Text('Status: Belum ada dokumen yang diunggah.',
+                              style: textTheme.labelMedium!.copyWith(
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onSurface
+                                      .withOpacity(0.8))),
+                    )
                   ],
                 ),
               )

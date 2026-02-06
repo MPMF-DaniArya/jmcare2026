@@ -36,6 +36,7 @@ class PengkiniandataState {
       'title': 'Riwayat Status Pengajuan',
       'description':
           'Ajukan Penghapusan Data jika sudah tidak memiliki kewajiban',
+      'route': Konstan.rute_riwayat_pengkinian_data_pribadi
     },
   ];
 
