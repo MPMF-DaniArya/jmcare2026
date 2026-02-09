@@ -163,7 +163,6 @@ class LayananPengaduanScreen extends StatelessWidget {
                               alignment: AlignmentGeometry.centerLeft,
                               child: Text('Lampiran (opsional)',
                                   style: TextStyle(
-                                      color: Colors.black,
                                       fontSize: 12,
                                       fontFamily: Konstan.tag_default_font)),
                             ),

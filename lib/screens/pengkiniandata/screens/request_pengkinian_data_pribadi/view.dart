@@ -338,17 +338,58 @@ class _RequestPengkinianDataPribadiScreenState
                               .withOpacity(0.8)),
                     ),
                     const SizedBox(height: 16),
-                    ElevatedButton.icon(
-                      onPressed: () => logic.pickFile(),
-                      icon: const Icon(Icons.upload_sharp),
-                      label: const Text('Pilih Dokumen'),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.green,
-                        foregroundColor: Colors.white,
-                        minimumSize: const Size(double.infinity, 45),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8)),
-                      ),
+                    GetBuilder<RequestPengkinianDataPribadiLogic>(
+                      builder: (logic) => logic.state.lampiran != null
+                          ? Container(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 8),
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8),
+                                  border: Border.all(
+                                    color: Colors.grey,
+                                    width: 1,
+                                  )),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: Row(
+                                      children: [
+                                        const Icon(
+                                            Icons.insert_drive_file_outlined),
+                                        const SizedBox(
+                                          width: 5,
+                                        ),
+                                        Expanded(
+                                            child: Text(
+                                          logic.state.lampiran!.files.single
+                                              .name,
+                                          overflow: TextOverflow.ellipsis,
+                                          maxLines: 1,
+                                        ))
+                                      ],
+                                    ),
+                                  ),
+                                  IconButton(
+                                      icon: const Icon(Icons.close),
+                                      onPressed: () {
+                                        logic.state.lampiran = null;
+                                        logic.update();
+                                      }),
+                                ],
+                              ),
+                            )
+                          : ElevatedButton.icon(
+                              onPressed: () => logic.pickFile(),
+                              icon: const Icon(Icons.upload_sharp),
+                              label: const Text('Pilih Dokumen'),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.green,
+                                foregroundColor: Colors.white,
+                                minimumSize: const Size(double.infinity, 45),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8)),
+                              ),
+                            ),
                     ),
                     const SizedBox(height: 8),
                     GetBuilder<RequestPengkinianDataPribadiLogic>(

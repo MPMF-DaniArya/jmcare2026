@@ -54,7 +54,7 @@ class RiwayatStatusPengajuan extends StatelessWidget {
                                       duration:
                                           const Duration(milliseconds: 200),
                                       padding: const EdgeInsets.symmetric(
-                                          horizontal: 20, vertical: 8),
+                                          horizontal: 15, vertical: 8),
                                       decoration: BoxDecoration(
                                         color: isSelected
                                             ? Theme.of(context)

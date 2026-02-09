@@ -17,5 +17,3 @@ class Storage {
 Future<BaseStorage<T>> getStorage<T>(){
   return Storage.instance.resolve();
 }
-
-
