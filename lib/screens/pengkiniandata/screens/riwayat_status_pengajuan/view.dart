@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jmcare/screens/base/jmcare_bar_screen.dart';
-import 'package:jmcare/screens/pengkiniandata/screens/riwayat_status_pengajuan/state.dart';
 import 'package:jmcare/screens/pengkiniandata/screens/riwayat_status_pengajuan/widgets/history_card.dart';
 
 import 'logic.dart';
@@ -16,7 +15,7 @@ class RiwayatStatusPengajuan extends StatelessWidget {
         Get.put(RiwayatStatusPengajuanLogic());
 
     return JmcareBarScreen(
-        title: 'Riwayat Status',
+        title: 'Riwayat Status Pengajuan',
         body: Padding(
           padding: const EdgeInsetsGeometry.all(8),
           child: Column(
@@ -52,7 +51,8 @@ class RiwayatStatusPengajuan extends StatelessWidget {
                                   return GestureDetector(
                                     onTap: () => logic.changeCategory(category),
                                     child: AnimatedContainer(
-                                      duration: const Duration(milliseconds: 200),
+                                      duration:
+                                          const Duration(milliseconds: 200),
                                       padding: const EdgeInsets.symmetric(
                                           horizontal: 20, vertical: 8),
                                       decoration: BoxDecoration(

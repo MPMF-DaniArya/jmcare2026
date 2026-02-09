@@ -3,7 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../helper/Konstan.dart';
 
 class PengkiniandataState {
-  final List<Map<String, dynamic>> menu_pengkinian_data = [
+  final List<Map<String, dynamic>> menuPengkinianData = [
     {
       'icon': FontAwesomeIcons.fileShield,
       'title': 'Kebijakan Perlindungan Data Pribadi',

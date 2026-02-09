@@ -21,7 +21,7 @@ class PengkiniandataScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            for (var item in state.menu_pengkinian_data)
+            for (var item in state.menuPengkinianData)
               Padding(
                 padding: const EdgeInsets.only(bottom: 24),
                 child: InkWell(
@@ -29,8 +29,6 @@ class PengkiniandataScreen extends StatelessWidget {
                     String? route = item['route'];
                     if (route != null && route.isNotEmpty) {
                       Get.toNamed(route);
-                    } else {
-                      print("Route belum didefinisikan untuk menu ini");
                     }
                   },
                   borderRadius: BorderRadius.circular(8),

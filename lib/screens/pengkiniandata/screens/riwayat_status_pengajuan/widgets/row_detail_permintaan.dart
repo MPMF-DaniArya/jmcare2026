@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class RowDetailPermintaan extends StatelessWidget {
-  const RowDetailPermintaan({super.key, required this.label, required this.value});
+  const RowDetailPermintaan(
+      {super.key, required this.label, required this.value});
 
   final String label;
   final String value;
@@ -33,6 +34,5 @@ class RowDetailPermintaan extends StatelessWidget {
             ),
           )
         ]);
-    ;
   }
 }

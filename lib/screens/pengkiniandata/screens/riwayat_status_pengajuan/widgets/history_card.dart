@@ -52,7 +52,9 @@ class HistoryCard extends StatelessWidget {
           const SizedBox(height: 12),
           OutlinedButton.icon(
             onPressed: () {
-                Get.toNamed(Konstan.rute_detail_status_pengkinian_data_pribadi);},
+              Get.toNamed(Konstan.rute_detail_status_pengkinian_data_pribadi,
+                  arguments: data);
+            },
             icon: const Icon(Icons.remove_red_eye_outlined,
                 size: 16, color: Colors.green),
             label: const Text("Lihat Detail",

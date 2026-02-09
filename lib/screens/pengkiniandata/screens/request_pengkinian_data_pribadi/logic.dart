@@ -8,8 +8,6 @@ import 'package:jmcare/helper/Fungsi.dart';
 import 'package:jmcare/screens/base/base_logic.dart';
 import 'package:jmcare/screens/pengkiniandata/screens/request_pengkinian_data_pribadi/state.dart';
 
-import '../../../../helper/Konstan.dart';
-
 class RequestPengkinianDataPribadiLogic extends BaseLogic {
   final RequestPengkinianDataPribadiState state =
       RequestPengkinianDataPribadiState();

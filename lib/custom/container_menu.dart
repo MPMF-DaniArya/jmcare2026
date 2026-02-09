@@ -21,7 +21,7 @@ class ContainerMenu extends StatelessWidget {
           )
         ],
         border: Border.all(
-          color: Colors.grey,
+          color: Colors.grey.withOpacity(0.4),
           width: 1.5,
         ),
       ),
