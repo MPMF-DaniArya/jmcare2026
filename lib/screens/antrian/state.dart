@@ -50,14 +50,4 @@ class AntrianState {
         child: Text("CUSTOMER CARE"))
     );
   }
-
-  void dispose(){
-    tecNama?.dispose();
-    tecNomorPlat?.dispose();
-    tecTanggal?.dispose();
-    tecJam?.dispose();
-    tecTujuanKedatangan?.dispose();
-    tecCabangTujuan?.dispose();
-    tecHP?.dispose();
-  }
 }

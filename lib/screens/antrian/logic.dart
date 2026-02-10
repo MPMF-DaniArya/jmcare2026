@@ -61,14 +61,6 @@ class AntrianLogic extends BaseLogic{
     getAntrianSekarang();
   }
 
-  @override
-  void onClose() {
-    // TODO: implement onClose
-    state.dispose();
-    super.onClose();
-  }
-
-
   //ini fungsi untuk menampilkan riwayat antrian
   //harus async
   //jadi kalau dari screen riwayat, dia konfirmasi antrian

@@ -26,21 +26,10 @@ class RequestPengkinianDataPribadiLogic extends BaseLogic {
     );
   }
 
-  @override
-  void onClose() {
-    // TODO: implement onClose
-    for (var map in state.formList) {
-      map['input1']!.dispose();
-      map['input2']!.dispose();
-    }
-    super.onClose();
-  }
-
   void addNewForm() {
     if (state.formList.length < state.maxForms) {
       state.formList.add({
-        'input1': TextEditingController(),
-        'input2': TextEditingController(),
+        'tecDataBaru': TextEditingController(),
       });
     } else {
       Fungsi.errorToast('Anda telah mencapai batas maksimum formulir.');
@@ -48,8 +37,7 @@ class RequestPengkinianDataPribadiLogic extends BaseLogic {
   }
 
   void removeForm(int index) {
-    state.formList[index]['input1']?.dispose();
-    state.formList[index]['input2']?.dispose();
+    state.formList[index]['tecDataBaru']?.dispose();
 
     state.formList.removeAt(index);
   }
@@ -81,8 +69,7 @@ class RequestPengkinianDataPribadiLogic extends BaseLogic {
     for (int i = 0; i < state.formList.length; i++) {
       var item = state.formList[i];
       print("Form ke-${i + 1}:");
-      print("Input 1: ${item['input1']?.text}");
-      print("Input 2: ${item['input2']?.text}");
+      print("Data Baru: ${item['tecDataBaru']?.text}");
     }
   }
 }

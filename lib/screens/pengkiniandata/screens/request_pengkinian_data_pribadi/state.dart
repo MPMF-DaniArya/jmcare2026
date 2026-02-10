@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
 class RequestPengkinianDataPribadiState {
+  GlobalKey<FormState>? formKey;
   var formList = <Map<String, TextEditingController>>[].obs;
   final int maxForms = 3;
   FilePickerResult? lampiran;
@@ -10,6 +11,10 @@ class RequestPengkinianDataPribadiState {
   String base64_file = "";
   String fileSizes = "";
   String filePath = "";
+
+  RequestPengkinianDataPribadiState() {
+    formKey = GlobalKey<FormState>();
+  }
 
   final List<String> jenisData = [
     'Nama Lengkap',

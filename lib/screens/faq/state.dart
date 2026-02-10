@@ -8,8 +8,4 @@ class FaqState {
   FaqState(){
     tecSearch = TextEditingController();
   }
-
-  void dispose() {
-    tecSearch?.dispose();
-  }
 }

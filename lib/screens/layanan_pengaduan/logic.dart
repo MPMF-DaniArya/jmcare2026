@@ -43,13 +43,6 @@ class LayananPengaduanLogic extends BaseLogic {
     getDetailUser();
   }
 
-  @override
-  void onClose() {
-    // TODO: implement onClose
-    state.dispose();
-    super.onClose();
-  }
-
   void getDetailUser() async {
     final authStorage = await getStorage<LoginRespon>();
     if (authStorage.data != null) {

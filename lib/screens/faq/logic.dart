@@ -25,13 +25,6 @@ class FaqLogic extends BaseLogic {
     allFAQ();
   }
 
-  @override
-  void onClose() {
-    // TODO: implement onClose
-    state.dispose();
-    super.onClose();
-  }
-
   Future<bool> hariYangSama() async {
     final faqRespon = await getStorage<FaqRespon>();
     if (faqRespon == null || faqRespon.data == null){
