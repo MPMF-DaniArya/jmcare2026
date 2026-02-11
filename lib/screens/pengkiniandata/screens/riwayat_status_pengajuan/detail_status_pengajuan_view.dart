@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jmcare/screens/base/jmcare_bar_screen.dart';
+import 'package:jmcare/screens/pengkiniandata/screens/request_hapus_data/widgets/container_ketentuan_hapus_data.dart';
 import 'package:jmcare/screens/pengkiniandata/screens/riwayat_status_pengajuan/widgets/row_detail_permintaan.dart';
 
 import '../../../../custom/container_menu.dart';
@@ -64,21 +65,6 @@ class DetailStatusPengajuan extends StatelessWidget {
             const SizedBox(
               height: 16,
             ),
-            ContainerMenu(
-                child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Ketentuan Penghapusan Data',
-                  style: textTheme.titleLarge!
-                      .copyWith(fontWeight: FontWeight.bold),
-                ),
-                const Divider(
-                  thickness: 1.5,
-                ),
-              ],
-            ))
           ],
         ),
       ),

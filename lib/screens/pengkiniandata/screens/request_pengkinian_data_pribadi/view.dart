@@ -32,7 +32,8 @@ class _RequestPengkinianDataPribadiScreenState
         body: SingleChildScrollView(
           child: Form(
             key: state.formKey,
-            child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
+            child:
+                Column(mainAxisAlignment: MainAxisAlignment.start, children: [
               ContainerMenu(
                   child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -244,8 +245,8 @@ class _RequestPengkinianDataPribadiScreenState
               ),
               icon: const Icon(Icons.keyboard_arrow_down),
               decoration: InputDecoration(
-                  contentPadding: const EdgeInsets.symmetric(
-                      horizontal: 12, vertical: 16),
+                  contentPadding:
+                      const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
                   )),
@@ -268,8 +269,8 @@ class _RequestPengkinianDataPribadiScreenState
                 filled: true,
                 fillColor:
                     Theme.of(context).colorScheme.onSurface.withOpacity(0.3),
-                border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12)),
+                border:
+                    OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
               ),
             ),
             const SizedBox(height: 16),
@@ -298,8 +299,8 @@ class _RequestPengkinianDataPribadiScreenState
                 contentPadding:
                     const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
                 hint: Text('Masukkan data baru'),
-                border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12)),
+                border:
+                    OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
               ),
             ),
             const SizedBox(height: 16),
@@ -345,8 +346,7 @@ class _RequestPengkinianDataPribadiScreenState
                   GetBuilder<RequestPengkinianDataPribadiLogic>(
                     builder: (logic) => logic.state.lampiran != null
                         ? Container(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 8),
+                            padding: const EdgeInsets.symmetric(horizontal: 8),
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(8),
                                 border: Border.all(
@@ -365,8 +365,7 @@ class _RequestPengkinianDataPribadiScreenState
                                       ),
                                       Expanded(
                                           child: Text(
-                                        logic.state.lampiran!.files.single
-                                            .name,
+                                        logic.state.lampiran!.files.single.name,
                                         overflow: TextOverflow.ellipsis,
                                         maxLines: 1,
                                       ))

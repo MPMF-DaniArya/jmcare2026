@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:jmcare/helper/Konstan.dart';
 import 'package:jmcare/screens/base/jmcare_bar_screen.dart';
 import 'package:jmcare/screens/pengkiniandata/screens/penampilan_data_pribadi/state.dart';
-import 'package:jmcare/custom/container_menu.dart';
+import 'package:jmcare/screens/pengkiniandata/screens/penampilan_data_pribadi/widgets/informasi_data_pribadi_section.dart';
+import 'package:jmcare/screens/pengkiniandata/screens/penampilan_data_pribadi/widgets/penting_untuk_diketahui_section.dart';
+import 'package:jmcare/screens/pengkiniandata/screens/penampilan_data_pribadi/widgets/unduh_data_pribadi_section.dart';
 
 import '../../../../helper/Komponen.dart';
 import 'logic.dart';
@@ -27,184 +28,19 @@ class PenampilanDataPribadiScreen extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  ContainerMenu(
-                      child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Informasi Data Pribadi Anda',
-                        style: textTheme.titleLarge!
-                            .copyWith(fontWeight: FontWeight.bold),
-                      ),
-                      const Divider(
-                        thickness: 1.5,
-                      ),
-                      const SizedBox(
-                        height: 12,
-                      ),
-                      _buildRow(
-                          'Nama Lengkap', state.dummyData['nama'], textTheme),
-                      const SizedBox(
-                        height: 12,
-                      ),
-                      _buildRow('Nomor ID', state.dummyData['id'].toString(),
-                          textTheme),
-                      const SizedBox(
-                        height: 12,
-                      ),
-                      _buildRow('Tempat, Tanggal Lahir',
-                          state.dummyData['tempatTanggalLahir'], textTheme),
-                      const SizedBox(
-                        height: 12,
-                      ),
-                      _buildRow('Alamat Sesuai ID',
-                          state.dummyData['alamatSesuaiId'], textTheme),
-                      const SizedBox(
-                        height: 12,
-                      ),
-                      _buildRow('Alamat Domisili',
-                          state.dummyData['alamatDomisili'], textTheme),
-                      const SizedBox(
-                        height: 12,
-                      ),
-                      _buildRow('Nomor Telepon',
-                          state.dummyData['nomorTelepon'], textTheme),
-                      const SizedBox(
-                        height: 12,
-                      ),
-                      _buildRow('Nomor Kontrak',
-                          state.dummyData['nomorKontrak'], textTheme),
-                    ],
-                  )),
+                  InformasiDataPribadiSection(
+                      textTheme: textTheme, state: state),
                   const SizedBox(
                     height: 16,
                   ),
-                  ContainerMenu(
-                      child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Informasi Data Pribadi Anda',
-                        style: textTheme.titleLarge!
-                            .copyWith(fontWeight: FontWeight.bold),
-                      ),
-                      const Divider(
-                        thickness: 1.5,
-                      ),
-                      const SizedBox(
-                        height: 12,
-                      ),
-                      ElevatedButton(
-                          onPressed: () {},
-                          style: ElevatedButton.styleFrom(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                              padding:
-                                  const EdgeInsets.symmetric(vertical: 10)),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const Icon(Icons.download),
-                              const SizedBox(
-                                width: 12,
-                              ),
-                              Text(
-                                'Unduh PDF Data Pribadi',
-                                style: textTheme.bodyMedium!.copyWith(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ],
-                          )),
-                      const SizedBox(
-                        height: 12,
-                      ),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Icon(
-                            Icons.info_outline,
-                            size: 24,
-                            color: Theme.of(context).colorScheme.secondary,
-                          ),
-                          const SizedBox(
-                            width: 12,
-                          ),
-                          Expanded(
-                            child: Text(
-                              Konstan.tag_pdf_data_pribadi,
-                              style: textTheme.bodyMedium!.copyWith(
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .onSurface
-                                      .withOpacity(0.8)),
-                            ),
-                          )
-                        ],
-                      )
-                    ],
-                  )),
+                  UnduhDataPribadiSection(textTheme: textTheme),
                   const SizedBox(
                     height: 16,
                   ),
-                  ContainerMenu(
-                      child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Penting untuk Diketahui',
-                        style: textTheme.titleLarge!
-                            .copyWith(fontWeight: FontWeight.bold),
-                      ),
-                      const Divider(
-                        thickness: 1.5,
-                      ),
-                      const SizedBox(
-                        height: 12,
-                      ),
-                      Text(Konstan.tag_disclaimer_data_pribadi,
-                          style: textTheme.bodyMedium!.copyWith(
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .onSurface
-                                  .withOpacity(0.8))),
-                    ],
-                  ))
+                  PentingUntukDiketahuiSection(textTheme: textTheme)
                 ],
               ),
             )),
     );
-  }
-
-  Widget _buildRow(String label, String value, TextTheme textTheme) {
-    return Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Expanded(
-            child: Text(
-              label,
-              textAlign: TextAlign.start,
-              style: textTheme.bodyMedium!.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-          const SizedBox(
-            width: 45,
-          ),
-          Expanded(
-            child: Text(
-              value,
-              textAlign: TextAlign.end,
-              style:
-                  textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.bold),
-            ),
-          )
-        ]);
   }
 }
