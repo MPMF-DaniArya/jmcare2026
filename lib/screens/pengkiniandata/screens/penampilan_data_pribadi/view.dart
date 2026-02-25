@@ -33,7 +33,9 @@ class PenampilanDataPribadiScreen extends StatelessWidget {
                   const SizedBox(
                     height: 16,
                   ),
-                  UnduhDataPribadiSection(textTheme: textTheme),
+                  UnduhDataPribadiSection(
+                    textTheme: textTheme,
+                  ),
                   const SizedBox(
                     height: 16,
                   ),

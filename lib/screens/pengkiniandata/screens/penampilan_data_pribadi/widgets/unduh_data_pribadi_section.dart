@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:jmcare/screens/pengkiniandata/screens/penampilan_data_pribadi/logic.dart';
+import 'package:jmcare/screens/pengkiniandata/screens/penampilan_data_pribadi/widgets/unduh_pdf_data_pribadi_screen.dart';
 
 import '../../../../../custom/container_menu.dart';
 import '../../../../../helper/Konstan.dart';
 
 class UnduhDataPribadiSection extends StatelessWidget {
-  const UnduhDataPribadiSection({
-    super.key,
-    required this.textTheme,
-  });
+  const UnduhDataPribadiSection({super.key, required this.textTheme});
 
   final TextTheme textTheme;
 
@@ -29,7 +29,7 @@ class UnduhDataPribadiSection extends StatelessWidget {
           height: 12,
         ),
         ElevatedButton(
-            onPressed: () {},
+            onPressed: () => Get.toNamed(Konstan.rute_unduh_pdf_data_pribadi),
             style: ElevatedButton.styleFrom(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),
