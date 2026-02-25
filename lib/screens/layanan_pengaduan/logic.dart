@@ -157,7 +157,6 @@ class LayananPengaduanLogic extends BaseLogic {
               agreement_no: idxDdNomorKontrak.value,
               kritikSaranPengaduan: state.tecKritikDanSaran!.text.trim(),
               lampiran: state.base64_file);
-
       if (hasil == null) {
         Fungsi.koneksiError();
       } else {

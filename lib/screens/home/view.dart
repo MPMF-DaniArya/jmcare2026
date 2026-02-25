@@ -1,12 +1,13 @@
 import 'dart:io';
 
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:jmcare/screens/home/logic.dart';
 import 'package:jmcare/screens/home/state.dart';
-import 'package:get/get.dart';
+
 import '../../helper/Komponen.dart';
 import '../../helper/Warna.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -409,7 +410,8 @@ class HomeScreen extends StatelessWidget {
                                                           Warna.hijau1,
                                                           Warna.hijau2,
                                                           'Layanan Pengaduan',
-                                                              () => logic.klikLayananPengaduan()),
+                                                          () => logic
+                                                              .klikLayananPengaduan()),
                                                       Komponen.homeButtonMenu(
                                                           Icons.question_mark,
                                                           Warna.hijau1,
@@ -454,7 +456,8 @@ class HomeScreen extends StatelessWidget {
                                                           Warna.hijau1,
                                                           Warna.hijau2,
                                                           'Layanan Pengaduan',
-                                                              () => logic.klikLayananPengaduan()),
+                                                          () => logic
+                                                              .klikLayananPengaduan()),
                                                       Komponen.homeButtonMenu(
                                                           Icons.security,
                                                           Warna.hijau1,

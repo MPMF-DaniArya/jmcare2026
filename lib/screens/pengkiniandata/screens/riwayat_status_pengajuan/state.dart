@@ -16,19 +16,19 @@ class RiwayatStatusPengajuanState {
         information: 'Saya akan menghapus data pribadi saya'),
     HistoryModel(
         id: 'PDPT-002',
-        title: 'Perubahan Alamat Domisili',
+        title: 'Pengkinian Data Pribadi',
         date: '11 Mei 2024',
         status: 'Selesai',
         information: 'Saya berpindah alamat baru'),
     HistoryModel(
         id: 'PDP T-003',
-        title: 'Update Nomor Handphone',
+        title: 'Pengkinian Data Pribadi',
         date: '12 Mei 2024',
         status: 'Baru',
         information: 'Saya akan mengubah nomor handphone saya'),
     HistoryModel(
         id: 'PDPT-004',
-        title: 'Perubahan Alamat Email',
+        title: 'Pengkinian Data Pribadi',
         date: '13 Mei 2024',
         status: 'Ditolak',
         information: '-'),
