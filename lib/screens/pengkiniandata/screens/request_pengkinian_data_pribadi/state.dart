@@ -1,16 +1,10 @@
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
 class RequestPengkinianDataPribadiState {
   GlobalKey<FormState>? formKey;
-  var formList = <Map<String, TextEditingController>>[].obs;
-  final int maxForms = 3;
-  FilePickerResult? lampiran;
-  PlatformFile? platformFile;
-  String base64_file = "";
-  String fileSizes = "";
-  String filePath = "";
+  var formList = <Map<String, dynamic>>[].obs;
+  final int maxForms = 5;
 
   RequestPengkinianDataPribadiState() {
     formKey = GlobalKey<FormState>();

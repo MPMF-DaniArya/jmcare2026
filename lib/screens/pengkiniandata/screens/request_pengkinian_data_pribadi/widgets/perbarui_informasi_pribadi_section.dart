@@ -1,3 +1,4 @@
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jmcare/screens/pengkiniandata/screens/request_pengkinian_data_pribadi/logic.dart';
@@ -19,6 +20,8 @@ class PerbaruiInformasiPribadiSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final item = logic.state.formList[index];
+    List<String> pilihan = logic.getJenisDataTersedia(index);
+    String? currentValue = logic.state.formList[index]['jenisDataTerpilih'];
 
     return Padding(
       padding: const EdgeInsets.only(top: 18),
@@ -38,7 +41,7 @@ class PerbaruiInformasiPribadiSection extends StatelessWidget {
                 if (index > 0)
                   IconButton(
                     icon: const Icon(Icons.delete, color: Colors.red),
-                    onPressed: () => logic.removeForm(index),
+                    onPressed: () => logic.hapusForm(index),
                   )
               ],
             ),
@@ -61,10 +64,17 @@ class PerbaruiInformasiPribadiSection extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             DropdownButtonFormField<String>(
+              value: currentValue,
               isExpanded: true,
               hint: const Text(
                 '---Pilih Jenis Data---',
               ),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Pilih jenis data terlebih dahulu';
+                }
+                return null;
+              },
               icon: const Icon(Icons.keyboard_arrow_down),
               decoration: InputDecoration(
                   contentPadding:
@@ -72,8 +82,15 @@ class PerbaruiInformasiPribadiSection extends StatelessWidget {
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
                   )),
-              items: logic.ddJenisData,
-              onChanged: (value) {},
+              items: pilihan.map((String val) {
+                return DropdownMenuItem<String>(
+                  value: val,
+                  child: Text(val),
+                );
+              }).toList(),
+              onChanged: (value) {
+                logic.updateJenisDataTerpilih(index, value);
+              },
             ),
             const SizedBox(height: 16),
             Text('Data Saat Ini',
@@ -117,123 +134,152 @@ class PerbaruiInformasiPribadiSection extends StatelessWidget {
               controller: item['tecDataBaru'],
               minLines: 1,
               maxLines: 3,
+              validator: (value) {
+                if (value == null || value.trim().isEmpty) {
+                  return 'Data perubahan tidak boleh kosong';
+                }
+                return null;
+              },
               decoration: InputDecoration(
                 contentPadding:
                     const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
-                hint: Text('Masukkan data baru'),
+                hintText: 'Masukkan data baru',
                 border:
                     OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
               ),
             ),
             const SizedBox(height: 16),
-            Container(
-              padding: const EdgeInsets.all(16.0),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(16.0),
-                color: Theme.of(context).colorScheme.surface,
-                border: Border.all(
-                  color: Colors.green,
-                  width: 1.5,
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.1),
-                    spreadRadius: 1,
-                    blurRadius: 5,
-                    offset: const Offset(0, 2),
+            GetBuilder<RequestPengkinianDataPribadiLogic>(
+              builder: (logic) {
+                final formItem = logic.state.formList[index];
+                FilePickerResult? lampiran = formItem['lampiran'];
+                String namaFile = formItem['namaFile'] ?? "";
+                
+                bool isWajibUploadDokumen =
+                    logic.jenisDataWajibUploadDokumen.contains(currentValue);
+
+                return Container(
+                  padding: const EdgeInsets.all(16.0),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(16.0),
+                    color: Theme.of(context).colorScheme.surface,
+                    border: Border.all(
+                      color: isWajibUploadDokumen ? Colors.redAccent : Colors.green,
+                      width: 1.5,
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.1),
+                        spreadRadius: 1,
+                        blurRadius: 5,
+                        offset: const Offset(0, 2),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    'Unggah Dokumen Pendukung',
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
-                        color: Theme.of(context).colorScheme.onSurface),
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    'Unggah dokumen pendukung sebagai bukti perubahan.',
-                    style: TextStyle(
-                        color: Theme.of(context)
-                            .colorScheme
-                            .onSurface
-                            .withOpacity(0.8)),
-                  ),
-                  const SizedBox(height: 16),
-                  GetBuilder<RequestPengkinianDataPribadiLogic>(
-                    builder: (logic) => logic.state.lampiran != null
-                        ? Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 8),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8),
-                                border: Border.all(
-                                  color: Colors.grey,
-                                  width: 1,
-                                )),
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  child: Row(
-                                    children: [
-                                      const Icon(
-                                          Icons.insert_drive_file_outlined),
-                                      const SizedBox(
-                                        width: 5,
-                                      ),
-                                      Expanded(
-                                          child: Text(
-                                        logic.state.lampiran!.files.single.name,
-                                        overflow: TextOverflow.ellipsis,
-                                        maxLines: 1,
-                                      ))
-                                    ],
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      RichText(
+                        text: TextSpan(
+                          children: <TextSpan>[
+                            TextSpan(
+                                text: 'Unggah Dokumen Pendukung',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16,
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onSurface)),
+                            if (isWajibUploadDokumen)
+                              const TextSpan(
+                                  text: " *",
+                                  style: TextStyle(
+                                      color: Colors.red,
+                                      fontSize: 16,
+                                      fontFamily: Konstan.tag_default_font)),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        'Unggah dokumen pendukung sebagai bukti perubahan.',
+                        style: TextStyle(
+                            color: Theme.of(context)
+                                .colorScheme
+                                .onSurface
+                                .withOpacity(0.8)),
+                      ),
+                      const SizedBox(height: 16),
+                      lampiran != null
+                          ? Container(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 8),
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8),
+                                  border: Border.all(
+                                    color: Colors.grey,
+                                    width: 1,
+                                  )),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: Row(
+                                      children: [
+                                        const Icon(
+                                            Icons.insert_drive_file_outlined),
+                                        const SizedBox(
+                                          width: 5,
+                                        ),
+                                        Expanded(
+                                            child: Text(
+                                          namaFile,
+                                          overflow: TextOverflow.ellipsis,
+                                          maxLines: 1,
+                                        ))
+                                      ],
+                                    ),
                                   ),
-                                ),
-                                IconButton(
-                                    icon: const Icon(Icons.close),
-                                    onPressed: () {
-                                      logic.state.lampiran = null;
-                                      logic.update();
-                                    }),
-                              ],
+                                  IconButton(
+                                      icon: const Icon(Icons.close),
+                                      onPressed: () {
+                                        logic.hapusFile(index);
+                                      }),
+                                ],
+                              ),
+                            )
+                          : ElevatedButton.icon(
+                              onPressed: () => logic.pilihFile(index),
+                              icon: const Icon(Icons.upload_sharp),
+                              label: const Text('Pilih Dokumen'),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: isWajibUploadDokumen
+                                    ? Colors.redAccent
+                                    : Colors.green,
+                                foregroundColor: Colors.white,
+                                minimumSize: const Size(double.infinity, 45),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8)),
+                              ),
                             ),
-                          )
-                        : ElevatedButton.icon(
-                            onPressed: () => logic.pickFile(),
-                            icon: const Icon(Icons.upload_sharp),
-                            label: const Text('Pilih Dokumen'),
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.green,
-                              foregroundColor: Colors.white,
-                              minimumSize: const Size(double.infinity, 45),
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8)),
-                            ),
-                          ),
+                      const SizedBox(height: 8),
+                      lampiran != null
+                          ? Text('Status: Dokumen berhasil diunggah.',
+                              style: textTheme.labelMedium!.copyWith(
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onSurface
+                                      .withOpacity(0.8)))
+                          : Text('Status: Belum ada dokumen yang diunggah.',
+                              style: textTheme.labelMedium!.copyWith(
+                                  color: Theme.of(context)
+                                          .colorScheme
+                                          .onSurface
+                                          .withOpacity(0.8))),
+                    ],
                   ),
-                  const SizedBox(height: 8),
-                  GetBuilder<RequestPengkinianDataPribadiLogic>(
-                    builder: (logic) => logic.state.lampiran != null
-                        ? Text('Status: Dokumen berhasil diunggah.',
-                            style: textTheme.labelMedium!.copyWith(
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .onSurface
-                                    .withOpacity(0.8)))
-                        : Text('Status: Belum ada dokumen yang diunggah.',
-                            style: textTheme.labelMedium!.copyWith(
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .onSurface
-                                    .withOpacity(0.8))),
-                  )
-                ],
-              ),
+                );
+              },
             )
           ],
         ),

@@ -17,8 +17,6 @@ class RequestPengkinianDataPribadiScreen extends StatefulWidget {
 
 class _RequestPengkinianDataPribadiScreenState
     extends State<RequestPengkinianDataPribadiScreen> {
-  bool _isAgreed = false;
-
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
@@ -63,85 +61,47 @@ class _RequestPengkinianDataPribadiScreenState
                             logic: logic,
                           );
                         })),
+                    Obx(() {
+                      if (state.formList.length < state.maxForms) {
+                        return Column(
+                          children: [
+                            Align(
+                              alignment: Alignment.center,
+                              child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.grey.shade300),
+                                onPressed: logic.addFormBaru,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    const Icon(
+                                      Icons.add,
+                                      size: 24,
+                                      color: Colors.black,
+                                    ),
+                                    const SizedBox(
+                                      width: 8,
+                                    ),
+                                    Text(
+                                      "Tambah Entri Baru",
+                                      style: textTheme.bodyMedium!.copyWith(
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        );
+                      }
+                      return const SizedBox.shrink();
+                    }),
                   ],
                 ),
               ),
-              Obx(() {
-                if (state.formList.length < state.maxForms) {
-                  return Column(
-                    children: [
-                      const SizedBox(
-                        height: 16,
-                      ),
-                      Align(
-                        alignment: Alignment.center,
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.grey.shade300),
-                          onPressed: logic.addNewForm,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const Icon(
-                                Icons.add,
-                                size: 24,
-                                color: Colors.black,
-                              ),
-                              const SizedBox(
-                                width: 8,
-                              ),
-                              Text(
-                                "Tambah Entri Baru",
-                                style: textTheme.bodyMedium!.copyWith(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  );
-                }
-                return const SizedBox.shrink();
-              }),
               const SizedBox(
                 height: 24,
-              ),
-              Row(
-                children: [
-                  Checkbox(
-                    value: _isAgreed,
-                    onChanged: (value) {
-                      setState(() {
-                        _isAgreed = value!;
-                      });
-                    },
-                  ),
-                  Expanded(
-                    child: Wrap(
-                      crossAxisAlignment: WrapCrossAlignment.center,
-                      children: [
-                        Text(
-                          'Saya telah membaca dan menyetujui ',
-                          style: textTheme.bodyMedium!
-                              .copyWith(fontWeight: FontWeight.bold),
-                        ),
-                        GestureDetector(
-                          onTap: () => print('Link Ditekan'),
-                          child: Text(
-                            "syarat dan ketentuan penghapusan data pribadi.",
-                            style: textTheme.bodyMedium!.copyWith(
-                              fontWeight: FontWeight.bold,
-                              color: Colors.blueAccent,
-                              decoration: TextDecoration.underline,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  )
-                ],
               ),
               SizedBox(
                 width: double.infinity,
