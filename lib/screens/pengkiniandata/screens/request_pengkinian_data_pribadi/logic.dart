@@ -125,8 +125,8 @@ class RequestPengkinianDataPribadiLogic extends BaseLogic {
       });
 
       if (!isSemuaFormSudahTerisi) {
-        Fungsi.warningToast(
-            'Mohon lengkapi semua form dan dokumen wajib yang telah ditambahkan.');
+        Fungsi.errorToast(
+            'Silahkan Cek Kembali Data Anda.');
         return;
       }
 
@@ -135,6 +135,8 @@ class RequestPengkinianDataPribadiLogic extends BaseLogic {
         print(
             "Form ke-${i + 1}: Jenis Data: ${item['jenisDataTerpilih']}, Data Baru: ${item['tecDataBaru']?.text}, File: ${item['namaFile']}");
       }
+      
+      Fungsi.suksesToast('Pengkinian Data Berhasil Diajukan.');
     }
   }
 }

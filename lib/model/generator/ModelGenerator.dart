@@ -38,6 +38,7 @@ import 'package:jmcare/model/api/ProdukRespon.dart';
 import 'package:jmcare/model/api/PromoRespon.dart';
 import 'package:jmcare/model/api/RiwayatantrianRespon.dart';
 import 'package:jmcare/model/api/SlideshowRespon.dart';
+import 'package:jmcare/model/api/SubjekDataPribadiRespon.dart';
 import 'package:jmcare/model/api/WilayahRespon.dart';
 import 'package:jmcare/model/session/RegisterpinModel.dart';
 import 'package:jmcare/model/session/ResetPassModel.dart';
@@ -98,7 +99,8 @@ class ModelGenerator {
       MpmiBaseRespon: (json) => MpmiBaseRespon.fromJson(json),
       MpmiTokenRequest: (json) => MpmiTokenRequest.fromJson(json),
       NotifRespon: (json) => NotifRespon.fromJson(json),
-      DetailFormLanjutanRespon: (json) => DetailFormLanjutanRespon.fromJson(json)
+      DetailFormLanjutanRespon: (json) => DetailFormLanjutanRespon.fromJson(json),
+      SubjekDataPribadiRespon : (json) => SubjekDataPribadiRespon.fromJson(json)
     };
   }
 

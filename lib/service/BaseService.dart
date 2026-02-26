@@ -48,6 +48,7 @@ abstract class BaseService {
           )));
       return models.ModelGenerator.resolve<T>(response.data);
     }catch(e){
+      print("ERROR BASE SERVICE POSTJSON: $e");
       // Fungsi.errorToast(e.toString());
       return null;
     }

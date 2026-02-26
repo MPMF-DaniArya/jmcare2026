@@ -28,8 +28,7 @@ class PenampilanDataPribadiScreen extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  InformasiDataPribadiSection(
-                      textTheme: textTheme, state: state),
+                  InformasiDataPribadiSection(textTheme: textTheme),
                   const SizedBox(
                     height: 16,
                   ),
