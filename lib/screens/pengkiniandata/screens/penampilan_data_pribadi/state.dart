@@ -10,10 +10,4 @@ class PenampilanDataPribadiState {
     'nomorTelepon': '+6281234567890',
     'nomorKontrak': '99489588437'
   };
-
-  TextEditingController? tecINPUT;
-
-  PenampilanDataPribadiState(){
-    tecINPUT = TextEditingController();
-    }
 }

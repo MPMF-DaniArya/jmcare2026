@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jmcare/screens/pengkiniandata/screens/penampilan_data_pribadi/logic.dart';
-import 'package:jmcare/screens/pengkiniandata/screens/penampilan_data_pribadi/widgets/unduh_pdf_data_pribadi_screen.dart';
+import 'package:jmcare/screens/pengkiniandata/screens/penampilan_data_pribadi/screens/unduh_pdf_data_pribadi/view.dart';
 
 import '../../../../../custom/container_menu.dart';
 import '../../../../../helper/Konstan.dart';
