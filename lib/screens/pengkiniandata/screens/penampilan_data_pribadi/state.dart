@@ -1,22 +1,11 @@
 import 'package:flutter/cupertino.dart';
 
 class PenampilanDataPribadiState {
-  String namaLengkapUser = '';
-  String nomorIdUser = '';
-  String tempatTanggalLahirUser = '';
-  String alamatSesuaiIdUser = '';
-  String alamatDomisiliUser = '';
-  String nomorTeleponUser = '';
-  String nomorKontrakUser ='';
-
-
-  final Map<String, dynamic> dummyData = {
-    'nama': 'Muhammad Dani Arya Putra',
-    'id': 123456781234,
-    'tempatTanggalLahir': 'Jakarta, 1 Januari 1990',
-    'alamatSesuaiId': 'Jl. Kebon Jeruk No. 10, Jakarta Barat, 11530',
-    'alamatDomisili': 'Jl. Kebon Jeruk No. 10, Jakarta Barat, 11530',
-    'nomorTelepon': '+6281234567890',
-    'nomorKontrak': '99489588437'
-  };
+  String? namaLengkapUser;
+  String? nomorIdUser;
+  String? tempatTanggalLahirUser;
+  String? alamatSesuaiIdUser;
+  String? alamatDomisiliUser;
+  String? nomorTeleponUser;
+  String? nomorKontrakUser;
 }

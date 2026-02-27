@@ -31,34 +31,34 @@ class InformasiDataPribadiSection extends StatelessWidget {
             const SizedBox(
               height: 12,
             ),
-            _buildRow('Nama Lengkap', state.namaLengkapUser, textTheme),
+            _buildRow('Nama Lengkap', state.namaLengkapUser!, textTheme),
             const SizedBox(
               height: 12,
             ),
-            _buildRow('Nomor ID', state.nomorIdUser, textTheme),
+            _buildRow('Nomor ID', state.nomorIdUser!, textTheme),
             const SizedBox(
               height: 12,
             ),
-            _buildRow('Tempat, Tanggal Lahir', state.tempatTanggalLahirUser,
+            _buildRow('Tempat, Tanggal Lahir', state.tempatTanggalLahirUser!,
                 textTheme),
             const SizedBox(
               height: 12,
             ),
-            _buildRow('Alamat Sesuai ID', state.dummyData['alamatSesuaiId'],
+            _buildRow('Alamat Sesuai ID', state.alamatSesuaiIdUser!,
                 textTheme),
             const SizedBox(
               height: 12,
             ),
-            _buildRow('Alamat Domisili', state.alamatDomisiliUser, textTheme),
+            _buildRow('Alamat Domisili', state.alamatDomisiliUser!, textTheme),
             const SizedBox(
               height: 12,
             ),
-            _buildRow('Nomor Telepon', state.nomorTeleponUser, textTheme),
+            _buildRow('Nomor Telepon', state.nomorTeleponUser!, textTheme),
             const SizedBox(
               height: 12,
             ),
             _buildRow(
-                'Nomor Kontrak', state.dummyData['nomorKontrak'], textTheme),
+                'Nomor Kontrak', state.nomorKontrakUser!, textTheme),
           ],
         );
       },
@@ -67,28 +67,35 @@ class InformasiDataPribadiSection extends StatelessWidget {
 }
 
 Widget _buildRow(String label, String value, TextTheme textTheme) {
-  return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Expanded(
-          child: Text(
-            label,
-            textAlign: TextAlign.start,
-            style: textTheme.bodyMedium!.copyWith(
-              fontWeight: FontWeight.bold,
+  return Column(
+    mainAxisSize: MainAxisSize.min,
+    children: [
+      Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: Text(
+                label,
+                textAlign: TextAlign.start,
+                style: textTheme.bodyMedium!.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ),
-          ),
-        ),
-        const SizedBox(
-          width: 45,
-        ),
-        Expanded(
-          child: Text(
-            value,
-            textAlign: TextAlign.end,
-            style: textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.bold),
-          ),
-        )
-      ]);
+            const SizedBox(
+              width: 45,
+            ),
+            Expanded(
+              child: Text(
+                value,
+                textAlign: TextAlign.end,
+                style: textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.bold),
+              ),
+            )
+          ]),
+      const SizedBox(height: 4,),
+      const Divider(color: Colors.grey, thickness: 0.8,)
+    ],
+  );
 }

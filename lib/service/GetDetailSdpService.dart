@@ -3,7 +3,6 @@ import 'package:jmcare/model/api/SubjekDataPribadiRespon.dart';
 import 'package:jmcare/service/BaseService.dart';
 
 import '../helper/Endpoint.dart';
-import '../model/api/BaseRespon.dart';
 
 class GetDetailSdpService extends BaseService {
   static GetDetailSdpService instance = GetDetailSdpService();

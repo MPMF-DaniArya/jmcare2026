@@ -5,6 +5,7 @@ import 'package:jmcare/service/GetDetailSdpService.dart';
 import 'package:jmcare/service/Service.dart';
 
 import '../../../../model/api/LoginRespon.dart';
+import '../../../../model/api/SubjekDataPribadiRespon.dart';
 import '../../../../storage/storage.dart';
 
 class PenampilanDataPribadiLogic extends BaseLogic {
@@ -24,19 +25,32 @@ class PenampilanDataPribadiLogic extends BaseLogic {
           .getDetailSdp(login_user_id: int.tryParse(auth.data!.loginUserId!)!);
 
       if (dataSdpRespon != null) {
-        state.namaLengkapUser = dataSdpRespon.namaLengkap ?? '-';
-        state.nomorIdUser = dataSdpRespon.nomorId ?? '-';
-        state.tempatTanggalLahirUser =
-            "${dataSdpRespon.tempatLahir ?? '-'}, ${dataSdpRespon.tanggalLahir ?? '-'}";
-        // state.alamatSesuaiIdUser = dataSdpRespon.alamatSesuaiId ?? '-';
-        state.alamatDomisiliUser = dataSdpRespon.alamatDomisili ?? '-';
-        state.nomorTeleponUser = dataSdpRespon.noTelepon ?? '-';
-        // state.nomorKontrakUser = dataSdpRespon.nomorKontrak ?? '-'; // Tambahkan nomor kontrak jika ada di API
-        
-        update(); // PENTING: Memanggil update agar GetBuilder di UI merespon perubahan data
+        if (dataSdpRespon is SubjekDataPribadiError) {
+          Fungsi.errorToast(
+              "Terjadi masalah. Tidak dapat menampilkan data pribadi!");
+        } else {
+          String rawAlamatIdUser =
+              '${dataSdpRespon.alamatLegalAlamat}, RT ${dataSdpRespon
+              .alamatLegalRt}/ RW ${dataSdpRespon
+              .alamatLegalRw}, Kel. ${dataSdpRespon
+              .alamatLegalKelurahan}, Kec. ${dataSdpRespon
+              .alamatLegalKecamatan}, ${dataSdpRespon
+              .alamatLegalKota}, ${dataSdpRespon.alamatLegalKodepos}';
+          String rawTempatTanggalLahir = "${dataSdpRespon
+              .tempatLahir}, ${dataSdpRespon.tanggalLahir}";
+          String? rawAlamatDomisili = dataSdpRespon.alamatDomisili;
+
+          state.namaLengkapUser = Fungsi.formatTitleCase(dataSdpRespon.namaLengkap);
+          state.nomorIdUser = Fungsi.formatTitleCase(dataSdpRespon.nomorId);
+          state.tempatTanggalLahirUser = Fungsi.formatTitleCase(rawTempatTanggalLahir);
+              state.alamatDomisiliUser = Fungsi.formatTitleCase(rawAlamatDomisili);
+          state.nomorTeleponUser = Fungsi.formatTitleCase(dataSdpRespon.noTelepon);
+          state.alamatSesuaiIdUser = Fungsi.formatTitleCase(rawAlamatIdUser);
+          state.nomorKontrakUser = Fungsi.formatTitleCase(dataSdpRespon.noKontrak);
+          update();
+        }
       }
     } catch (e) {
-      print("Error getDataPribadi: $e");
       Fungsi.koneksiError();
     } finally {
       is_loading.value = false;

@@ -3,46 +3,57 @@ class SubjekDataPribadiRespon {
   String? nomorId;
   String? tempatLahir;
   String? tanggalLahir;
-
-  // String? alamatSesuaiId;
   String? alamatDomisili;
   String? noTelepon;
+  String? noKontrak;
+  String? alamatLegalAlamat;
+  String? alamatLegalKecamatan;
+  String? alamatLegalKelurahan;
+  String? alamatLegalKodepos;
+  String? alamatLegalKota;
+  String? alamatLegalRt;
+  String? alamatLegalRw;
 
-  // Kontrak? noKontrak;
 
   SubjekDataPribadiRespon({
     this.namaLengkap,
     this.nomorId,
     this.tempatLahir,
     this.tanggalLahir,
-    // this.alamatSesuaiId,
     this.alamatDomisili,
     this.noTelepon,
-    // this.noKontrak
+    this.noKontrak,
+    this.alamatLegalAlamat,
+    this.alamatLegalKecamatan,
+    this.alamatLegalKelurahan,
+    this.alamatLegalKodepos,
+    this.alamatLegalKota,
+    this.alamatLegalRt,
+    this.alamatLegalRw,
   });
 
   SubjekDataPribadiRespon.fromJson(Map<String, dynamic> json) {
+    var noKontrakResponse = json['list_kontrak'];
+
     namaLengkap = json['nama_lengkap'];
     nomorId = json['nomor_id'];
     tempatLahir = json['tempat_lahir'];
     tanggalLahir = json['tgl_lahir'];
-    // alamatSesuaiId = json['alamat_sesuai_id'];
     alamatDomisili = json['alamat_domisili_alamat'];
     noTelepon = json['telepon1'];
-    // noKontrak = Kontrak.fromJson(json['list_kontrak'])
+    if (noKontrakResponse.isNotEmpty) {
+      noKontrak = noKontrakResponse.first['agrment_no'].toString();
+    } else {
+      noKontrak = "-";
+    }
+    alamatLegalAlamat = json['alamat_legal_alamat'];
+    alamatLegalKecamatan = json['alamat_legal_kecamatan'];
+    alamatLegalKelurahan = json['alamat_legal_kelurahan'];
+    alamatLegalKodepos = json['alamat_legal_kodepos'];
+    alamatLegalKota = json['alamat_legal_kota'];
+    alamatLegalRt = json['alamat_legal_rt'];
+    alamatLegalRw = json['alamat_legal_rw'];
   }
 }
 
 class SubjekDataPribadiError extends SubjekDataPribadiRespon {}
-
-class Kontrak {
-  int? aggrementNo;
-  int? aggrementId;
-
-  Kontrak({this.aggrementNo, this.aggrementId});
-
-  Kontrak.fromJson(Map<String, dynamic> json) {
-    aggrementNo = json['agrment_no'];
-    aggrementId = json['agrmnt_id'];
-  }
-}
