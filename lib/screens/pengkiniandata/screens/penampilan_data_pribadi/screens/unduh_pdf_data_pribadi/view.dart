@@ -18,7 +18,6 @@ class UnduhPdfDataPribadiScreen extends StatelessWidget {
 
     return JmcareBarScreen(
       title: "Masukkan PIN Anda",
-      // Bungkus body dengan Obx agar UI reaktif terhadap is_loading
       body: Obx(
         () => logic.is_loading.value
             ? Padding(
@@ -43,7 +42,7 @@ class UnduhPdfDataPribadiScreen extends StatelessWidget {
                       obscuringCharacter: "*",
                       autofocus: true,
                       enabled: !logic.is_loading.value,
-                      onCompleted: (pin) => logic.downloadDataPribadi(),
+                      onCompleted: (pin) => logic.pengecekanPinInput(),
                     ),
                   ],
                 ),

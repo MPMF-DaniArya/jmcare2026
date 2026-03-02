@@ -52,7 +52,7 @@ class RequestPengkinianDataPribadiLogic extends BaseLogic {
 
     if (state.formList.isNotEmpty && !isSemuaFormSudahTerisi) {
       Fungsi.warningToast(
-          'Mohon lengkapi jenis data, perubahan data, dan dokumen (jika wajib) pada form sebelumnya.');
+          'Mohon lengkapi jenis data, perubahan data, dan dokumen (jika wajib) pada permintaan sebelumnya.');
       return;
     }
 

@@ -11,6 +11,7 @@ import 'package:jmcare/service/CeknomorhpService.dart';
 import 'package:jmcare/service/CekpengkiniandataService.dart';
 import 'package:jmcare/service/DeleteakunService.dart';
 import 'package:jmcare/service/DialogjmoService.dart';
+import 'package:jmcare/service/DownloadPdpPdfService.dart';
 import 'package:jmcare/service/DownloadepolisService.dart';
 import 'package:jmcare/service/DropdownService.dart';
 import 'package:jmcare/service/EContractdownloadService.dart';
@@ -157,7 +158,8 @@ class Service {
       DetailFormLanjutanService: DetailFormLanjutanService.instance,
       LayananPengaduanSubmitFormService:
           LayananPengaduanSubmitFormService.instance,
-      GetDetailSdpService: GetDetailSdpService.instance
+      GetDetailSdpService: GetDetailSdpService.instance,
+      DownloadPdpPdfService: DownloadPdpPdfService.instance
     };
   }
 

@@ -5,6 +5,7 @@ import 'package:jmcare/model/api/BaseRespon.dart';
 import 'package:jmcare/model/api/CabangRespon.dart';
 import 'package:jmcare/model/api/CekRegistrasiesignRespon.dart';
 import 'package:jmcare/model/api/DetailFormLanjutanRespon.dart';
+import 'package:jmcare/model/api/DownloadPdfPdpRespon.dart';
 import 'package:jmcare/model/api/DownloadRespon.dart';
 import 'package:jmcare/model/api/DropdownRespon.dart';
 import 'package:jmcare/model/api/EpolisRespon.dart';
@@ -100,7 +101,8 @@ class ModelGenerator {
       MpmiTokenRequest: (json) => MpmiTokenRequest.fromJson(json),
       NotifRespon: (json) => NotifRespon.fromJson(json),
       DetailFormLanjutanRespon: (json) => DetailFormLanjutanRespon.fromJson(json),
-      SubjekDataPribadiRespon : (json) => SubjekDataPribadiRespon.fromJson(json)
+      SubjekDataPribadiRespon : (json) => SubjekDataPribadiRespon.fromJson(json),
+      DownloadPdfPdpRespon: (json) => DownloadPdfPdpRespon.fromJson(json)
     };
   }
 

@@ -17,6 +17,7 @@ class PenampilanDataPribadiLogic extends BaseLogic {
     getDataPribadi();
   }
 
+  // fungsi untuk mengambil data pribadi user
   void getDataPribadi() async {
     is_loading.value = true;
     try {
@@ -30,23 +31,22 @@ class PenampilanDataPribadiLogic extends BaseLogic {
               "Terjadi masalah. Tidak dapat menampilkan data pribadi!");
         } else {
           String rawAlamatIdUser =
-              '${dataSdpRespon.alamatLegalAlamat}, RT ${dataSdpRespon
-              .alamatLegalRt}/ RW ${dataSdpRespon
-              .alamatLegalRw}, Kel. ${dataSdpRespon
-              .alamatLegalKelurahan}, Kec. ${dataSdpRespon
-              .alamatLegalKecamatan}, ${dataSdpRespon
-              .alamatLegalKota}, ${dataSdpRespon.alamatLegalKodepos}';
-          String rawTempatTanggalLahir = "${dataSdpRespon
-              .tempatLahir}, ${dataSdpRespon.tanggalLahir}";
+              '${dataSdpRespon.alamatLegalAlamat}, RT ${dataSdpRespon.alamatLegalRt}/ RW ${dataSdpRespon.alamatLegalRw}, Kel. ${dataSdpRespon.alamatLegalKelurahan}, Kec. ${dataSdpRespon.alamatLegalKecamatan}, ${dataSdpRespon.alamatLegalKota}, ${dataSdpRespon.alamatLegalKodepos}';
+          String rawTempatTanggalLahir =
+              "${dataSdpRespon.tempatLahir}, ${dataSdpRespon.tanggalLahir}";
           String? rawAlamatDomisili = dataSdpRespon.alamatDomisili;
 
-          state.namaLengkapUser = Fungsi.formatTitleCase(dataSdpRespon.namaLengkap);
+          state.namaLengkapUser =
+              Fungsi.formatTitleCase(dataSdpRespon.namaLengkap);
           state.nomorIdUser = Fungsi.formatTitleCase(dataSdpRespon.nomorId);
-          state.tempatTanggalLahirUser = Fungsi.formatTitleCase(rawTempatTanggalLahir);
-              state.alamatDomisiliUser = Fungsi.formatTitleCase(rawAlamatDomisili);
-          state.nomorTeleponUser = Fungsi.formatTitleCase(dataSdpRespon.noTelepon);
+          state.tempatTanggalLahirUser =
+              Fungsi.formatTitleCase(rawTempatTanggalLahir);
+          state.alamatDomisiliUser = Fungsi.formatTitleCase(rawAlamatDomisili);
+          state.nomorTeleponUser =
+              Fungsi.formatTitleCase(dataSdpRespon.noTelepon);
           state.alamatSesuaiIdUser = Fungsi.formatTitleCase(rawAlamatIdUser);
-          state.nomorKontrakUser = Fungsi.formatTitleCase(dataSdpRespon.noKontrak);
+          state.nomorKontrakUser =
+              Fungsi.formatTitleCase(dataSdpRespon.noKontrak);
           update();
         }
       }
