@@ -8,10 +8,17 @@ import 'package:jmcare/helper/Fungsi.dart';
 import 'package:jmcare/screens/base/base_logic.dart';
 import 'package:jmcare/screens/pengkiniandata/screens/request_pengkinian_data_pribadi/state.dart';
 
+import '../../../../model/api/LoginRespon.dart';
+import '../../../../model/api/SubjekDataPribadiRespon.dart';
+import '../../../../service/GetDetailSdpService.dart';
+import '../../../../service/Service.dart';
+import '../../../../storage/storage.dart';
+
 class RequestPengkinianDataPribadiLogic extends BaseLogic {
   final RequestPengkinianDataPribadiState state =
       RequestPengkinianDataPribadiState();
   var ddJenisData = <DropdownMenuItem<String>>[].obs;
+  RxString dataSaatIni = "".obs;
 
   // ini adalah jenis data yang wajib untuk upload dokumen
   final List<String> jenisDataWajibUploadDokumen = [
@@ -23,8 +30,44 @@ class RequestPengkinianDataPribadiLogic extends BaseLogic {
   @override
   void onInit() {
     super.onInit();
-    //langsung tambah 1 form
+    inisialisasiData();
+  }
+
+  void inisialisasiData() async {
+    await getSubjekDataPribadiLokal();
     addFormBaru();
+  }
+
+  Future<void> getSubjekDataPribadiLokal() async {
+    is_loading.value = true;
+
+    try {
+      final sdp = await getStorage<SubjekDataPribadiRespon>();
+      final sdpData = sdp.data;
+
+      if (sdpData != null) {
+        _mapDataUntukInisialisasiState(sdpData);
+      } else {
+        final auth = await getStorage<LoginRespon>();
+        final dataSdpRespon = await getService<GetDetailSdpService>()!
+            .getDetailSdp(
+                login_user_id: int.tryParse(auth.data!.loginUserId!)!);
+
+        if (dataSdpRespon != null) {
+          if (dataSdpRespon is SubjekDataPribadiError) {
+            Fungsi.errorToast(
+                "Terjadi masalah. Tidak dapat menampilkan data pribadi!");
+          } else {
+            baseSaveStorage<SubjekDataPribadiRespon>(dataSdpRespon);
+            _mapDataUntukInisialisasiState(dataSdpRespon);
+          }
+        }
+      }
+    } catch (e) {
+      Fungsi.koneksiError();
+    } finally {
+      is_loading.value = false;
+    }
   }
 
   // Fungsi untuk mengisi dropdown jenis data
@@ -42,6 +85,37 @@ class RequestPengkinianDataPribadiLogic extends BaseLogic {
     return state.jenisData.where((element) {
       return !jenisDataDipilih.contains(element);
     }).toList();
+  }
+
+  void updateJenisDataTerpilih(int index, String? value) {
+    state.formList[index]['jenisDataTerpilih'] = value;
+
+    String dataLama = "-";
+
+    switch (value) {
+      case 'Nama Lengkap':
+        dataLama = state.namaLengkapUser ?? "-";
+        break;
+      case 'Alamat Domisili':
+        dataLama = state.alamatDomisiliUser ?? "-";
+        break;
+      case 'Alamat KTP':
+        dataLama = state.alamatSesuaiIdUser ?? "-";
+        break;
+      case 'Nomor Handphone':
+        dataLama = state.nomorTeleponUser ?? "-";
+        break;
+      case 'Alamat Email':
+        dataLama = "-";
+        break;
+      default:
+        dataLama = "-";
+    }
+
+    state.formList[index]['dataLama'] = dataLama;
+
+    state.formList.refresh();
+    update();
   }
 
   // Fungsi untuk menambahkan form baru
@@ -69,18 +143,24 @@ class RequestPengkinianDataPribadiLogic extends BaseLogic {
         'tecDataBaru': TextEditingController(),
         'jenisDataTerpilih': null,
         'lampiran': null,
-        'base64_file': "",
-        'namaFile': "",
+        'dataLama': "-",
+        'dokumenList': <Map<String, dynamic>>[
+          {'lampiran': null, 'base64_file': "", 'namaFile': ""},
+        ].obs,
       });
     } else {
       Fungsi.errorToast('Anda telah mencapai batas maksimum formulir.');
     }
   }
 
-  void updateJenisDataTerpilih(int index, String? value) {
-    state.formList[index]['jenisDataTerpilih'] = value;
-    state.formList.refresh();
-    update();
+  void tambahDokumenPerForm(int formIndex) {
+    var dokumenList = state.formList[formIndex]['dokumenList'];
+
+    if (dokumenList.length < 3) {
+      dokumenList.add({'lampiran': null, 'base64_file': "", 'namaFile': ""});
+    } else {
+      Fungsi.errorToast("Maksimal 3 dokumen per perubahan");
+    }
   }
 
   void hapusForm(int index) {
@@ -89,35 +169,40 @@ class RequestPengkinianDataPribadiLogic extends BaseLogic {
     update();
   }
 
-  void pilihFile(int index) async {
+  void pilihFile(int formIndex, int docIndex) async {
     FilePickerResult? hasil = await FilePicker.platform.pickFiles(
-        type: FileType.custom,
-        allowedExtensions: ['pdf', 'png', 'jpg', 'jpeg', 'heic', 'doc', 'docx'],
-        allowMultiple: false,
-        allowCompression: true);
+      type: FileType.custom,
+      allowedExtensions: ['pdf', 'png', 'jpg', 'jpeg', 'heic', 'doc', 'docx'],
+    );
+
     if (hasil != null) {
       PlatformFile file = hasil.files.first;
-
-      // size file yang di upload tidak boleh lebih 10mb
       if (file.size >= 10000000) {
         Fungsi.warningToast("File tidak boleh lebih besar dari 10MB");
         return;
-      } else {
-        File fileObj = File(file.path!);
-        final b = await fileObj.readAsBytes();
-        state.formList[index]['lampiran'] = hasil;
-        state.formList[index]['namaFile'] = file.name;
-        state.formList[index]['base64_file'] = base64Encode(b);
-        state.formList.refresh();
-        update();
       }
+
+      File fileObj = File(file.path!);
+      final b = await fileObj.readAsBytes();
+
+      var doc = state.formList[formIndex]['dokumenList'][docIndex];
+      doc['lampiran'] = hasil;
+      doc['namaFile'] = file.name;
+      doc['base64_file'] = base64Encode(b);
+
+      state.formList.refresh();
+      update();
     }
   }
 
-  void hapusFile(int index) {
-    state.formList[index]['lampiran'] = null;
-    state.formList[index]['namaFile'] = "";
-    state.formList[index]['base64_file'] = "";
+  void hapusFile(int formIndex, int docIndex) {
+    var dokumenList = state.formList[formIndex]['dokumenList'];
+
+    if (dokumenList.length > 1) {
+      dokumenList.removeAt(docIndex);
+    } else {
+      dokumenList[0] = {'lampiran': null, 'base64_file': "", 'namaFile': ""};
+    }
     state.formList.refresh();
     update();
   }
@@ -149,5 +234,21 @@ class RequestPengkinianDataPribadiLogic extends BaseLogic {
 
       Fungsi.suksesToast('Pengkinian Data Berhasil Diajukan.');
     }
+  }
+
+  void _mapDataUntukInisialisasiState(dynamic data) {
+    String rawAlamatIdUser =
+        '${data.alamatLegalAlamat}, RT ${data.alamatLegalRt}/ RW ${data.alamatLegalRw}, Kel. ${data.alamatLegalKelurahan}, Kec. ${data.alamatLegalKecamatan}, ${data.alamatLegalKota}, ${data.alamatLegalKodepos}';
+    String rawTempatTanggalLahir = "${data.tempatLahir}, ${data.tanggalLahir}";
+
+    state.namaLengkapUser = Fungsi.formatTitleCase(data.namaLengkap);
+    state.nomorIdUser = Fungsi.formatTitleCase(data.nomorId);
+    state.tempatTanggalLahirUser =
+        Fungsi.formatTitleCase(rawTempatTanggalLahir);
+    state.alamatDomisiliUser = Fungsi.formatTitleCase(data.alamatDomisili);
+    state.nomorTeleponUser = Fungsi.formatTitleCase(data.noTelepon);
+    state.alamatSesuaiIdUser = Fungsi.formatTitleCase(rawAlamatIdUser);
+    state.nomorKontrakUser = Fungsi.formatTitleCase(data.noKontrak);
+    update();
   }
 }

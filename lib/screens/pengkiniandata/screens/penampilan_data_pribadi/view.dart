@@ -23,7 +23,7 @@ class PenampilanDataPribadiScreen extends StatelessWidget {
     return JmcareBarScreen(
       title: 'Tampilan Permintaan',
       body: Obx(() => logic.is_loading.value
-          ? Center(child: Komponen.getLoadingWidget())
+          ? Komponen.getLoadingWidget()
           : SingleChildScrollView(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,

@@ -25,11 +25,14 @@ class PenampilanDataPribadiLogic extends BaseLogic {
       final dataSdpRespon = await getService<GetDetailSdpService>()!
           .getDetailSdp(login_user_id: int.tryParse(auth.data!.loginUserId!)!);
 
+
       if (dataSdpRespon != null) {
         if (dataSdpRespon is SubjekDataPribadiError) {
           Fungsi.errorToast(
               "Terjadi masalah. Tidak dapat menampilkan data pribadi!");
         } else {
+          baseSaveStorage<SubjekDataPribadiRespon>(dataSdpRespon);
+
           String rawAlamatIdUser =
               '${dataSdpRespon.alamatLegalAlamat}, RT ${dataSdpRespon.alamatLegalRt}/ RW ${dataSdpRespon.alamatLegalRw}, Kel. ${dataSdpRespon.alamatLegalKelurahan}, Kec. ${dataSdpRespon.alamatLegalKecamatan}, ${dataSdpRespon.alamatLegalKota}, ${dataSdpRespon.alamatLegalKodepos}';
           String rawTempatTanggalLahir =

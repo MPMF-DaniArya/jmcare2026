@@ -1,4 +1,3 @@
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jmcare/screens/pengkiniandata/screens/request_pengkinian_data_pribadi/logic.dart';
@@ -21,7 +20,7 @@ class PerbaruiInformasiPribadiSection extends StatelessWidget {
   Widget build(BuildContext context) {
     final item = logic.state.formList[index];
     List<String> pilihan = logic.getJenisDataTersedia(index);
-    String? currentValue = logic.state.formList[index]['jenisDataTerpilih'];
+    String? currentValue = item['jenisDataTerpilih'];
 
     return Padding(
       padding: const EdgeInsets.only(top: 18),
@@ -66,9 +65,7 @@ class PerbaruiInformasiPribadiSection extends StatelessWidget {
             DropdownButtonFormField<String>(
               value: currentValue,
               isExpanded: true,
-              hint: const Text(
-                '---Pilih Jenis Data---',
-              ),
+              hint: const Text('---Pilih Jenis Data---'),
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return 'Pilih jenis data terlebih dahulu';
@@ -97,21 +94,29 @@ class PerbaruiInformasiPribadiSection extends StatelessWidget {
                 style: textTheme.bodyMedium!
                     .copyWith(fontWeight: FontWeight.bold)),
             const SizedBox(height: 8),
-            TextFormField(
-              initialValue: 'Testing',
-              readOnly: true,
-              maxLines: 4,
-              minLines: 1,
-              decoration: InputDecoration(
-                contentPadding:
-                    const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
-                filled: true,
-                fillColor:
-                    Theme.of(context).colorScheme.onSurface.withOpacity(0.3),
-                border:
-                    OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-              ),
-            ),
+            Obx(() {
+              String displayData =
+                  logic.state.formList[index]['dataLama'] ?? "-";
+
+              return TextFormField(
+                key: ValueKey("data_saat_ini_$index" + displayData),
+                initialValue: displayData,
+                readOnly: true,
+                maxLines: 4,
+                minLines: 1,
+                style: textTheme.bodyMedium!.copyWith(color: Colors.black87),
+                decoration: InputDecoration(
+                  contentPadding:
+                      const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
+                  filled: true,
+                  fillColor: Colors.grey.shade200,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: BorderSide.none,
+                  ),
+                ),
+              );
+            }),
             const SizedBox(height: 16),
             RichText(
               text: TextSpan(
@@ -152,11 +157,12 @@ class PerbaruiInformasiPribadiSection extends StatelessWidget {
             GetBuilder<RequestPengkinianDataPribadiLogic>(
               builder: (logic) {
                 final formItem = logic.state.formList[index];
-                FilePickerResult? lampiran = formItem['lampiran'];
-                String namaFile = formItem['namaFile'] ?? "";
-                
-                bool isWajibUploadDokumen =
-                    logic.jenisDataWajibUploadDokumen.contains(currentValue);
+                RxList<Map<String, dynamic>> dokumenList =
+                    formItem['dokumenList'];
+
+                String? selectedJenisData = formItem['jenisDataTerpilih'];
+                bool isWajibUploadDokumen = logic.jenisDataWajibUploadDokumen
+                    .contains(selectedJenisData);
 
                 return Container(
                   padding: const EdgeInsets.all(16.0),
@@ -164,7 +170,9 @@ class PerbaruiInformasiPribadiSection extends StatelessWidget {
                     borderRadius: BorderRadius.circular(16.0),
                     color: Theme.of(context).colorScheme.surface,
                     border: Border.all(
-                      color: isWajibUploadDokumen ? Colors.redAccent : Colors.green,
+                      color: isWajibUploadDokumen
+                          ? Colors.redAccent
+                          : Colors.green,
                       width: 1.5,
                     ),
                     boxShadow: [
@@ -202,80 +210,63 @@ class PerbaruiInformasiPribadiSection extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 8),
-                      Text(
-                        'Unggah dokumen pendukung sebagai bukti perubahan.',
-                        style: TextStyle(
-                            color: Theme.of(context)
-                                .colorScheme
-                                .onSurface
-                                .withOpacity(0.8)),
+                      Obx(
+                        () => ListView.separated(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: dokumenList.length,
+                          separatorBuilder: (_, __) =>
+                              const SizedBox(height: 10),
+                          itemBuilder: (context, docIndex) {
+                            var doc = dokumenList[docIndex];
+                            bool isFileExist = doc['lampiran'] != null;
+
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text("Dokumen #${docIndex + 1}",
+                                    style: textTheme.labelLarge),
+                                const SizedBox(height: 4),
+                                isFileExist
+                                    ? _buildFileUploadedTile(doc['namaFile'],
+                                        () => logic.hapusFile(index, docIndex))
+                                    : _buildUploadButton(
+                                        onTap: () =>
+                                            logic.pilihFile(index, docIndex),
+                                        isWajib: isWajibUploadDokumen &&
+                                            docIndex ==
+                                                0, // Hanya Dokumen #1 yang merah jika wajib
+                                      ),
+                              ],
+                            );
+                          },
+                        ),
                       ),
-                      const SizedBox(height: 16),
-                      lampiran != null
-                          ? Container(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 8),
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(8),
-                                  border: Border.all(
-                                    color: Colors.grey,
-                                    width: 1,
-                                  )),
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    child: Row(
-                                      children: [
-                                        const Icon(
-                                            Icons.insert_drive_file_outlined),
-                                        const SizedBox(
-                                          width: 5,
-                                        ),
-                                        Expanded(
-                                            child: Text(
-                                          namaFile,
-                                          overflow: TextOverflow.ellipsis,
-                                          maxLines: 1,
-                                        ))
-                                      ],
-                                    ),
-                                  ),
-                                  IconButton(
-                                      icon: const Icon(Icons.close),
-                                      onPressed: () {
-                                        logic.hapusFile(index);
-                                      }),
-                                ],
-                              ),
-                            )
-                          : ElevatedButton.icon(
-                              onPressed: () => logic.pilihFile(index),
-                              icon: const Icon(Icons.upload_sharp),
-                              label: const Text('Pilih Dokumen'),
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: isWajibUploadDokumen
-                                    ? Colors.redAccent
-                                    : Colors.green,
-                                foregroundColor: Colors.white,
-                                minimumSize: const Size(double.infinity, 45),
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(8)),
-                              ),
+
+                      Obx(() {
+                        if (dokumenList.length < 3 &&
+                            dokumenList.isNotEmpty &&
+                            dokumenList.last['lampiran'] != null) {
+                          return Padding(
+                            padding: const EdgeInsets.only(top: 12),
+                            child: TextButton.icon(
+                              onPressed: () => logic.tambahDokumenPerForm(index),
+                              icon: const Icon(Icons.add_circle_outline),
+                              label: const Text("Tambah Dokumen Lain (Maks 3)"),
                             ),
+                          );
+                        }
+                        return const SizedBox.shrink();
+                      }),
+
                       const SizedBox(height: 8),
-                      lampiran != null
-                          ? Text('Status: Dokumen berhasil diunggah.',
-                              style: textTheme.labelMedium!.copyWith(
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .onSurface
-                                      .withOpacity(0.8)))
-                          : Text('Status: Belum ada dokumen yang diunggah.',
-                              style: textTheme.labelMedium!.copyWith(
-                                  color: Theme.of(context)
-                                          .colorScheme
-                                          .onSurface
-                                          .withOpacity(0.8))),
+                      Text(
+                        dokumenList[0]['lampiran'] != null
+                            ? 'Status: Dokumen berhasil diunggah.'
+                            : 'Status: Belum ada dokumen yang diunggah.',
+                        style:
+                            textTheme.labelMedium!.copyWith(color: Colors.grey),
+                      ),
                     ],
                   ),
                 );
@@ -283,6 +274,40 @@ class PerbaruiInformasiPribadiSection extends StatelessWidget {
             )
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildFileUploadedTile(String name, VoidCallback onDelete) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(color: Colors.green),
+          color: Colors.green.withOpacity(0.05)),
+      child: Row(
+        children: [
+          const Icon(Icons.description, color: Colors.green),
+          const SizedBox(width: 8),
+          Expanded(child: Text(name, overflow: TextOverflow.ellipsis)),
+          IconButton(
+              icon: const Icon(Icons.close, color: Colors.red),
+              onPressed: onDelete),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildUploadButton(
+      {required VoidCallback onTap, required bool isWajib}) {
+    return ElevatedButton.icon(
+      onPressed: onTap,
+      icon: const Icon(Icons.upload_file),
+      label: const Text('Pilih Dokumen'),
+      style: ElevatedButton.styleFrom(
+        backgroundColor: isWajib ? Colors.redAccent : Colors.green,
+        foregroundColor: Colors.white,
+        minimumSize: const Size(double.infinity, 40),
       ),
     );
   }
