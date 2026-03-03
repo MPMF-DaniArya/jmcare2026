@@ -13,6 +13,7 @@ class RequestPengkinianDataPribadiLogic extends BaseLogic {
       RequestPengkinianDataPribadiState();
   var ddJenisData = <DropdownMenuItem<String>>[].obs;
 
+  // ini adalah jenis data yang wajib untuk upload dokumen
   final List<String> jenisDataWajibUploadDokumen = [
     'Nama Lengkap',
     'Alamat Domisili',
@@ -22,9 +23,11 @@ class RequestPengkinianDataPribadiLogic extends BaseLogic {
   @override
   void onInit() {
     super.onInit();
+    //langsung tambah 1 form
     addFormBaru();
   }
 
+  // Fungsi untuk mengisi dropdown jenis data
   List<String> getJenisDataTersedia(int currentIndex) {
     List<String?> jenisDataDipilih = state.formList
         .asMap()
@@ -35,19 +38,24 @@ class RequestPengkinianDataPribadiLogic extends BaseLogic {
         .map((jenisData) => jenisData.value['jenisDataTerpilih'] as String?)
         .toList();
 
+    // jika jenis data sudah dipilih di form sebelumnya maka jenis data tersebut akan di hilangkan di form selanjutnya
     return state.jenisData.where((element) {
       return !jenisDataDipilih.contains(element);
     }).toList();
   }
 
+  // Fungsi untuk menambahkan form baru
   void addFormBaru() {
     bool isSemuaFormSudahTerisi = state.formList.every((form) {
       String? jenisData = form['jenisDataTerpilih'];
       TextEditingController? tec = form['tecDataBaru'];
       bool isWajib = jenisDataWajibUploadDokumen.contains(jenisData);
       bool isDokumenTerisi = !isWajib || (form['lampiran'] != null);
-      
-      return jenisData != null && tec != null && tec.text.trim().isNotEmpty && isDokumenTerisi;
+
+      return jenisData != null &&
+          tec != null &&
+          tec.text.trim().isNotEmpty &&
+          isDokumenTerisi;
     });
 
     if (state.formList.isNotEmpty && !isSemuaFormSudahTerisi) {
@@ -90,6 +98,7 @@ class RequestPengkinianDataPribadiLogic extends BaseLogic {
     if (hasil != null) {
       PlatformFile file = hasil.files.first;
 
+      // size file yang di upload tidak boleh lebih 10mb
       if (file.size >= 10000000) {
         Fungsi.warningToast("File tidak boleh lebih besar dari 10MB");
         return;
@@ -121,12 +130,14 @@ class RequestPengkinianDataPribadiLogic extends BaseLogic {
         bool isWajib = jenisDataWajibUploadDokumen.contains(jenisData);
         bool isDokumenTerisi = !isWajib || (form['lampiran'] != null);
 
-        return jenisData != null && tec != null && tec.text.trim().isNotEmpty && isDokumenTerisi;
+        return jenisData != null &&
+            tec != null &&
+            tec.text.trim().isNotEmpty &&
+            isDokumenTerisi;
       });
 
       if (!isSemuaFormSudahTerisi) {
-        Fungsi.errorToast(
-            'Silahkan Cek Kembali Data Anda.');
+        Fungsi.errorToast('Silahkan Cek Kembali Data Anda.');
         return;
       }
 
@@ -135,7 +146,7 @@ class RequestPengkinianDataPribadiLogic extends BaseLogic {
         print(
             "Form ke-${i + 1}: Jenis Data: ${item['jenisDataTerpilih']}, Data Baru: ${item['tecDataBaru']?.text}, File: ${item['namaFile']}");
       }
-      
+
       Fungsi.suksesToast('Pengkinian Data Berhasil Diajukan.');
     }
   }

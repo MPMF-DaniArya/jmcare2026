@@ -280,6 +280,7 @@ class Fungsi {
     }
   }
 
+  // fungsi untuk membuat kalimat format title case (Hanya huruf awal yang kapital)
   static String formatTitleCase(String? text) {
     if (text == null) return "-";
 

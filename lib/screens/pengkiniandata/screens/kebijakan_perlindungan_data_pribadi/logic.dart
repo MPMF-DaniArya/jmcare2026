@@ -14,15 +14,14 @@ class KebijakanPerlindunganDataLogic extends BaseLogic {
     // TODO: implement onInit
     super.onInit();
 
-    is_loading.value = true;
+    // is_loading.value = true;
     initWebView();
   }
 
+  // fungsi untuk membuka halaman web ketika membuka menu ini
   void initWebView() {
     state.controller = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
-      // ..setUserAgent(
-      //     "Mozilla/5.0 (Linux; Android 13; Mobile) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Mobile Safari/537.36")
       ..setNavigationDelegate(
         NavigationDelegate(
           onPageStarted: (String url) {
@@ -37,6 +36,7 @@ class KebijakanPerlindunganDataLogic extends BaseLogic {
           },
         ),
       )
+      // ini link untuk ke web jmfi privacy policy
       ..loadRequest(Uri.parse('https://jaccs-mpmfinance.com/id/privacypolicy'));
   }
 
