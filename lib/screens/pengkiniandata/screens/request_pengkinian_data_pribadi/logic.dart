@@ -106,7 +106,7 @@ class RequestPengkinianDataPribadiLogic extends BaseLogic {
         dataLama = state.nomorTeleponUser ?? "-";
         break;
       case 'Alamat Email':
-        dataLama = "-";
+        dataLama = state.emailUser ?? "-";
         break;
       default:
         dataLama = "-";
@@ -124,7 +124,12 @@ class RequestPengkinianDataPribadiLogic extends BaseLogic {
       String? jenisData = form['jenisDataTerpilih'];
       TextEditingController? tec = form['tecDataBaru'];
       bool isWajib = jenisDataWajibUploadDokumen.contains(jenisData);
-      bool isDokumenTerisi = !isWajib || (form['lampiran'] != null);
+
+      var dokumenList = form['dokumenList'] as RxList<Map<String, dynamic>>?;
+      bool isDokumenTerisi = !isWajib ||
+          (dokumenList != null &&
+              dokumenList.isNotEmpty &&
+              dokumenList[0]['lampiran'] != null);
 
       return jenisData != null &&
           tec != null &&
@@ -142,7 +147,6 @@ class RequestPengkinianDataPribadiLogic extends BaseLogic {
       state.formList.add({
         'tecDataBaru': TextEditingController(),
         'jenisDataTerpilih': null,
-        'lampiran': null,
         'dataLama': "-",
         'dokumenList': <Map<String, dynamic>>[
           {'lampiran': null, 'base64_file': "", 'namaFile': ""},
@@ -154,7 +158,14 @@ class RequestPengkinianDataPribadiLogic extends BaseLogic {
   }
 
   void tambahDokumenPerForm(int formIndex) {
-    var dokumenList = state.formList[formIndex]['dokumenList'];
+    var dokumenList = state.formList[formIndex]['dokumenList']
+        as RxList<Map<String, dynamic>>;
+
+    if (dokumenList.isEmpty || dokumenList.last['lampiran'] == null) {
+      Fungsi.warningToast(
+          "Pilih dokumen sebelumnya terlebih dahulu sebelum menambah dokumen baru.");
+      return;
+    }
 
     if (dokumenList.length < 3) {
       dokumenList.add({'lampiran': null, 'base64_file': "", 'namaFile': ""});
@@ -172,7 +183,7 @@ class RequestPengkinianDataPribadiLogic extends BaseLogic {
   void pilihFile(int formIndex, int docIndex) async {
     FilePickerResult? hasil = await FilePicker.platform.pickFiles(
       type: FileType.custom,
-      allowedExtensions: ['pdf', 'png', 'jpg', 'jpeg', 'heic', 'doc', 'docx'],
+      allowedExtensions: ['pdf', 'png'],
     );
 
     if (hasil != null) {
@@ -185,24 +196,29 @@ class RequestPengkinianDataPribadiLogic extends BaseLogic {
       File fileObj = File(file.path!);
       final b = await fileObj.readAsBytes();
 
-      var doc = state.formList[formIndex]['dokumenList'][docIndex];
+      var dokumenList = state.formList[formIndex]['dokumenList']
+          as RxList<Map<String, dynamic>>;
+      var doc = dokumenList[docIndex];
       doc['lampiran'] = hasil;
       doc['namaFile'] = file.name;
       doc['base64_file'] = base64Encode(b);
 
+      dokumenList.refresh();
       state.formList.refresh();
       update();
     }
   }
 
   void hapusFile(int formIndex, int docIndex) {
-    var dokumenList = state.formList[formIndex]['dokumenList'];
+    var dokumenList = state.formList[formIndex]['dokumenList']
+        as RxList<Map<String, dynamic>>;
 
     if (dokumenList.length > 1) {
       dokumenList.removeAt(docIndex);
     } else {
       dokumenList[0] = {'lampiran': null, 'base64_file': "", 'namaFile': ""};
     }
+    dokumenList.refresh();
     state.formList.refresh();
     update();
   }
@@ -213,7 +229,12 @@ class RequestPengkinianDataPribadiLogic extends BaseLogic {
         String? jenisData = form['jenisDataTerpilih'];
         TextEditingController? tec = form['tecDataBaru'];
         bool isWajib = jenisDataWajibUploadDokumen.contains(jenisData);
-        bool isDokumenTerisi = !isWajib || (form['lampiran'] != null);
+
+        var dokumenList = form['dokumenList'] as RxList<Map<String, dynamic>>?;
+        bool isDokumenTerisi = !isWajib ||
+            (dokumenList != null &&
+                dokumenList.isNotEmpty &&
+                dokumenList[0]['lampiran'] != null);
 
         return jenisData != null &&
             tec != null &&
@@ -228,8 +249,11 @@ class RequestPengkinianDataPribadiLogic extends BaseLogic {
 
       for (int i = 0; i < state.formList.length; i++) {
         var item = state.formList[i];
+        var dokumenList = item['dokumenList'] as RxList<Map<String, dynamic>>;
         print(
-            "Form ke-${i + 1}: Jenis Data: ${item['jenisDataTerpilih']}, Data Baru: ${item['tecDataBaru']?.text}, File: ${item['namaFile']}");
+            "Form ke-${i + 1}: Jenis Data: ${item['jenisDataTerpilih']}, Data Baru: ${item['tecDataBaru']?.text}, Jumlah File: ${dokumenList.where((d) => d['lampiran'] != null).length}, Base 64: ${dokumenList.where(
+                  (d) => d['base64_file'](),
+                ).toString()}");
       }
 
       Fungsi.suksesToast('Pengkinian Data Berhasil Diajukan.');
@@ -249,6 +273,7 @@ class RequestPengkinianDataPribadiLogic extends BaseLogic {
     state.nomorTeleponUser = Fungsi.formatTitleCase(data.noTelepon);
     state.alamatSesuaiIdUser = Fungsi.formatTitleCase(rawAlamatIdUser);
     state.nomorKontrakUser = Fungsi.formatTitleCase(data.noKontrak);
+    state.emailUser = data.email;
     update();
   }
 }

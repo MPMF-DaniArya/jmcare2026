@@ -12,6 +12,7 @@ class RequestPengkinianDataPribadiState {
   String? alamatDomisiliUser;
   String? nomorTeleponUser;
   String? nomorKontrakUser;
+  String? emailUser;
 
   RequestPengkinianDataPribadiState() {
     formKey = GlobalKey<FormState>();

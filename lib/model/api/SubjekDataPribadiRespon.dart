@@ -13,6 +13,7 @@ class SubjekDataPribadiRespon {
   String? alamatLegalKota;
   String? alamatLegalRt;
   String? alamatLegalRw;
+  String? email;
 
   SubjekDataPribadiRespon({
     this.namaLengkap,
@@ -29,6 +30,7 @@ class SubjekDataPribadiRespon {
     this.alamatLegalKota,
     this.alamatLegalRt,
     this.alamatLegalRw,
+    this.email
   });
 
   SubjekDataPribadiRespon.fromJson(Map<String, dynamic> json) {
@@ -54,6 +56,7 @@ class SubjekDataPribadiRespon {
     alamatLegalKota = json['alamat_legal_kota'];
     alamatLegalRt = json['alamat_legal_rt'];
     alamatLegalRw = json['alamat_legal_rw'];
+    email = json['email'];
 
   }
 
@@ -75,6 +78,7 @@ class SubjekDataPribadiRespon {
     data['alamat_legal_kota'] = alamatLegalKota;
     data['alamat_legal_rt'] = alamatLegalRt;
     data['alamat_legal_rw'] = alamatLegalRw;
+    data['email'] = email;
 
     return data;
   }
