@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jmcare/helper/Konstan.dart';
+import 'package:jmcare/model/api/GetRiwayatPpdRespon.dart';
 
 import '../state.dart';
 
 class HistoryCard extends StatelessWidget {
-  final HistoryModel data;
+  final GetRiwayatPpdRespon data;
 
   const HistoryCard({super.key, required this.data});
 
@@ -32,21 +33,21 @@ class HistoryCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                data.id,
+                data.noTiket ?? '-',
                 style:
                     const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
               ),
-              _buildStatusChip(data.status),
+              _buildStatusChip(data.status ?? '-'),
             ],
           ),
           const SizedBox(height: 8),
           Text(
-            data.title,
+            data.jenisPerubahanData ?? '-',
             style: const TextStyle(fontSize: 14),
           ),
           const SizedBox(height: 4),
           Text(
-            "Pengajuan: ${data.date}",
+            "Pengajuan: ${data.createDate ?? '-'}",
             style: const TextStyle(fontSize: 12),
           ),
           const SizedBox(height: 12),

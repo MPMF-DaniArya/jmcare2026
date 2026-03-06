@@ -27,6 +27,7 @@ import 'package:jmcare/service/EsignstatussignService.dart';
 import 'package:jmcare/service/FaqService.dart';
 import 'package:jmcare/service/GantipasswordService.dart';
 import 'package:jmcare/service/GetDetailSdpService.dart';
+import 'package:jmcare/service/GetRiyawatPdpService.dart';
 import 'package:jmcare/service/GradeService.dart';
 import 'package:jmcare/service/HistoripoinService.dart';
 import 'package:jmcare/service/JumlahdownloadService.dart';
@@ -162,6 +163,7 @@ class Service {
       DownloadPdpPdfService: DownloadPdpPdfService.instance,
       PengkinianDataPribadiSubmitFormService:
           PengkinianDataPribadiSubmitFormService.instance,
+      GetRiyawatPdpService: GetRiyawatPdpService.instance,
     };
   }
 
