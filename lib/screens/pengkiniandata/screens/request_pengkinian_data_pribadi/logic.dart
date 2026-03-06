@@ -7,7 +7,9 @@ import 'package:get/get.dart';
 import 'package:jmcare/helper/Fungsi.dart';
 import 'package:jmcare/screens/base/base_logic.dart';
 import 'package:jmcare/screens/pengkiniandata/screens/request_pengkinian_data_pribadi/state.dart';
+import 'package:jmcare/service/PengkinianDataPribadiSubmitFormService.dart';
 
+import '../../../../model/api/BaseRespon.dart';
 import '../../../../model/api/LoginRespon.dart';
 import '../../../../model/api/SubjekDataPribadiRespon.dart';
 import '../../../../service/GetDetailSdpService.dart';
@@ -114,6 +116,17 @@ class RequestPengkinianDataPribadiLogic extends BaseLogic {
 
     state.formList[index]['dataLama'] = dataLama;
 
+    // Reset dokumenList jika jenis data diubah ke yang tidak wajib dokumen
+    bool isWajib = jenisDataWajibUploadDokumen.contains(value);
+    var dokumenList =
+        state.formList[index]['dokumenList'] as RxList<Map<String, dynamic>>;
+    if (!isWajib && dokumenList.length > 1) {
+      // Sisakan hanya satu dokumen
+      var dokumenPertama = dokumenList[0];
+      dokumenList.clear();
+      dokumenList.add(dokumenPertama);
+    }
+
     state.formList.refresh();
     update();
   }
@@ -183,7 +196,7 @@ class RequestPengkinianDataPribadiLogic extends BaseLogic {
   void pilihFile(int formIndex, int docIndex) async {
     FilePickerResult? hasil = await FilePicker.platform.pickFiles(
       type: FileType.custom,
-      allowedExtensions: ['pdf', 'png'],
+      allowedExtensions: ['pdf', 'png', 'jpg', 'jpeg', 'heic', 'doc', 'docx'],
     );
 
     if (hasil != null) {
@@ -223,7 +236,7 @@ class RequestPengkinianDataPribadiLogic extends BaseLogic {
     update();
   }
 
-  void submitData() {
+  void submitData() async {
     if (state.formKey?.currentState?.validate() ?? false) {
       bool isSemuaFormSudahTerisi = state.formList.every((form) {
         String? jenisData = form['jenisDataTerpilih'];
@@ -247,16 +260,51 @@ class RequestPengkinianDataPribadiLogic extends BaseLogic {
         return;
       }
 
-      for (int i = 0; i < state.formList.length; i++) {
-        var item = state.formList[i];
-        var dokumenList = item['dokumenList'] as RxList<Map<String, dynamic>>;
-        print(
-            "Form ke-${i + 1}: Jenis Data: ${item['jenisDataTerpilih']}, Data Baru: ${item['tecDataBaru']?.text}, Jumlah File: ${dokumenList.where((d) => d['lampiran'] != null).length}, Base 64: ${dokumenList.where(
-                  (d) => d['base64_file'](),
-                ).toString()}");
-      }
+      is_loading.value = true;
 
-      Fungsi.suksesToast('Pengkinian Data Berhasil Diajukan.');
+      try {
+        final auth = await getStorage<LoginRespon>();
+        final userId = int.tryParse(auth.data!.loginUserId!)!;
+
+        for (var form in state.formList) {
+          String jenisData = form['jenisDataTerpilih']!;
+          String dataLama = form['dataLama']!;
+          String dataBaru = (form['tecDataBaru'] as TextEditingController).text;
+
+          var dokumenList = form['dokumenList'] as RxList<Map<String, dynamic>>;
+
+          final response =
+              await getService<PengkinianDataPribadiSubmitFormService>()!
+                  .submitFormPengkinianDataPribadi(
+            login_user_id: userId,
+            jenis_perubahan_data: jenisData,
+            data_saat_ini: dataLama,
+            perubahan_data: dataBaru,
+            file_ktp: dokumenList[0]['base64_file'],
+            file_kk: dokumenList[0]['base64_file'],
+            file_pendukung: dokumenList[0]['base64_file'],
+          );
+
+          if (response == null || response is BaseError) {
+            Fungsi.errorToast(
+                "Gagal mengirimkan data untuk $jenisData. Silakan coba lagi.");
+            return;
+          }
+
+          if (response.code.toString() != '200' &&
+              response.status != "Success") {
+            Fungsi.errorToast("Terjadi kesalahan: ${response.message}");
+            return;
+          }
+        }
+
+        Fungsi.suksesToast('Semua Pengkinian Data Berhasil Diajukan.');
+        Get.back();
+      } catch (e) {
+        Fungsi.errorToast("Terjadi kesalahan sistem: $e");
+      } finally {
+        is_loading.value = false;
+      }
     }
   }
 

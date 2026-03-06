@@ -1,6 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
-import 'package:jmcare/model/api/BaseRespon.dart';
 import 'package:jmcare/service/AddantrianService.dart';
 import 'package:jmcare/service/AgreementcardService.dart';
 import 'package:jmcare/service/AntriansekarangService.dart';
@@ -71,8 +69,10 @@ import 'package:jmcare/service/klaimasuransi/MpmiDocumentChecklistService.dart';
 import 'package:jmcare/service/klaimasuransi/MpmiTokenService.dart';
 import 'package:jmcare/service/klaimasuransi/RiwayatformawalService.dart';
 import 'package:jmcare/service/klaimasuransi/UpdatechecklistdocumentService.dart';
+
 import 'BaseService.dart';
 import 'LoginService.dart';
+import 'PengkinianDataPribadiSubmitFormService.dart';
 
 class Service {
   Dio? client;
@@ -159,7 +159,9 @@ class Service {
       LayananPengaduanSubmitFormService:
           LayananPengaduanSubmitFormService.instance,
       GetDetailSdpService: GetDetailSdpService.instance,
-      DownloadPdpPdfService: DownloadPdpPdfService.instance
+      DownloadPdpPdfService: DownloadPdpPdfService.instance,
+      PengkinianDataPribadiSubmitFormService:
+          PengkinianDataPribadiSubmitFormService.instance,
     };
   }
 

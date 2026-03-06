@@ -21,6 +21,7 @@ import 'package:jmcare/model/api/EsignunsignedRespon.dart';
 import 'package:jmcare/model/api/FaqRespon.dart';
 import 'package:jmcare/model/api/FormawalRespon.dart';
 import 'package:jmcare/model/api/FormlanjutanRespon.dart';
+import 'package:jmcare/model/api/GetRiwayatPpdRespon.dart';
 import 'package:jmcare/model/api/GradeRespon.dart';
 import 'package:jmcare/model/api/HistoripoinRespon.dart';
 import 'package:jmcare/model/api/JenisklaimRespon.dart';
@@ -39,18 +40,20 @@ import 'package:jmcare/model/api/ProdukRespon.dart';
 import 'package:jmcare/model/api/PromoRespon.dart';
 import 'package:jmcare/model/api/RiwayatantrianRespon.dart';
 import 'package:jmcare/model/api/SlideshowRespon.dart';
+import 'package:jmcare/model/api/SmsRespon.dart';
 import 'package:jmcare/model/api/SubjekDataPribadiRespon.dart';
 import 'package:jmcare/model/api/WilayahRespon.dart';
 import 'package:jmcare/model/session/RegisterpinModel.dart';
 import 'package:jmcare/model/session/ResetPassModel.dart';
 import 'package:jmcare/model/session/SelectedMethod.dart';
-import 'package:jmcare/model/api/SmsRespon.dart';
 import 'package:jmcare/model/session/ShowWelcome.dart';
+
 import '../api/NotifRespon.dart';
 import '../api/VersiRespon.dart';
 
 class ModelGenerator {
   static ModelGenerator instance = ModelGenerator();
+
   get classes {
     return {
       LoginRespon: (json) => LoginRespon.fromJson(json),
@@ -80,7 +83,8 @@ class ModelGenerator {
       NotifikasiRespon: (json) => NotifikasiRespon.fromJson(json),
       WilayahRespon: (json) => WilayahRespon.fromJson(json),
       JmoRespon: (json) => JmoRespon.fromJson(json),
-      CekRegistrasiesignRespon: (json) => CekRegistrasiesignRespon.fromJson(json),
+      CekRegistrasiesignRespon: (json) =>
+          CekRegistrasiesignRespon.fromJson(json),
       EsigninvitationRespon: (json) => EsigninvitationRespon.fromJson(json),
       EsignRegisterRespon: (json) => EsignRegisterRespon.fromJson(json),
       EsignunsignedRespon: (json) => EsignunsignedRespon.fromJson(json),
@@ -100,9 +104,11 @@ class ModelGenerator {
       MpmiBaseRespon: (json) => MpmiBaseRespon.fromJson(json),
       MpmiTokenRequest: (json) => MpmiTokenRequest.fromJson(json),
       NotifRespon: (json) => NotifRespon.fromJson(json),
-      DetailFormLanjutanRespon: (json) => DetailFormLanjutanRespon.fromJson(json),
-      SubjekDataPribadiRespon : (json) => SubjekDataPribadiRespon.fromJson(json),
-      DownloadPdfPdpRespon: (json) => DownloadPdfPdpRespon.fromJson(json)
+      DetailFormLanjutanRespon: (json) =>
+          DetailFormLanjutanRespon.fromJson(json),
+      SubjekDataPribadiRespon: (json) => SubjekDataPribadiRespon.fromJson(json),
+      DownloadPdfPdpRespon: (json) => DownloadPdfPdpRespon.fromJson(json),
+      GetRiwayatPpdRespon: (json) => GetRiwayatPpdRespon.fromJson(json)
     };
   }
 

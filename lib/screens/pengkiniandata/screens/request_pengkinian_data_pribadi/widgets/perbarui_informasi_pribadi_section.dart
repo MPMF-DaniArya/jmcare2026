@@ -221,11 +221,22 @@ class PerbaruiInformasiPribadiSection extends StatelessWidget {
                             var doc = dokumenList[docIndex];
                             bool isFileExist = doc['lampiran'] != null;
 
+                            // Logika Penamaan Label Dokumen
+                            String labelDokumen = "File Pendukung";
+                            if (isWajibUploadDokumen) {
+                              if (docIndex == 0) {
+                                labelDokumen = "KTP";
+                              } else if (docIndex == 1) {
+                                labelDokumen = "KK";
+                              } else {
+                                labelDokumen = "File Pendukung";
+                              }
+                            }
+
                             return Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text("Dokumen #${docIndex + 1}",
-                                    style: textTheme.labelLarge),
+                                Text(labelDokumen, style: textTheme.labelLarge),
                                 const SizedBox(height: 4),
                                 isFileExist
                                     ? _buildFileUploadedTile(doc['namaFile'],
@@ -242,15 +253,17 @@ class PerbaruiInformasiPribadiSection extends StatelessWidget {
                           },
                         ),
                       ),
-
                       Obx(() {
-                        if (dokumenList.length < 3 &&
+                        // Tombol tambah dokumen hanya muncul jika data terpilih adalah data wajib dan jumlah kurang dari 3
+                        if (isWajibUploadDokumen &&
+                            dokumenList.length < 3 &&
                             dokumenList.isNotEmpty &&
                             dokumenList.last['lampiran'] != null) {
                           return Padding(
                             padding: const EdgeInsets.only(top: 12),
                             child: TextButton.icon(
-                              onPressed: () => logic.tambahDokumenPerForm(index),
+                              onPressed: () =>
+                                  logic.tambahDokumenPerForm(index),
                               icon: const Icon(Icons.add_circle_outline),
                               label: const Text("Tambah Dokumen Lain (Maks 3)"),
                             ),
@@ -258,7 +271,6 @@ class PerbaruiInformasiPribadiSection extends StatelessWidget {
                         }
                         return const SizedBox.shrink();
                       }),
-
                       const SizedBox(height: 8),
                       Text(
                         dokumenList[0]['lampiran'] != null

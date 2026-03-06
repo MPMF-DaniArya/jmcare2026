@@ -150,6 +150,9 @@ class Endpoint {
   static const String TAG_DOWNLOAD_ECONTRACT = "DownloadEContract.json";
   static const String TAG_DETAIL_SDP_USER = "getDetailSDP.json";
   static const String TAG_DOWNLOAD_PDP_PDF = "download_PDP_PDF.json";
+  static const String TAG_SUBMIT_REQ_PENGKINIAN_DATA_PRIBADI = "submitRequestSDP.json";
+  static const String TAG_HISTORY_PENGKINIAN_DATA_PRIBADI = "getListSDP.json";
+
 
   static List<Interceptor> dioInterceptors = [
     PrettyDioLogger(
