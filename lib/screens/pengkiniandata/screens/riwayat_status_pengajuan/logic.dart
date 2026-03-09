@@ -35,16 +35,14 @@ class RiwayatStatusPengajuanLogic extends BaseLogic {
               userId: int.tryParse(auth.data!.loginUserId!)!,
               status: statusFilter);
 
-      if (response != null) {
-        if (response is List) {
-          listRiwayat.value = response
-              .map(
-                (e) => GetRiwayatPpdRespon.fromJson(e),
-              )
-              .toList();
-        } else if (response is GetRiwayatPdpError) {
-          Fungsi.errorToast('Gagal Memuat Riwayat. Silahkan coba lagi nanti!');
-        }
+      if (response != null && response is List) {
+        listRiwayat.value = response
+            .map(
+              (e) => GetRiwayatPpdRespon.fromJson(e),
+            )
+            .toList();
+      } else if (response is GetRiwayatPdpError) {
+        Fungsi.errorToast('Gagal Memuat Riwayat. Silahkan coba lagi nanti!');
       }
     } catch (e) {
       Fungsi.koneksiError();

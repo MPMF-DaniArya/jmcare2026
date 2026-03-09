@@ -1,5 +1,7 @@
 class GetRiwayatPpdRespon {
-  String? base64File;
+  String? base64FileKk;
+  String? base64FileKtp;
+  String? base64FilePendukung;
   String? createDate;
   String? dataSaatIni;
   String? jenisPerubahanData;
@@ -9,7 +11,9 @@ class GetRiwayatPpdRespon {
   String? status;
 
   GetRiwayatPpdRespon({
-    this.base64File,
+    this.base64FilePendukung,
+    this.base64FileKk,
+    this.base64FileKtp,
     this.createDate,
     this.dataSaatIni,
     this.jenisPerubahanData,
@@ -20,7 +24,9 @@ class GetRiwayatPpdRespon {
   });
 
   GetRiwayatPpdRespon.fromJson(Map<String, dynamic> json) {
-    base64File = json['base64file'];
+    base64FileKk = json['base64_filekk'];
+    base64FileKtp = json['base64_filektp'];
+    base64FilePendukung = json['base64_filependukung'];
     createDate = json['create_date'];
     dataSaatIni = json['data_saat_ini'];
     jenisPerubahanData = json['jenis_perubahan_data'];
@@ -32,7 +38,9 @@ class GetRiwayatPpdRespon {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['base64file'] = base64File;
+    data['base64_filektp'] = base64FileKtp;
+    data['base64_filekk'] = base64FileKk;
+    data['base64_filependukung'] = base64FilePendukung;
     data['create_date'] = createDate;
     data['data_saat_ini'] = dataSaatIni;
     data['jenis_perubahan_data'] = jenisPerubahanData;

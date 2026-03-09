@@ -12,15 +12,30 @@ class ServiceLoggerInterceptor extends InterceptorsWrapper {
 }
 
 abstract class BaseService {
-
   String username = "saya#4dalahus3r*jmpmfi!";
   String password = "jmpmf!@2022*api=keren";
-  static String basicAuth = 'Basic ${base64Encode(utf8.encode('saya#4dalahus3r*jmpmfi!:jmpmf!@2022*api=keren'))}';
-  static String header_esign = "${Endpoint.TAG_ESIGN_API_KEY}@${Endpoint.TAG_ESIGN_TENANT_CODE}";
+  static String basicAuth =
+      'Basic ${base64Encode(utf8.encode('saya#4dalahus3r*jmpmfi!:jmpmf!@2022*api=keren'))}';
+  static String header_esign =
+      "${Endpoint.TAG_ESIGN_API_KEY}@${Endpoint.TAG_ESIGN_TENANT_CODE}";
 
-  static Map<String, String> headerJSON = {'Content-Type': 'application/json', 'Accept': '*/*', 'merchantkey': Konstan.tag_merchant_key, 'authorization': basicAuth};
-  static Map<String, String> headerEsign = {'Content-Type': 'application/json', 'Accept': '*/*', 'x-api-key': header_esign};
-  static Map<String, String> headerPlain = {'Content-Type': 'text/plain', 'Accept': '*/*', 'merchantkey': Konstan.tag_merchant_key, 'authorization': basicAuth};
+  static Map<String, String> headerJSON = {
+    'Content-Type': 'application/json',
+    'Accept': '*/*',
+    'merchantkey': Konstan.tag_merchant_key,
+    'authorization': basicAuth
+  };
+  static Map<String, String> headerEsign = {
+    'Content-Type': 'application/json',
+    'Accept': '*/*',
+    'x-api-key': header_esign
+  };
+  static Map<String, String> headerPlain = {
+    'Content-Type': 'text/plain',
+    'Accept': '*/*',
+    'merchantkey': Konstan.tag_merchant_key,
+    'authorization': basicAuth
+  };
 
   static late Dio client;
 
@@ -29,17 +44,17 @@ abstract class BaseService {
   }
 
   Future<T?> post<T>(String url, {Map<String, dynamic>? body}) async {
-    try{
+    try {
       final response = await _wrapRequest(() => client.post(url, data: body));
       return models.ModelGenerator.resolve<T>(response.data);
-    }catch(e){
+    } catch (e) {
       // Fungsi.errorToast(e.toString());
       return null;
     }
   }
 
   Future<T?> postJSON<T>(String url, {Map<String, dynamic>? body}) async {
-    try{
+    try {
       client.options.baseUrl = Endpoint.base_url;
       final response = await _wrapRequest(() => client.post(url,
           data: body,
@@ -47,7 +62,7 @@ abstract class BaseService {
             headers: headerJSON,
           )));
       return models.ModelGenerator.resolve<T>(response.data);
-    }catch(e){
+    } catch (e) {
       print("ERROR BASE SERVICE POSTJSON: $e");
       // Fungsi.errorToast(e.toString());
       return null;
@@ -71,7 +86,7 @@ abstract class BaseService {
   }
 
   Future<T?> postMPMI<T>(String url, {Map<String, dynamic>? body}) async {
-    try{
+    try {
       client.options.baseUrl = Endpoint.base_url_mpmi;
       final response = await _wrapRequest(() => client.post(url,
           data: body,
@@ -79,14 +94,14 @@ abstract class BaseService {
             headers: {'Content-Type': 'application/json', 'Accept': '*/*'},
           )));
       return models.ModelGenerator.resolve<T>(response.data);
-    }catch(e){
+    } catch (e) {
       // Fungsi.errorToast(e.toString());
       return null;
     }
   }
 
   Future<T?> postEsign<T>(String url, {Map<String, dynamic>? body}) async {
-    try{
+    try {
       client.options.baseUrl = Endpoint.base_url_esign;
       final response = await _wrapRequest(() => client.post(url,
           data: body,
@@ -94,14 +109,14 @@ abstract class BaseService {
             headers: headerEsign,
           )));
       return models.ModelGenerator.resolve<T>(response.data);
-    }catch(e){
+    } catch (e) {
       // Fungsi.errorToast(e.toString());
       return null;
     }
   }
 
   Future<T?> postString<T>(String url, {Map<String, dynamic>? body}) async {
-    try{
+    try {
       String param = jsonEncode(body);
       client.options.baseUrl = Endpoint.base_url;
       final response = await _wrapRequest(() => client.post(url,
@@ -110,14 +125,14 @@ abstract class BaseService {
             headers: headerPlain,
           )));
       return models.ModelGenerator.resolve<T>(response.data);
-    }catch(e){
+    } catch (e) {
       // Fungsi.errorToast(e.toString());
       return null;
     }
   }
 
   Future<T?> postRawString<T>(String url, String body) async {
-    try{
+    try {
       client.options.baseUrl = Endpoint.base_url;
       final response = await _wrapRequest(() => client.post(url,
           data: body,
@@ -125,14 +140,14 @@ abstract class BaseService {
             headers: headerPlain,
           )));
       return models.ModelGenerator.resolve<T>(response.data);
-    }catch(e){
+    } catch (e) {
       // Fungsi.errorToast(e.toString());
       return null;
     }
   }
 
   Future<T?> postQuery<T>(String url, {Map<String, dynamic>? body}) async {
-    try{
+    try {
       client.options.baseUrl = Endpoint.base_url;
       final response = await _wrapRequest(() => client.post(url,
           queryParameters: body,
@@ -140,17 +155,16 @@ abstract class BaseService {
             headers: headerPlain,
           )));
       return models.ModelGenerator.resolve<T>(response.data);
-    }catch(e){
+    } catch (e) {
       // Fungsi.errorToast(e.toString());
       return null;
     }
-
   }
 
   //tambahkan '{"data":' di sebelah kiri respon dan '}' disebelah kanan respon
   //buat model di json to dart berdasarkan tambahan tadi
   Future<T?> getJsonArray<T>(String url, {Map<String, dynamic>? body}) async {
-    try{
+    try {
       String param = jsonEncode(body);
       client.options.baseUrl = Endpoint.base_url;
       final response = await _wrapRequest(() => client.post(url,
@@ -162,7 +176,7 @@ abstract class BaseService {
       var bodi = '{"data":' + encoded + '}';
       var decoded = jsonDecode(bodi);
       return models.ModelGenerator.resolve<T>(decoded);
-    }catch(e){
+    } catch (e) {
       // Fungsi.errorToast(e.toString());
       return null;
     }
@@ -171,7 +185,7 @@ abstract class BaseService {
   //tambahkan '{"data":' di sebelah kiri respon dan '}' disebelah kanan respon
   //buat model di json to dart berdasarkan tambahan tadi
   Future<T?> getResources<T>(String url, {Map<String, dynamic>? body}) async {
-    try{
+    try {
       String param = jsonEncode(body);
       client.options.baseUrl = Endpoint.base_url;
       final response = await _wrapRequest(() => client.post(url,
@@ -183,7 +197,7 @@ abstract class BaseService {
       var bodi = '{"data":' + encoded + '}';
       var decoded = jsonDecode(bodi);
       return models.ModelGenerator.resolve<T>(decoded);
-    }catch(e){
+    } catch (e) {
       // Fungsi.errorToast(e.toString());
       return null;
     }
@@ -192,7 +206,7 @@ abstract class BaseService {
   //tambahkan '{"data":' di sebelah kiri respon dan '}' disebelah kanan respon
   //buat model di json to dart berdasarkan tambahan tadi
   Future<T?> getResource<T>(String url, {Map<String, dynamic>? body}) async {
-    try{
+    try {
       String param = jsonEncode(body);
       client.options.baseUrl = Endpoint.base_url;
       final response = await _wrapRequest(() => client.post(url,
@@ -204,7 +218,7 @@ abstract class BaseService {
       var bodi = '{"data":' + encoded + '}';
       var decoded = jsonDecode(bodi);
       return models.ModelGenerator.resolve<T>(decoded);
-    }catch(e){
+    } catch (e) {
       // Fungsi.errorToast(e.toString());
       return null;
     }
@@ -213,7 +227,7 @@ abstract class BaseService {
   //tambahkan '{"data":' di sebelah kiri respon dan '}' disebelah kanan respon
   //buat model di json to dart berdasarkan tambahan tadi
   Future<T?> getJMO<T>(String url, {Map<String, dynamic>? body}) async {
-    try{
+    try {
       String param = jsonEncode(body);
       client.options.baseUrl = Endpoint.base_url_jmo;
       final response = await _wrapRequest(() => client.get(url,
@@ -225,7 +239,7 @@ abstract class BaseService {
       var bodi = '{"data":' + encoded + '}';
       var decoded = jsonDecode(bodi);
       return models.ModelGenerator.resolve<T>(decoded);
-    }catch(e){
+    } catch (e) {
       // Fungsi.errorToast(e.toString());
       return null;
     }
@@ -234,7 +248,7 @@ abstract class BaseService {
   //tambahkan '{"data":' di sebelah kiri respon dan '}' disebelah kanan respon
   //buat model di json to dart berdasarkan tambahan tadi
   Future<T?> postJMO<T>(String url, {Map<String, dynamic>? body}) async {
-    try{
+    try {
       String param = jsonEncode(body);
       client.options.baseUrl = Endpoint.base_url_jmo;
       final response = await _wrapRequest(() => client.post(url,
@@ -246,33 +260,33 @@ abstract class BaseService {
       var bodi = '{"data":' + encoded + '}';
       var decoded = jsonDecode(bodi);
       return models.ModelGenerator.resolve<T>(decoded);
-    }catch(e){
+    } catch (e) {
       // Fungsi.errorToast(e.toString());
       return null;
     }
   }
 
   Future<T?> postSMS<T>(String url) async {
-    try{
+    try {
       client.options.baseUrl = Endpoint.base_url_reset_pass_sms;
       final response = await _wrapRequest(() => client.post(url,
           options: Options(
             headers: {'Accept': '*/*'},
           )));
       return models.ModelGenerator.resolve<T>(response.data);
-    }catch(e){
+    } catch (e) {
       // Fungsi.errorToast(e.toString());
       return null;
     }
   }
 
   Future<int> download(String baseURL, String fileName) async {
-    try{
+    try {
       client.options.baseUrl = baseURL;
       String path = await _getFilePath(fileName);
       await _wrapRequest(() => client.download(baseURL, path));
       return 1;
-    }catch(e){
+    } catch (e) {
       // Fungsi.errorToast(e.toString());
       // Fungsi.errorToast("Gagal download");
       return 0;
@@ -298,7 +312,7 @@ abstract class BaseService {
     try {
       return await request();
     } on DioException catch (e) {
-      if (e.error is SocketException ) {
+      if (e.error is SocketException) {
         if (retryCount == 3) {
           rethrow;
         } else {
@@ -307,7 +321,7 @@ abstract class BaseService {
           });
           return _wrapRequest(request, retryCount: retryCount + 1);
         }
-      }else if (e.error == DioExceptionType.connectionTimeout){
+      } else if (e.error == DioExceptionType.connectionTimeout) {
         // Fungsi.errorToast("Error: Timeout connection");
       }
       rethrow;

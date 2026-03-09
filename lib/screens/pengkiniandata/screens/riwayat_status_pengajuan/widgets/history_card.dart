@@ -16,7 +16,10 @@ class HistoryCard extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: 16),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.surface,
+        color: Theme
+            .of(context)
+            .colorScheme
+            .surface,
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
@@ -35,7 +38,7 @@ class HistoryCard extends StatelessWidget {
               Text(
                 data.noTiket ?? '-',
                 style:
-                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
               ),
               _buildStatusChip(data.status ?? '-'),
             ],
@@ -76,10 +79,13 @@ class HistoryCard extends StatelessWidget {
     Color bg;
     Color text;
 
-    if (status == 'Selesai') {
+    if (status == 'BARU') {
       bg = Colors.green.shade50;
       text = Colors.green;
-    } else if (status == 'Ditolak') {
+    } else if (status == 'DIPROSES') {
+      bg = Colors.orangeAccent;
+      text = Colors.white;
+    } else if (status == 'DITOLAK') {
       bg = Colors.red.shade50;
       text = Colors.red;
     } else {
@@ -96,7 +102,7 @@ class HistoryCard extends StatelessWidget {
       child: Text(
         status,
         style:
-            TextStyle(color: text, fontWeight: FontWeight.bold, fontSize: 12),
+        TextStyle(color: text, fontWeight: FontWeight.bold, fontSize: 12),
       ),
     );
   }
