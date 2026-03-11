@@ -1,9 +1,14 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:jmcare/helper/Komponen.dart';
 import 'package:jmcare/screens/base/jmcare_bar_screen.dart';
 import 'package:jmcare/screens/pengkiniandata/logic.dart';
 import 'package:jmcare/custom/container_menu.dart';
+
+import '../../helper/Konstan.dart';
 
 class PengkiniandataScreen extends StatelessWidget {
   const PengkiniandataScreen({super.key});
@@ -16,70 +21,79 @@ class PengkiniandataScreen extends StatelessWidget {
 
     return JmcareBarScreen(
       title: 'Menu Pengkinian Data',
-      body: SingleChildScrollView(
-        padding: const EdgeInsetsGeometry.all(8),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            for (var item in state.menuPengkinianData)
-              Padding(
-                padding: const EdgeInsets.only(bottom: 24),
-                child: InkWell(
-                  onTap: () {
-                    String? route = item['route'];
-                    if (route != null && route.isNotEmpty) {
-                      Get.toNamed(route);
-                    }
-                  },
-                  borderRadius: BorderRadius.circular(8),
-                  child: ContainerMenu(
-                      child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Container(
-                        height: 55,
-                        width: 55,
-                        decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Colors.green.withOpacity(0.32)),
-                        child: Center(
-                          child: FaIcon(
-                            item['icon'],
-                            color: Colors.green,
-                            size: 20,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 24,
-                      ),
-                      Expanded(
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              item['title'],
-                              style: textTheme.titleLarge!
-                                  .copyWith(fontWeight: FontWeight.bold),
-                            ),
-                            const SizedBox(
-                              height: 4,
-                            ),
-                            Text(
-                              item['description'],
-                              style: textTheme.bodyMedium,
-                              softWrap: true,
-                            )
-                          ],
+      body: Obx(
+        () => logic.is_loading.value
+            ? Komponen.getLoadingWidget()
+            : SingleChildScrollView(
+                padding: const EdgeInsetsGeometry.all(8),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    for (var item in state.menuPengkinianData)
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 24),
+                        child: InkWell(
+                          onTap: () {
+                            String? route = item['route'];
+                            if (route == null || route.isEmpty) return;
+
+                            if (route ==
+                                Konstan.rute_request_penghapusan_data_pribadi) {
+                              logic.cekSebelumHapusSdp();
+                            } else {
+                              Get.toNamed(route);
+                            }
+                          },
+                          borderRadius: BorderRadius.circular(8),
+                          child: ContainerMenu(
+                              child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Container(
+                                height: 55,
+                                width: 55,
+                                decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: Colors.green.withOpacity(0.32)),
+                                child: Center(
+                                  child: FaIcon(
+                                    item['icon'],
+                                    color: Colors.green,
+                                    size: 20,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 24,
+                              ),
+                              Expanded(
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      item['title'],
+                                      style: textTheme.titleLarge!.copyWith(
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    const SizedBox(
+                                      height: 4,
+                                    ),
+                                    Text(
+                                      item['description'],
+                                      style: textTheme.bodyMedium,
+                                      softWrap: true,
+                                    )
+                                  ],
+                                ),
+                              )
+                            ],
+                          )),
                         ),
                       )
-                    ],
-                  )),
+                  ],
                 ),
-              )
-          ],
-        ),
+              ),
       ),
     );
   }

@@ -12,12 +12,13 @@ import 'package:jmcare/screens/base/base_logic.dart';
 import 'package:jmcare/screens/pengkiniandata/screens/riwayat_status_pengajuan/state.dart';
 import 'package:jmcare/service/GetRiyawatPdpService.dart';
 import 'package:jmcare/service/Service.dart';
-import 'package:jmcare/service/download_file_pdp/PreviewFileKkService.dart';
-import 'package:jmcare/service/download_file_pdp/PreviewFileKtpService.dart';
-import 'package:jmcare/service/download_file_pdp/PreviewFilePendukungService.dart';
 import 'package:jmcare/storage/storage.dart';
 import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
+
+import '../../../../service/preview_file_pdp_riwayat_status_pengajuan/PreviewFileKkService.dart';
+import '../../../../service/preview_file_pdp_riwayat_status_pengajuan/PreviewFileKtpService.dart';
+import '../../../../service/preview_file_pdp_riwayat_status_pengajuan/PreviewFilePendukungService.dart';
 
 class RiwayatStatusPengajuanLogic extends BaseLogic {
   final RiwayatStatusPengajuanState state = RiwayatStatusPengajuanState();
@@ -99,7 +100,7 @@ class RiwayatStatusPengajuanLogic extends BaseLogic {
       if (response != null) {
         if (response is DownloadFilePdpError) {
           Fungsi.errorToast(
-              'Terjadi masalah. Tidak dapat menampilkan file KTP ');
+              'Terjadi masalah. Tidak dapat menampilkan file KTP');
         } else {
           if (response.base64File!.isNotEmpty && response.base64File != null) {
             Uint8List bytes = base64Decode(response.base64File!);

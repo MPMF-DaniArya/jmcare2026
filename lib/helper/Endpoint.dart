@@ -199,13 +199,14 @@ class Endpoint {
       "submitRequestSDP.json";
   static const String TAG_HISTORY_PENGKINIAN_DATA_PRIBADI = "getListSDP.json";
   static const String TAG_DOWNLOAD_FILE_PDP = 'downloadFileSDP.json';
+  static const String TAG_CEK_SEBELUM_HAPUS_SDP = 'cekSebelumHapusSDP.json';
 
   static List<Interceptor> dioInterceptors = [
     PrettyDioLogger(
       requestHeader: false,
       requestBody: false,
       responseHeader: false,
-      responseBody: false,
+      responseBody: true,
     )
   ];
 }

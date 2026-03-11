@@ -10,11 +10,11 @@ class PengkinianDataPribadiSubmitFormService extends BaseService {
   Future<BaseRespon?> submitFormPengkinianDataPribadi(
       {required int login_user_id,
       required String jenis_perubahan_data,
-      required String data_saat_ini,
-      required String perubahan_data,
-      required String file_pendukung,
-      required String file_ktp,
-      required String file_kk}) async {
+      String data_saat_ini = '',
+      String perubahan_data = '',
+      String file_pendukung = '',
+      String file_ktp = '',
+      String file_kk = ''}) async {
     await Future.delayed(const Duration(seconds: 0));
     try {
       List<Map<String, dynamic>> requestBody = [

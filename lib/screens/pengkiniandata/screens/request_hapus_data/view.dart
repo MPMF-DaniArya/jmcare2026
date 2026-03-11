@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:jmcare/screens/base/jmcare_bar_screen.dart';
-import 'package:jmcare/screens/pengkiniandata/screens/request_hapus_data/widgets/unggah_dolumen_section.dart';
+import 'package:jmcare/screens/pengkiniandata/screens/request_hapus_data/widgets/unggah_dokumen_section.dart';
 
+import 'logic.dart';
 import 'widgets/container_ketentuan_hapus_data.dart';
 
 class RequestHapusDataScreen extends StatefulWidget {
@@ -15,6 +17,8 @@ class _RequestHapusDataScreenState extends State<RequestHapusDataScreen> {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
+    final logic = Get.put(RequestHapusDataLogic());
+    final state = Get.find<RequestHapusDataLogic>().state;
 
     return JmcareBarScreen(
       title: 'Permintaan Hapus',
@@ -31,13 +35,11 @@ class _RequestHapusDataScreenState extends State<RequestHapusDataScreen> {
           SizedBox(
             width: double.infinity,
             child: ElevatedButton(
-              onPressed: () {},
+              onPressed: () => logic.dialogKonfirmasiHapusdata(context),
               child: Text(
                 "Submit",
-                style: textTheme.titleMedium!.copyWith(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white
-                ),
+                style: textTheme.titleMedium!
+                    .copyWith(fontWeight: FontWeight.bold, color: Colors.white),
               ),
             ),
           ),

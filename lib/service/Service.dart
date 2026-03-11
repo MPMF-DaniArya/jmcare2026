@@ -4,6 +4,7 @@ import 'package:jmcare/service/AgreementcardService.dart';
 import 'package:jmcare/service/AntriansekarangService.dart';
 import 'package:jmcare/service/CabangService.dart';
 import 'package:jmcare/service/CekRegistrasiesignService.dart';
+import 'package:jmcare/service/CekSebelumHapusSpdService.dart';
 import 'package:jmcare/service/CekkuisionerService.dart';
 import 'package:jmcare/service/CeknomorhpService.dart';
 import 'package:jmcare/service/CekpengkiniandataService.dart';
@@ -56,9 +57,6 @@ import 'package:jmcare/service/SubmitjawabanService.dart';
 import 'package:jmcare/service/SubmitlogdownloadService.dart';
 import 'package:jmcare/service/VersiService.dart';
 import 'package:jmcare/service/WilayahService.dart';
-import 'package:jmcare/service/download_file_pdp/PreviewFileKkService.dart';
-import 'package:jmcare/service/download_file_pdp/PreviewFileKtpService.dart';
-import 'package:jmcare/service/download_file_pdp/PreviewFilePendukungService.dart';
 import 'package:jmcare/service/klaimasuransi/AgreementinscoService.dart';
 import 'package:jmcare/service/klaimasuransi/CheckclaimavailableService.dart';
 import 'package:jmcare/service/klaimasuransi/DetailFormLanjutanService.dart';
@@ -73,6 +71,9 @@ import 'package:jmcare/service/klaimasuransi/MpmiDocumentChecklistService.dart';
 import 'package:jmcare/service/klaimasuransi/MpmiTokenService.dart';
 import 'package:jmcare/service/klaimasuransi/RiwayatformawalService.dart';
 import 'package:jmcare/service/klaimasuransi/UpdatechecklistdocumentService.dart';
+import 'package:jmcare/service/preview_file_pdp_riwayat_status_pengajuan/PreviewFileKkService.dart';
+import 'package:jmcare/service/preview_file_pdp_riwayat_status_pengajuan/PreviewFileKtpService.dart';
+import 'package:jmcare/service/preview_file_pdp_riwayat_status_pengajuan/PreviewFilePendukungService.dart';
 
 import 'BaseService.dart';
 import 'LoginService.dart';
@@ -169,7 +170,8 @@ class Service {
       GetRiyawatPdpService: GetRiyawatPdpService.instance,
       PreviewFileKtpService: PreviewFileKtpService.instance,
       PreviewFileKkService: PreviewFileKkService.instance,
-      PreviewFilePendukungService: PreviewFilePendukungService.instance
+      PreviewFilePendukungService: PreviewFilePendukungService.instance,
+      CekSebelumHapusSpdService: CekSebelumHapusSpdService.instance,
     };
   }
 
