@@ -2,12 +2,11 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:jmcare/helper/Konstan.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:get/get.dart';
-import 'dart:math';
 
 class Fungsi {
   double calculateDistance(double lat1, double lon1, double lat2, double lon2) {
@@ -305,5 +304,46 @@ class Fungsi {
       }
       return word;
     }).join(' ');
+  }
+
+  static String formatTanggalOnly(String? tanggalDanWaktu) {
+    DateFormat inputFormat = DateFormat("dd MMM yyyy HH:mm:ss");
+    DateFormat outputFormat = DateFormat("dd MMM yyyy");
+
+    String dateDisplay = "-";
+
+    if (tanggalDanWaktu != null && tanggalDanWaktu.isNotEmpty) {
+      try {
+        // parse ke DateTime
+        DateTime dateTime = inputFormat.parse(tanggalDanWaktu);
+        // format ke String
+        return dateDisplay = outputFormat.format(dateTime);
+      } catch (e) {
+        // jika format dari API tidak sesuai, tampilkan string aslinya atau '-'
+        debugPrint("Error parsing date: $e");
+        return dateDisplay = tanggalDanWaktu ?? "-";
+      }
+    } else {
+      return dateDisplay = "-";
+    }
+  }
+
+  static String getFileExtension(Uint8List bytes) {
+    if (bytes[0] == 0x25 &&
+        bytes[1] == 0x50 &&
+        bytes[2] == 0x44 &&
+        bytes[3] == 0x46) {
+      return '.pdf';
+    }
+
+    // PNG dimulai dengan: (89 50 4E 47 dalam Hex)
+    if (bytes[0] == 0x89 &&
+        bytes[1] == 0x50 &&
+        bytes[2] == 0x4E &&
+        bytes[3] == 0x47) {
+      return '.png';
+    }
+
+    return '.pdf';
   }
 }

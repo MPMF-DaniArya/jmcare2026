@@ -56,6 +56,9 @@ import 'package:jmcare/service/SubmitjawabanService.dart';
 import 'package:jmcare/service/SubmitlogdownloadService.dart';
 import 'package:jmcare/service/VersiService.dart';
 import 'package:jmcare/service/WilayahService.dart';
+import 'package:jmcare/service/download_file_pdp/PreviewFileKkService.dart';
+import 'package:jmcare/service/download_file_pdp/PreviewFileKtpService.dart';
+import 'package:jmcare/service/download_file_pdp/PreviewFilePendukungService.dart';
 import 'package:jmcare/service/klaimasuransi/AgreementinscoService.dart';
 import 'package:jmcare/service/klaimasuransi/CheckclaimavailableService.dart';
 import 'package:jmcare/service/klaimasuransi/DetailFormLanjutanService.dart';
@@ -164,6 +167,9 @@ class Service {
       PengkinianDataPribadiSubmitFormService:
           PengkinianDataPribadiSubmitFormService.instance,
       GetRiyawatPdpService: GetRiyawatPdpService.instance,
+      PreviewFileKtpService: PreviewFileKtpService.instance,
+      PreviewFileKkService: PreviewFileKkService.instance,
+      PreviewFilePendukungService: PreviewFilePendukungService.instance
     };
   }
 

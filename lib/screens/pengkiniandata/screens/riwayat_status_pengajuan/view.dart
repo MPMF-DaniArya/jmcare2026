@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:jmcare/helper/Fungsi.dart';
 import 'package:jmcare/helper/Komponen.dart';
-import 'package:jmcare/helper/Konstan.dart';
 import 'package:jmcare/screens/base/jmcare_bar_screen.dart';
 import 'package:jmcare/screens/pengkiniandata/screens/riwayat_status_pengajuan/widgets/history_card.dart';
 
@@ -95,38 +93,33 @@ class RiwayatStatusPengajuan extends StatelessWidget {
                       final data = logic.filterredHistory;
 
                       if (logic.is_loading.value) {
-                        return Center(
-                            child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Komponen.randomLoadingWidget(),
-                            const Padding(padding: EdgeInsets.only(top: 10)),
-                            const Text(
-                              'Sedang memuat....\nButuh waktu lebih lama untuk mengambil data',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(color: Colors.grey),
-                            )
-                          ],
-                        ));
+                        return Center(child: Komponen.randomLoadingWidget());
                       }
 
                       if (data.isEmpty) {
                         return Center(
                           child: Text(
-                            'Data tidak ditemukan',
-                            style: textTheme.titleMedium!
+                            'Belum ada riwayat dengan status ini', textAlign: TextAlign.center,
+                            style: textTheme.titleLarge!
                                 .copyWith(fontWeight: FontWeight.bold),
                           ),
                         );
                       }
 
-                      return ListView.builder(
-                        itemCount: data.length,
-                        itemBuilder: (context, index) {
-                          final item = data[index];
-                          return HistoryCard(data: item);
-                        },
+                      return Obx(
+                        () => logic.is_loading.value
+                            ? Komponen.getLoadingWidget()
+                            : RefreshIndicator(
+                                onRefresh: () async =>
+                                    logic.getHistoryPengkinian(),
+                                child: ListView.builder(
+                                  itemCount: data.length,
+                                  itemBuilder: (context, index) {
+                                    final item = data[index];
+                                    return HistoryCard(data: item);
+                                  },
+                                ),
+                              ),
                       );
                     },
                   ),

@@ -2,6 +2,7 @@ class GetRiwayatPpdRespon {
   String? base64FileKk;
   String? base64FileKtp;
   String? base64FilePendukung;
+  int? idPdp;
   String? createDate;
   String? dataSaatIni;
   String? jenisPerubahanData;
@@ -14,6 +15,7 @@ class GetRiwayatPpdRespon {
     this.base64FilePendukung,
     this.base64FileKk,
     this.base64FileKtp,
+    this.idPdp,
     this.createDate,
     this.dataSaatIni,
     this.jenisPerubahanData,
@@ -27,6 +29,7 @@ class GetRiwayatPpdRespon {
     base64FileKk = json['base64_filekk'];
     base64FileKtp = json['base64_filektp'];
     base64FilePendukung = json['base64_filependukung'];
+    idPdp = json['id'];
     createDate = json['create_date'];
     dataSaatIni = json['data_saat_ini'];
     jenisPerubahanData = json['jenis_perubahan_data'];
@@ -41,6 +44,7 @@ class GetRiwayatPpdRespon {
     data['base64_filektp'] = base64FileKtp;
     data['base64_filekk'] = base64FileKk;
     data['base64_filependukung'] = base64FilePendukung;
+    data['id'] = idPdp;
     data['create_date'] = createDate;
     data['data_saat_ini'] = dataSaatIni;
     data['jenis_perubahan_data'] = jenisPerubahanData;

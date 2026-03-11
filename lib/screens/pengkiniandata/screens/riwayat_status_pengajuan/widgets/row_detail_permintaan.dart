@@ -28,7 +28,7 @@ class RowDetailPermintaan extends StatelessWidget {
           ),
           Expanded(
             child: Text(
-              ': $value',
+              value.isNotEmpty ? ': $value' : ': -',
               style:
                   textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.bold),
             ),

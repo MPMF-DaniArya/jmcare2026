@@ -48,6 +48,7 @@ import 'package:jmcare/model/session/ResetPassModel.dart';
 import 'package:jmcare/model/session/SelectedMethod.dart';
 import 'package:jmcare/model/session/ShowWelcome.dart';
 
+import '../api/DownloadFilePdpRespon.dart';
 import '../api/NotifRespon.dart';
 import '../api/VersiRespon.dart';
 
@@ -108,7 +109,8 @@ class ModelGenerator {
           DetailFormLanjutanRespon.fromJson(json),
       SubjekDataPribadiRespon: (json) => SubjekDataPribadiRespon.fromJson(json),
       DownloadPdfPdpRespon: (json) => DownloadPdfPdpRespon.fromJson(json),
-      GetRiwayatPpdRespon: (json) => GetRiwayatPpdRespon.fromJson(json)
+      GetRiwayatPpdRespon: (json) => GetRiwayatPpdRespon.fromJson(json),
+      PreviewFilePdpRespon: (json) => PreviewFilePdpRespon.fromJson(json)
     };
   }
 

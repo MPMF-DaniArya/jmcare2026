@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:jmcare/helper/Fungsi.dart';
 import 'package:jmcare/helper/Konstan.dart';
 import 'package:jmcare/model/api/GetRiwayatPpdRespon.dart';
-
-import '../state.dart';
 
 class HistoryCard extends StatelessWidget {
   final GetRiwayatPpdRespon data;
@@ -12,65 +11,58 @@ class HistoryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 16),
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Theme
-            .of(context)
-            .colorScheme
-            .surface,
+    String tanggalPengkinian = Fungsi.formatTanggalOnly(data.createDate);
+
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 16),
+      child: InkWell(
         borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.05),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                data.noTiket ?? '-',
-                style:
-                const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+        onTap: () => Get.toNamed(
+            Konstan.rute_detail_status_pengkinian_data_pribadi,
+            arguments: data),
+        child: Container(
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: Theme.of(context).colorScheme.surface,
+            borderRadius: BorderRadius.circular(12),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.05),
+                blurRadius: 10,
+                offset: const Offset(0, 4),
               ),
-              _buildStatusChip(data.status ?? '-'),
             ],
           ),
-          const SizedBox(height: 8),
-          Text(
-            data.jenisPerubahanData ?? '-',
-            style: const TextStyle(fontSize: 14),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    data.noTiket ?? '-',
+                    style: const TextStyle(
+                        fontWeight: FontWeight.bold, fontSize: 16),
+                  ),
+                  _buildStatusChip(data.status ?? '-'),
+                ],
+              ),
+              const SizedBox(height: 8),
+              Text(
+                data.jenisPerubahanData == 'Penghapusan Data Pribadi'
+                    ? data.jenisPerubahanData ?? '-'
+                    : 'Pengkinian ${data.jenisPerubahanData}',
+                style: const TextStyle(fontSize: 14),
+              ),
+              const SizedBox(height: 4),
+              Text(
+                "Pengajuan: $tanggalPengkinian",
+                style: const TextStyle(fontSize: 12),
+              ),
+              const SizedBox(height: 12),
+            ],
           ),
-          const SizedBox(height: 4),
-          Text(
-            "Pengajuan: ${data.createDate ?? '-'}",
-            style: const TextStyle(fontSize: 12),
-          ),
-          const SizedBox(height: 12),
-          OutlinedButton.icon(
-            onPressed: () {
-              Get.toNamed(Konstan.rute_detail_status_pengkinian_data_pribadi,
-                  arguments: data);
-            },
-            icon: const Icon(Icons.remove_red_eye_outlined,
-                size: 16, color: Colors.green),
-            label: const Text("Lihat Detail",
-                style: TextStyle(color: Colors.green)),
-            style: OutlinedButton.styleFrom(
-              side: const BorderSide(color: Colors.green),
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8)),
-              minimumSize: const Size(0, 32),
-            ),
-          )
-        ],
+        ),
       ),
     );
   }
@@ -102,7 +94,7 @@ class HistoryCard extends StatelessWidget {
       child: Text(
         status,
         style:
-        TextStyle(color: text, fontWeight: FontWeight.bold, fontSize: 12),
+            TextStyle(color: text, fontWeight: FontWeight.bold, fontSize: 12),
       ),
     );
   }
