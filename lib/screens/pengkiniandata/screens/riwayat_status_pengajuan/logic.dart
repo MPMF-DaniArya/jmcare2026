@@ -59,9 +59,7 @@ class RiwayatStatusPengajuanLogic extends BaseLogic {
         DateFormat inputFormat = DateFormat("dd MMM yyyy HH:mm:ss");
 
         rawList.sort(
-          (a, b) => inputFormat
-              .parse(b.createDate!)
-              .compareTo(inputFormat.parse(a.createDate!)),
+          (a, b) => b.noTiket!.compareTo(a.noTiket!),
         );
 
         listRiwayat.value = rawList;
