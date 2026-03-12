@@ -17,6 +17,7 @@
 
     void cekSebelumHapusSdp() async {
       is_loading.value = true;
+      await Future.delayed(const Duration(milliseconds: 1200));
       try {
         final auth = await getStorage<LoginRespon>();
         final response = await getService<CekSebelumHapusSpdService>()!

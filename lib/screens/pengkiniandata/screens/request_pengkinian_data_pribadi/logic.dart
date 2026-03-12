@@ -5,11 +5,11 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jmcare/helper/Fungsi.dart';
+import 'package:jmcare/model/api/BaseRespon.dart';
 import 'package:jmcare/screens/base/base_logic.dart';
 import 'package:jmcare/screens/pengkiniandata/screens/request_pengkinian_data_pribadi/state.dart';
 import 'package:jmcare/service/PengkinianDataPribadiSubmitFormService.dart';
 
-import '../../../../model/api/BaseRespon.dart';
 import '../../../../model/api/LoginRespon.dart';
 import '../../../../model/api/SubjekDataPribadiRespon.dart';
 import '../../../../service/GetDetailSdpService.dart';
@@ -116,16 +116,73 @@ class RequestPengkinianDataPribadiLogic extends BaseLogic {
 
     state.formList[index]['dataLama'] = dataLama;
 
-    // Reset dokumenList jika jenis data diubah ke yang tidak wajib dokumen
-    bool isWajib = jenisDataWajibUploadDokumen.contains(value);
     var dokumenList =
         state.formList[index]['dokumenList'] as RxList<Map<String, dynamic>>;
-    if (!isWajib && dokumenList.length > 1) {
-      // Sisakan hanya satu dokumen
-      var dokumenPertama = dokumenList[0];
-      dokumenList.clear();
-      dokumenList.add(dokumenPertama);
+    dokumenList.clear();
+
+    if (value == 'Nama Lengkap') {
+      dokumenList.addAll([
+        {
+          'label': 'KTP',
+          'isWajib': true,
+          'lampiran': null,
+          'base64_file': '',
+          'namaFile': ''
+        },
+        {
+          'label': 'KK',
+          'isWajib': true,
+          'lampiran': null,
+          'base64_file': '',
+          'namaFile': ''
+        },
+        {
+          'label': 'Surat Putusan Pengadilan',
+          'isWajib': true,
+          'lampiran': null,
+          'base64_file': '',
+          'namaFile': ''
+        },
+      ]);
+    } else if (value == 'Alamat Domisili' || value == 'Alamat KTP') {
+      dokumenList.addAll([
+        {
+          'label': 'KTP',
+          'isWajib': true,
+          'lampiran': null,
+          'base64_file': "",
+          'namaFile': ""
+        },
+        {
+          'label': 'BKR',
+          'isWajib': true,
+          'lampiran': null,
+          'base64_file': "",
+          'namaFile': ""
+        },
+      ]);
+    } else if (value == 'Nomor Handphone' || value == 'Alamat Email') {
+      dokumenList.addAll([
+        {
+          'label': 'File Pendukung (Opsional)',
+          'isWajib': false,
+          'lampiran': null,
+          'base64_file': "",
+          'namaFile': ""
+        },
+      ]);
     }
+
+    // Reset dokumenList jika jenis data diubah ke yang tidak wajib dokumen
+    // bool isWajib = jenisDataWajibUploadDokumen.contains(value);
+    // var dokumenList =
+    //     state.formList[index]['dokumenList'] as RxList<Map<String, dynamic>>;
+    // if (!isWajib && dokumenList.length > 1) {
+    //   // Sisakan hanya satu dokumen
+    //   var dokumenPertama = dokumenList[0];
+    //   dokumenList.clear();
+    //   dokumenList.add(dokumenPertama);
+    // }
 
     state.formList.refresh();
     update();
@@ -133,22 +190,19 @@ class RequestPengkinianDataPribadiLogic extends BaseLogic {
 
   // Fungsi untuk menambahkan form baru
   void addFormBaru() {
-    bool isSemuaFormSudahTerisi = state.formList.every((form) {
-      String? jenisData = form['jenisDataTerpilih'];
-      TextEditingController? tec = form['tecDataBaru'];
-      bool isWajib = jenisDataWajibUploadDokumen.contains(jenisData);
+    bool isSemuaFormSudahTerisi = _validasiSemuaForm();
 
-      var dokumenList = form['dokumenList'] as RxList<Map<String, dynamic>>?;
-      bool isDokumenTerisi = !isWajib ||
-          (dokumenList != null &&
-              dokumenList.isNotEmpty &&
-              dokumenList[0]['lampiran'] != null);
-
-      return jenisData != null &&
-          tec != null &&
-          tec.text.trim().isNotEmpty &&
-          isDokumenTerisi;
-    });
+    //   var dokumenList = form['dokumenList'] as RxList<Map<String, dynamic>>?;
+    //   bool isDokumenTerisi = !isWajib ||
+    //       (dokumenList != null &&
+    //           dokumenList.isNotEmpty &&
+    //           dokumenList[0]['lampiran'] != null);
+    //
+    //   return jenisData != null &&
+    //       tec != null &&
+    //       tec.text.trim().isNotEmpty &&
+    //       isDokumenTerisi;
+    // });
 
     if (state.formList.isNotEmpty && !isSemuaFormSudahTerisi) {
       Fungsi.warningToast(
@@ -161,9 +215,7 @@ class RequestPengkinianDataPribadiLogic extends BaseLogic {
         'tecDataBaru': TextEditingController(),
         'jenisDataTerpilih': null,
         'dataLama': "-",
-        'dokumenList': <Map<String, dynamic>>[
-          {'lampiran': null, 'base64_file': "", 'namaFile': ""},
-        ].obs,
+        'dokumenList': <Map<String, dynamic>>[].obs,
       });
     } else {
       Fungsi.errorToast('Anda telah mencapai batas maksimum formulir.');
@@ -196,7 +248,10 @@ class RequestPengkinianDataPribadiLogic extends BaseLogic {
   void pilihFile(int formIndex, int docIndex) async {
     FilePickerResult? hasil = await FilePicker.platform.pickFiles(
       type: FileType.custom,
-      allowedExtensions: ['pdf', 'png', 'jpg', 'jpeg', 'heic', 'doc', 'docx'],
+      allowedExtensions: [
+        'pdf',
+        'jpg',
+      ],
     );
 
     if (hasil != null) {
@@ -225,38 +280,39 @@ class RequestPengkinianDataPribadiLogic extends BaseLogic {
   void hapusFile(int formIndex, int docIndex) {
     var dokumenList = state.formList[formIndex]['dokumenList']
         as RxList<Map<String, dynamic>>;
+    var doc = dokumenList[docIndex];
+    doc['lampiran'] = null;
+    doc['base64_file'] = "";
+    doc['namaFile'] = "";
 
-    if (dokumenList.length > 1) {
-      dokumenList.removeAt(docIndex);
-    } else {
-      dokumenList[0] = {'lampiran': null, 'base64_file': "", 'namaFile': ""};
-    }
     dokumenList.refresh();
     state.formList.refresh();
     update();
   }
 
-  void submitData() async {
-    if (state.formKey?.currentState?.validate() ?? false) {
-      bool isSemuaFormSudahTerisi = state.formList.every((form) {
-        String? jenisData = form['jenisDataTerpilih'];
-        TextEditingController? tec = form['tecDataBaru'];
-        bool isWajib = jenisDataWajibUploadDokumen.contains(jenisData);
+  bool _validasiSemuaForm() {
+    return state.formList.every((form) {
+      String? jenisData = form['jenisDataTerpilih'];
+      TextEditingController? tec = form['tecDataBaru'];
 
-        var dokumenList = form['dokumenList'] as RxList<Map<String, dynamic>>?;
-        bool isDokumenTerisi = !isWajib ||
-            (dokumenList != null &&
-                dokumenList.isNotEmpty &&
-                dokumenList[0]['lampiran'] != null);
+      if (jenisData == null || tec == null || tec.text.trim().isEmpty)
+        return false;
 
-        return jenisData != null &&
-            tec != null &&
-            tec.text.trim().isNotEmpty &&
-            isDokumenTerisi;
+      var dokumenList = form['dokumenList'] as RxList<Map<String, dynamic>>;
+      bool isDokumenValid = dokumenList.every((doc) {
+        if (doc['isWajib'] == true && doc['lampiran'] == null) return false;
+        return true;
       });
 
-      if (!isSemuaFormSudahTerisi) {
-        Fungsi.errorToast('Silahkan Cek Kembali Data Anda.');
+      return isDokumenValid;
+    });
+  }
+
+  void submitData() async {
+    if (state.formKey?.currentState?.validate() ?? false) {
+      if (!_validasiSemuaForm()) {
+        Fungsi.errorToast(
+            'Silahkan lengkapi dokumen wajib di semua formulir Anda.');
         return;
       }
 
@@ -266,40 +322,59 @@ class RequestPengkinianDataPribadiLogic extends BaseLogic {
         final auth = await getStorage<LoginRespon>();
         final userId = int.tryParse(auth.data!.loginUserId!)!;
 
+        List<Map<String, dynamic>> requestBody = [];
+
         for (var form in state.formList) {
-          String jenisData = form['jenisDataTerpilih']!;
-          String dataLama = form['dataLama']!;
-          String dataBaru = (form['tecDataBaru'] as TextEditingController).text;
+          String fileKtp = '';
+          String fileKk = '';
+          String filePendukung = '';
 
           var dokumenList = form['dokumenList'] as RxList<Map<String, dynamic>>;
 
-          final response =
-              await getService<PengkinianDataPribadiSubmitFormService>()!
-                  .submitFormPengkinianDataPribadi(
-            login_user_id: userId,
-            jenis_perubahan_data: jenisData,
-            data_saat_ini: dataLama,
-            perubahan_data: dataBaru,
-            file_ktp: dokumenList[0]['base64_file'],
-            file_kk: dokumenList[0]['base64_file'],
-            file_pendukung: dokumenList[0]['base64_file'],
-          );
-
-          if (response == null || response is BaseError) {
-            Fungsi.errorToast(
-                "Gagal mengirimkan data untuk $jenisData. Silakan coba lagi.");
-            return;
+          for (var doc in dokumenList) {
+            if (doc['base64_file'] != '') {
+              if (doc['label'] == 'KTP') {
+                fileKtp = doc['base64_file'];
+              } else if (doc['label'] == 'KK') {
+                fileKk = doc['base64_file'];
+              } else {
+                filePendukung = doc['base64_file'];
+              }
+            }
           }
 
-          if (response.code.toString() != '200' &&
-              response.status != "Success") {
-            Fungsi.errorToast("Terjadi kesalahan: ${response.message}");
-            return;
-          }
+          requestBody.add({
+            "login_user_id": userId,
+            "jenis_perubahan_data": form['jenisDataTerpilih'],
+            "data_saat_ini": form['dataLama'],
+            "perubahan_data":
+            (form['tecDataBaru'] as TextEditingController).text,
+            "file_pendukung": filePendukung,
+            "file_ktp": fileKtp,
+            "file_kk": fileKk,
+          });
         }
 
-        Fungsi.suksesToast('Semua Pengkinian Data Berhasil Diajukan.');
+        final response =
+        await getService<PengkinianDataPribadiSubmitFormService>()!
+            .submitFormPengkinianDataPribadi(requestBody: requestBody);
+
+        if (response == null || response is BaseError) {
+          Fungsi.errorToast("Terjadi error. Gagal mengirimkan pengajuan.");
+          return;
+        }
+
+        if (response.code.toString() != '200' &&
+            response.status != "Success") {
+          Fungsi.errorToast("Terjadi kesalahan: ${response.message}");
+          return;
+        }
+
         Get.back();
+
+        await Future.delayed(const Duration(milliseconds: 300));
+        Fungsi.suksesToast('Semua Pengkinian Data Berhasil Diajukan.');
+
       } catch (e) {
         Fungsi.errorToast("Terjadi kesalahan sistem: $e");
       } finally {

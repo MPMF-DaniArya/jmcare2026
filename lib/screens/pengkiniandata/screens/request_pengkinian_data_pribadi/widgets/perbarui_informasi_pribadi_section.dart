@@ -160,9 +160,9 @@ class PerbaruiInformasiPribadiSection extends StatelessWidget {
                 RxList<Map<String, dynamic>> dokumenList =
                     formItem['dokumenList'];
 
-                String? selectedJenisData = formItem['jenisDataTerpilih'];
-                bool isWajibUploadDokumen = logic.jenisDataWajibUploadDokumen
-                    .contains(selectedJenisData);
+                if (dokumenList.isEmpty) {
+                  return const SizedBox.shrink();
+                }
 
                 return Container(
                   padding: const EdgeInsets.all(16.0),
@@ -170,9 +170,7 @@ class PerbaruiInformasiPribadiSection extends StatelessWidget {
                     borderRadius: BorderRadius.circular(16.0),
                     color: Theme.of(context).colorScheme.surface,
                     border: Border.all(
-                      color: isWajibUploadDokumen
-                          ? Colors.redAccent
-                          : Colors.green,
+                      color: Colors.green,
                       width: 1.5,
                     ),
                     boxShadow: [
@@ -199,17 +197,10 @@ class PerbaruiInformasiPribadiSection extends StatelessWidget {
                                     color: Theme.of(context)
                                         .colorScheme
                                         .onSurface)),
-                            if (isWajibUploadDokumen)
-                              const TextSpan(
-                                  text: " *",
-                                  style: TextStyle(
-                                      color: Colors.red,
-                                      fontSize: 16,
-                                      fontFamily: Konstan.tag_default_font)),
                           ],
                         ),
                       ),
-                      const SizedBox(height: 8),
+                      const SizedBox(height: 12),
                       Obx(
                         () => ListView.separated(
                           shrinkWrap: true,
@@ -220,64 +211,35 @@ class PerbaruiInformasiPribadiSection extends StatelessWidget {
                           itemBuilder: (context, docIndex) {
                             var doc = dokumenList[docIndex];
                             bool isFileExist = doc['lampiran'] != null;
-
-                            // Logika Penamaan Label Dokumen
-                            String labelDokumen = "File Pendukung";
-                            if (isWajibUploadDokumen) {
-                              if (docIndex == 0) {
-                                labelDokumen = "KTP";
-                              } else if (docIndex == 1) {
-                                labelDokumen = "KK";
-                              } else {
-                                labelDokumen = "File Pendukung";
-                              }
-                            }
+                            bool isWajib = doc['isWajib'];
+                            String labelDokumen = doc['label'];
 
                             return Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(labelDokumen, style: textTheme.labelLarge),
-                                const SizedBox(height: 4),
+                                RichText(
+                                    text: TextSpan(children: [
+                                  TextSpan(
+                                      text: labelDokumen,
+                                      style: textTheme.labelLarge),
+                                  if (isWajib)
+                                    const TextSpan(
+                                        text: ' *',
+                                        style: TextStyle(
+                                            color: Colors.red, fontSize: 14))
+                                ])),
+                                const SizedBox(height: 6),
                                 isFileExist
                                     ? _buildFileUploadedTile(doc['namaFile'],
                                         () => logic.hapusFile(index, docIndex))
                                     : _buildUploadButton(
                                         onTap: () =>
                                             logic.pilihFile(index, docIndex),
-                                        isWajib: isWajibUploadDokumen &&
-                                            docIndex ==
-                                                0, // Hanya Dokumen #1 yang merah jika wajib
-                                      ),
+                                        isWajib: isWajib)
                               ],
                             );
                           },
                         ),
-                      ),
-                      Obx(() {
-                        // Tombol tambah dokumen hanya muncul jika data terpilih adalah data wajib dan jumlah kurang dari 3
-                        if (isWajibUploadDokumen &&
-                            dokumenList.length < 3 &&
-                            dokumenList.isNotEmpty &&
-                            dokumenList.last['lampiran'] != null) {
-                          return Padding(
-                            padding: const EdgeInsets.only(top: 12),
-                            child: TextButton.icon(
-                              onPressed: () =>
-                                  logic.tambahDokumenPerForm(index),
-                              icon: const Icon(Icons.add_circle_outline),
-                              label: const Text("Tambah Dokumen Lain (Maks 3)"),
-                            ),
-                          );
-                        }
-                        return const SizedBox.shrink();
-                      }),
-                      const SizedBox(height: 8),
-                      Text(
-                        dokumenList[0]['lampiran'] != null
-                            ? 'Status: Dokumen berhasil diunggah.'
-                            : 'Status: Belum ada dokumen yang diunggah.',
-                        style:
-                            textTheme.labelMedium!.copyWith(color: Colors.grey),
                       ),
                     ],
                   ),
