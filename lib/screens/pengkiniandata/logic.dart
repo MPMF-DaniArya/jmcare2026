@@ -27,7 +27,7 @@
           if (response is BaseError) {
             Fungsi.errorToast('Terjadi masalah. Silahkan coba lagi nanti!');
           } else {
-            if (response.code == Konstan.tag_200) {
+            if (response.code == Konstan.tag_100) {
               Get.defaultDialog(
                 title: "Pemberitahuan",
                 titleStyle: const TextStyle(fontWeight: FontWeight.bold),
