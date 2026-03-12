@@ -328,7 +328,9 @@ class Fungsi {
     }
   }
 
+  // fungsi untuk membedakan ekstensi file berdasarkan magic bytes dari base64 file
   static String getFileExtension(Uint8List bytes) {
+    // magic bytes untuk .pdf
     if (bytes[0] == 0x25 &&
         bytes[1] == 0x50 &&
         bytes[2] == 0x44 &&
@@ -336,12 +338,11 @@ class Fungsi {
       return '.pdf';
     }
 
-    // PNG dimulai dengan: (89 50 4E 47 dalam Hex)
-    if (bytes[0] == 0x89 &&
-        bytes[1] == 0x50 &&
-        bytes[2] == 0x4E &&
-        bytes[3] == 0x47) {
-      return '.png';
+    // magic bytes untuk .jpg
+    if (bytes[0] == 0xFF &&
+        bytes[1] == 0xD8 &&
+        bytes[2] == 0xFF) {
+      return '.jpg';
     }
 
     return '.pdf';

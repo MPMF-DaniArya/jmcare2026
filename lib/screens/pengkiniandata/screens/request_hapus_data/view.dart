@@ -1,5 +1,8 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:jmcare/helper/Komponen.dart';
 import 'package:jmcare/screens/base/jmcare_bar_screen.dart';
 import 'package:jmcare/screens/pengkiniandata/screens/request_hapus_data/widgets/unggah_dokumen_section.dart';
 
@@ -22,28 +25,36 @@ class _RequestHapusDataScreenState extends State<RequestHapusDataScreen> {
 
     return JmcareBarScreen(
       title: 'Permintaan Hapus',
-      body: SingleChildScrollView(
-        child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
-          ContainerKetentuanHapusData(textTheme: textTheme),
-          const SizedBox(
-            height: 16,
-          ),
-          UnggahDokumenSection(textTheme: textTheme),
-          const SizedBox(
-            height: 24,
-          ),
-          SizedBox(
-            width: double.infinity,
-            child: ElevatedButton(
-              onPressed: () => logic.dialogKonfirmasiHapusdata(context),
-              child: Text(
-                "Submit",
-                style: textTheme.titleMedium!
-                    .copyWith(fontWeight: FontWeight.bold, color: Colors.white),
+      body: Obx(
+        () => logic.is_loading.value
+            ? Komponen.getLoadingWidget()
+            : SingleChildScrollView(
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      ContainerKetentuanHapusData(textTheme: textTheme),
+                      const SizedBox(
+                        height: 16,
+                      ),
+                      UnggahDokumenSection(textTheme: textTheme),
+                      const SizedBox(
+                        height: 24,
+                      ),
+                      SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          onPressed: () =>
+                              logic.dialogKonfirmasiHapusdata(context),
+                          child: Text(
+                            "Submit",
+                            style: textTheme.titleMedium!.copyWith(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white),
+                          ),
+                        ),
+                      ),
+                    ]),
               ),
-            ),
-          ),
-        ]),
       ),
     );
   }

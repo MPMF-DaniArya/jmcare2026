@@ -42,7 +42,7 @@ class RiwayatStatusPengajuanLogic extends BaseLogic {
           ? ''
           : selectedCategory.value.toUpperCase();
 
-      await Future.delayed(const Duration(seconds: 1));
+      await Future.delayed(const Duration(milliseconds: 1200));
 
       final dynamic response = await getService<GetRiyawatPdpService>()!
           .getRiwayatPdp(
@@ -210,7 +210,7 @@ class RiwayatStatusPengajuanLogic extends BaseLogic {
                   "Tidak ada aplikasi untuk membuka file $extensions ini.");
             }
           } else {
-            Fungsi.warningToast("Data file kosong.");
+            Fungsi.warningToast("Tidak ada file yang anda unggah");
           }
         }
       }
