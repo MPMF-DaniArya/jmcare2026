@@ -44,6 +44,7 @@ import 'package:jmcare/service/PaginationuserService.dart';
 import 'package:jmcare/service/PengkiniandataService.dart';
 import 'package:jmcare/service/PertanyaanService.dart';
 import 'package:jmcare/service/PilihkontrakService.dart';
+import 'package:jmcare/service/PostReadNotifikasiService.dart';
 import 'package:jmcare/service/RegisterDebiturService.dart';
 import 'package:jmcare/service/RegisterNonDebiturService.dart';
 import 'package:jmcare/service/ResetpasswordService.dart';
@@ -142,17 +143,21 @@ class Service {
       MpmiClaimDetailService: MpmiClaimDetailService.instance,
       MpmiDocumentChecklistService: MpmiDocumentChecklistService.instance,
       CheckclaimavailableService: CheckclaimavailableService.instance,
-      GetDocumentChecklistAsuransiService: GetDocumentChecklistAsuransiService.instance,
+      GetDocumentChecklistAsuransiService:
+          GetDocumentChecklistAsuransiService.instance,
       OnesignalUpdateIdService: OnesignalUpdateIdService.instance,
       OnesignalgetnotifService: OnesignalgetnotifService.instance,
-      EContractsubmitformpengaduanService: EContractsubmitformpengaduanService.instance,
+      EContractsubmitformpengaduanService:
+          EContractsubmitformpengaduanService.instance,
       EContractdownloadService: EContractdownloadService.instance,
       SubmitlogdownloadService: SubmitlogdownloadService.instance,
       JumlahdownloadService: JumlahdownloadService.instance,
       GantipasswordService: GantipasswordService.instance,
       DownloadsuratkeputusanService: DownloadsuratkeputusanService.instance,
       DetailFormLanjutanService: DetailFormLanjutanService.instance,
-      LayananPengaduanSubmitFormService: LayananPengaduanSubmitFormService.instance
+      LayananPengaduanSubmitFormService:
+          LayananPengaduanSubmitFormService.instance,
+      PostReadNotifikasiService: PostReadNotifikasiService.instance
     };
   }
 

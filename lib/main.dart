@@ -45,12 +45,6 @@ import 'package:jmcare/screens/onesignal/notif/detail_notifikasi_view.dart';
 import 'package:jmcare/screens/onesignal/notif/view.dart';
 import 'package:jmcare/screens/paginationuser/view.dart';
 import 'package:jmcare/screens/pdfview/view.dart';
-import 'package:jmcare/screens/pengkiniandata/screens/kebijakan_perlindungan_data_pribadi/view.dart';
-import 'package:jmcare/screens/pengkiniandata/screens/penampilan_data_pribadi/view.dart';
-import 'package:jmcare/screens/pengkiniandata/screens/request_hapus_data/view.dart';
-import 'package:jmcare/screens/pengkiniandata/screens/request_pengkinian_data_pribadi/view.dart';
-import 'package:jmcare/screens/pengkiniandata/screens/riwayat_status_pengajuan/detail_status_pengajuan_view.dart';
-import 'package:jmcare/screens/pengkiniandata/screens/riwayat_status_pengajuan/view.dart';
 import 'package:jmcare/screens/pengkiniandata/view.dart';
 import 'package:jmcare/screens/pilihkontrak/view.dart';
 import 'package:jmcare/screens/pilihregister/view.dart';
@@ -241,24 +235,6 @@ class MyApp extends StatelessWidget {
         GetPage(
             name: Konstan.rute_layanan_pengaduan,
             page: () => const LayananPengaduanScreen()),
-        GetPage(
-            name: Konstan.rute_pengkinian_data_kebijakan_perlindungan,
-            page: () => const KebijakanPerlindunganDataScreen()),
-        GetPage(
-            name: Konstan.rute_penampilan_data_pribadi,
-            page: () => const PenampilanDataPribadiScreen()),
-        GetPage(
-            name: Konstan.rute_request_pengkinian_data_pribadi,
-            page: () => const RequestPengkinianDataPribadiScreen()),
-        GetPage(
-            name: Konstan.rute_request_penghapusan_data_pribadi,
-            page: () => const RequestHapusDataScreen()),
-        GetPage(
-            name: Konstan.rute_riwayat_pengkinian_data_pribadi,
-            page: () => const RiwayatStatusPengajuan()),
-        GetPage(
-            name: Konstan.rute_detail_status_pengkinian_data_pribadi,
-            page: () => const DetailStatusPengajuan()),
       ],
       title: 'JM CARE',
       theme: ThemeData(

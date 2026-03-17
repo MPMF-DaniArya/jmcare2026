@@ -149,6 +149,8 @@ class Endpoint {
   static const String TAG_JUMLAH_DOWNLOAD = "GetJumlahDownload.json";
   static const String TAG_DOWNLOAD_ECONTRACT = "DownloadEContract.json";
 
+  static const String TAG_READ_NOTIFIKASI = 'onesignal/read_notification';
+
   static List<Interceptor> dioInterceptors = [
     PrettyDioLogger(
       requestHeader: false,
