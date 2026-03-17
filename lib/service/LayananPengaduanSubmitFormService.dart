@@ -19,7 +19,7 @@ class LayananPengaduanSubmitFormService extends BaseService {
         'login_user_id': login_user_id,
         'nama_lengkap': nama_lengkap,
         'hp': nomor_hp,
-        'no_agreement': agreement_no,
+        'no_agreement': 'X$agreement_no',
         'isi_kritik': kritikSaranPengaduan,
         'lampiran': lampiran,
         'create_by': login_user_id.toString()
