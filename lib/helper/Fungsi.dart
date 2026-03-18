@@ -56,7 +56,7 @@ class Fungsi{
         colorText: Colors.white,
         backgroundColor: Colors.teal,
         icon: const Icon(Icons.warning_amber, color: Colors.white,),
-        duration: const Duration(seconds: 3),
+        duration: const Duration(seconds: 5),
         forwardAnimationCurve: Curves.bounceInOut
     );
   }
@@ -69,7 +69,7 @@ class Fungsi{
         colorText: Colors.white,
         backgroundColor: Colors.green,
         icon: const Icon(Icons.thumb_up_off_alt, color: Colors.white,),
-        duration: const Duration(seconds: 3),
+        duration: const Duration(seconds: 4),
         forwardAnimationCurve: Curves.bounceInOut
     );
   }
@@ -82,7 +82,7 @@ class Fungsi{
       colorText: Colors.white,
       backgroundColor: Colors.red,
       icon: const Icon(Icons.error_outline, color: Colors.white,),
-      duration: const Duration(seconds: 4),
+      duration: const Duration(seconds: 5),
       forwardAnimationCurve: Curves.bounceInOut
     );
   }
