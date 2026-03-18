@@ -1,12 +1,13 @@
 import 'dart:io';
 
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:jmcare/screens/home/logic.dart';
 import 'package:jmcare/screens/home/state.dart';
-import 'package:get/get.dart';
+
 import '../../helper/Komponen.dart';
 import '../../helper/Warna.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -118,13 +119,6 @@ class HomeScreen extends StatelessWidget {
                                                                       .white,
                                                                   fontSize: 12),
                                                             ),
-                                                            // Row(
-                                                            //   children:  [
-                                                            //     Text(logic.point.value.toString(), style: const
-                                                            //     TextStyle(color: Colors.white, fontSize: 10),),
-                                                            //     const Text(" point", style: TextStyle(color: Colors.white, fontSize: 8),),
-                                                            //   ],
-                                                            // ),
                                                           ],
                                                         ),
                                                         logic.sdhLogin.value
@@ -133,19 +127,56 @@ class HomeScreen extends StatelessWidget {
                                                                             " ",
                                                                             "") ==
                                                                     "1"
-                                                                ? IconButton(
-                                                                    onPressed:
-                                                                        () {
-                                                                      logic
-                                                                          .klikNotifikasi();
-                                                                    },
-                                                                    icon:
-                                                                        const Icon(
-                                                                      Icons
-                                                                          .notifications,
-                                                                      color: Colors
-                                                                          .white,
-                                                                    ))
+                                                                ? Stack(
+                                                                    children: [
+                                                                      IconButton(
+                                                                          onPressed:
+                                                                              () {
+                                                                            logic.klikNotifikasi();
+                                                                          },
+                                                                          icon:
+                                                                              const Icon(
+                                                                            Icons.notifications,
+                                                                            color:
+                                                                                Colors.white,
+                                                                          )),
+                                                                      if (logic
+                                                                              .obsUnreadNotifCount
+                                                                              .value >
+                                                                          0)
+                                                                        Positioned(
+                                                                          right:
+                                                                              8,
+                                                                          top:
+                                                                              8,
+                                                                          child:
+                                                                              Container(
+                                                                            padding:
+                                                                                const EdgeInsets.all(2),
+                                                                            decoration:
+                                                                                BoxDecoration(
+                                                                              color: Colors.red,
+                                                                              borderRadius: BorderRadius.circular(10),
+                                                                            ),
+                                                                            constraints:
+                                                                                const BoxConstraints(
+                                                                              minWidth: 16,
+                                                                              minHeight: 16,
+                                                                            ),
+                                                                            child:
+                                                                                Text(
+                                                                              '${logic.obsUnreadNotifCount.value}',
+                                                                              style: const TextStyle(
+                                                                                color: Colors.white,
+                                                                                fontSize: 10,
+                                                                                fontWeight: FontWeight.bold,
+                                                                              ),
+                                                                              textAlign: TextAlign.center,
+                                                                            ),
+                                                                          ),
+                                                                        )
+                                                                    ],
+                                                                  )
                                                                 : Container()
                                                             : const Padding(
                                                                 padding: EdgeInsets
@@ -409,7 +440,8 @@ class HomeScreen extends StatelessWidget {
                                                           Warna.hijau1,
                                                           Warna.hijau2,
                                                           'Layanan Pengaduan',
-                                                              () => logic.klikLayananPengaduan()),
+                                                          () => logic
+                                                              .klikLayananPengaduan()),
                                                       Komponen.homeButtonMenu(
                                                           Icons.question_mark,
                                                           Warna.hijau1,
@@ -454,7 +486,8 @@ class HomeScreen extends StatelessWidget {
                                                           Warna.hijau1,
                                                           Warna.hijau2,
                                                           'Layanan Pengaduan',
-                                                              () => logic.klikLayananPengaduan()),
+                                                          () => logic
+                                                              .klikLayananPengaduan()),
                                                       Komponen.homeButtonMenu(
                                                           Icons.security,
                                                           Warna.hijau1,

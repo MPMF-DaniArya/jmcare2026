@@ -1,31 +1,27 @@
 import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jmcare/helper/Endpoint.dart';
 import 'package:jmcare/helper/Fungsi.dart';
-import 'package:jmcare/helper/Komponen.dart';
 import 'package:jmcare/helper/Konstan.dart';
 import 'package:jmcare/model/api/BaseRespon.dart';
 import 'package:jmcare/model/api/CekRegistrasiesignRequest.dart';
 import 'package:jmcare/model/api/CekRegistrasiesignRespon.dart';
 import 'package:jmcare/model/api/GradeRespon.dart';
 import 'package:jmcare/model/api/LoginRespon.dart';
+import 'package:jmcare/model/api/NotifRespon.dart';
 import 'package:jmcare/model/api/ProdukRespon.dart';
 import 'package:jmcare/model/api/PromoRespon.dart';
 import 'package:jmcare/model/api/SlideshowRespon.dart';
-import 'package:jmcare/model/api/VersiRespon.dart';
 import 'package:jmcare/screens/base/base_logic.dart';
 import 'package:jmcare/screens/home/state.dart';
 import 'package:jmcare/service/CekRegistrasiesignService.dart';
-import 'package:jmcare/service/CekpengkiniandataService.dart';
 import 'package:jmcare/service/GradeService.dart';
+import 'package:jmcare/service/OnesignalgetnotifService.dart';
 import 'package:jmcare/service/Service.dart';
-import 'package:jmcare/service/VersiService.dart';
 import 'package:jmcare/storage/storage.dart';
-import 'package:package_info_plus/package_info_plus.dart';
-import '../../model/api/VersiModel.dart';
+
 import '../../service/DeleteakunService.dart';
 import '../../service/SlideService.dart';
 
@@ -47,6 +43,9 @@ class HomeLogic extends BaseLogic {
   var is_loading_pengkiniandata = false.obs;
   var obsSwitch = false.obs;
 
+  // jumlah notif yang belum dibaca
+  var obsUnreadNotifCount = 0.obs;
+
   @override
   void onInit() async {
     super.onInit();
@@ -56,35 +55,31 @@ class HomeLogic extends BaseLogic {
     getSlides();
     getGrade();
 
-    if (Platform.isAndroid){
+    if (Platform.isAndroid) {
       cekVersi();
     }
   }
 
-  void changeTheme(bool newValue){
+  void changeTheme(bool newValue) {
     obsSwitch.value = newValue;
-    Get.changeTheme(
-      Get.isDarkMode
-          ? ThemeData(
-              useMaterial3:  false,
-              primarySwatch: Colors.green,
-              fontFamily: 'Nexa',
-              brightness: Brightness.light
-            )
-          : ThemeData(
-              useMaterial3: false,
-              primarySwatch: Colors.green,
-              fontFamily: 'Nexa',
-              brightness: Brightness.dark
-            )
-    );
+    Get.changeTheme(Get.isDarkMode
+        ? ThemeData(
+            useMaterial3: false,
+            primarySwatch: Colors.green,
+            fontFamily: 'Nexa',
+            brightness: Brightness.light)
+        : ThemeData(
+            useMaterial3: false,
+            primarySwatch: Colors.green,
+            fontFamily: 'Nexa',
+            brightness: Brightness.dark));
   }
 
-  void klikGantiPassword(){
+  void klikGantiPassword() {
     Get.toNamed(Konstan.rute_gantipassword);
   }
 
-  void klikJaringanKami(){
+  void klikJaringanKami() {
     Get.toNamed(Konstan.rute_list_cabang);
   }
 
@@ -93,39 +88,47 @@ class HomeLogic extends BaseLogic {
   }
 
   void klikAgreementCard() {
-    Get.toNamed(Konstan.rute_pilih_no_kontrak, arguments: {'detail': Konstan.rute_agreement_card});
+    Get.toNamed(Konstan.rute_pilih_no_kontrak,
+        arguments: {'detail': Konstan.rute_agreement_card});
   }
 
-  void klikeContract(){
-    Get.toNamed(Konstan.rute_pilih_no_kontrak, arguments: {Konstan.tag_detail: Konstan.rute_eContract});
+  void klikeContract() {
+    Get.toNamed(Konstan.rute_pilih_no_kontrak,
+        arguments: {Konstan.tag_detail: Konstan.rute_eContract});
   }
 
-  void klikAntrianOnline(){
-    Get.toNamed(Konstan.rute_antrian, arguments: {Konstan.tag_selected_index: 0});
+  void klikAntrianOnline() {
+    Get.toNamed(Konstan.rute_antrian,
+        arguments: {Konstan.tag_selected_index: 0});
   }
 
-  void klikEpolis(){
-    Get.toNamed(Konstan.rute_pilih_no_kontrak, arguments: {'detail': Konstan.rute_epolis});
+  void klikEpolis() {
+    Get.toNamed(Konstan.rute_pilih_no_kontrak,
+        arguments: {'detail': Konstan.rute_epolis});
   }
 
   void klikLayananPengaduan() {
     Get.toNamed(Konstan.rute_layanan_pengaduan);
   }
 
-  void klikKlaimAsuransi(){
-    Get.toNamed(Konstan.rute_pilih_no_kontrak, arguments: {'detail': Konstan.rute_klaim_asuransi});
+  void klikKlaimAsuransi() {
+    Get.toNamed(Konstan.rute_pilih_no_kontrak,
+        arguments: {'detail': Konstan.rute_klaim_asuransi});
     // Get.toNamed(Konstan.rute_klaimasuransi_agreementinsco);
   }
 
-  void klikFAQ(){
+  void klikFAQ() {
     Get.toNamed(Konstan.rute_faq);
   }
 
-  void klikNotifikasi(){
-    Get.toNamed(Konstan.rute_onesignal_notif);
+  void klikNotifikasi() async {
+    // Navigasi ke halaman notifikasi
+    await Get.toNamed(Konstan.rute_onesignal_notif);
+    // Setelah kembali dari halaman notif, refresh jumlah unread badge
+    getUnreadNotifCount();
   }
 
-  void klikEsignHome(){
+  void klikEsignHome() {
     Get.toNamed(Konstan.rute_esign_home);
     // Get.toNamed(Konstan.rute_klaimasuransi_agreementinsco);
   }
@@ -143,8 +146,12 @@ class HomeLogic extends BaseLogic {
       Get.bottomSheet(FractionallySizedBox(
           widthFactor: 0.9,
           child: Container(
-            decoration:
-            BoxDecoration(border: Border.all(color: Colors.black12), color: Colors.white, borderRadius: const BorderRadius.only(topRight: Radius.circular(30), topLeft: Radius.circular(30))),
+            decoration: BoxDecoration(
+                border: Border.all(color: Colors.black12),
+                color: Colors.white,
+                borderRadius: const BorderRadius.only(
+                    topRight: Radius.circular(30),
+                    topLeft: Radius.circular(30))),
             padding: const EdgeInsets.all(10),
             child: Wrap(
               children: [
@@ -159,7 +166,6 @@ class HomeLogic extends BaseLogic {
                     ),
                   ),
                 ),
-
                 state.isDebitur == "1" ? const Divider() : Container(),
                 ListTile(
                   leading: Image.asset(
@@ -169,14 +175,15 @@ class HomeLogic extends BaseLogic {
                   ),
                   title: const Text("Antrian Online"),
                   trailing: const Icon(Icons.arrow_right),
-                  subtitle: const Text("Sistem reservasi nomor antrian loket pendaftaran secara online"),
-                  onTap: () => Get.offNamed(Konstan.rute_antrian, arguments: {Konstan.tag_selected_index: 0}),
+                  subtitle: const Text(
+                      "Sistem reservasi nomor antrian loket pendaftaran secara online"),
+                  onTap: () => Get.offNamed(Konstan.rute_antrian,
+                      arguments: {Konstan.tag_selected_index: 0}),
                   // onTap: () => Fungsi.warningToast("Menu belum tersedia"),
                 ),
               ],
             ),
           )));
-
     } else {
       //kalo sdh login, cek apakah debitur atau bukan
       //cek apakah yang login itu debitur atau bukan
@@ -184,8 +191,12 @@ class HomeLogic extends BaseLogic {
       Get.bottomSheet(FractionallySizedBox(
           widthFactor: 0.9,
           child: Container(
-            decoration:
-            BoxDecoration(border: Border.all(color: Colors.black12), color: Colors.white, borderRadius: const BorderRadius.only(topRight: Radius.circular(30), topLeft: Radius.circular(30))),
+            decoration: BoxDecoration(
+                border: Border.all(color: Colors.black12),
+                color: Colors.white,
+                borderRadius: const BorderRadius.only(
+                    topRight: Radius.circular(30),
+                    topLeft: Radius.circular(30))),
             padding: const EdgeInsets.all(10),
             child: Wrap(
               children: [
@@ -201,18 +212,21 @@ class HomeLogic extends BaseLogic {
                   ),
                 ),
                 const Padding(padding: EdgeInsets.only(top: 20)),
-                state.isDebitur == "1" //kalo yg login debitur, tampilkan menu agreement card
+                state.isDebitur ==
+                        "1" //kalo yg login debitur, tampilkan menu agreement card
                     ? ListTile(
-                  leading: Image.asset(
-                    'assets/images/selfservice.png',
-                    width: 50,
-                    height: 50,
-                  ),
-                  title: const Text("Agreement Card"),
-                  trailing: const Icon(Icons.arrow_right),
-                  subtitle: const Text("Lihat agreement card berdasarkan nomor kontrak"),
-                  onTap: () => Get.offNamed(Konstan.rute_pilih_no_kontrak, arguments: {'detail': Konstan.rute_agreement_card}),
-                )
+                        leading: Image.asset(
+                          'assets/images/selfservice.png',
+                          width: 50,
+                          height: 50,
+                        ),
+                        title: const Text("Agreement Card"),
+                        trailing: const Icon(Icons.arrow_right),
+                        subtitle: const Text(
+                            "Lihat agreement card berdasarkan nomor kontrak"),
+                        onTap: () => Get.offNamed(Konstan.rute_pilih_no_kontrak,
+                            arguments: {'detail': Konstan.rute_agreement_card}),
+                      )
                     : Container(),
                 state.isDebitur == "1" ? const Divider() : Container(),
                 ListTile(
@@ -223,23 +237,28 @@ class HomeLogic extends BaseLogic {
                   ),
                   title: const Text("Antrian Online"),
                   trailing: const Icon(Icons.arrow_right),
-                  subtitle: const Text("Sistem reservasi nomor antrian loket pendaftaran secara online"),
-                  onTap: () => Get.offNamed(Konstan.rute_antrian, arguments: {Konstan.tag_selected_index: 0}),
+                  subtitle: const Text(
+                      "Sistem reservasi nomor antrian loket pendaftaran secara online"),
+                  onTap: () => Get.offNamed(Konstan.rute_antrian,
+                      arguments: {Konstan.tag_selected_index: 0}),
                   // onTap: () => Fungsi.warningToast("Menu belum tersedia"),
                 ),
                 state.isDebitur == "1" ? const Divider() : Container(),
-                state.isDebitur == "1" //kalo yg login debitur, tampilkan menu epolis
+                state.isDebitur ==
+                        "1" //kalo yg login debitur, tampilkan menu epolis
                     ? ListTile(
-                  leading: Image.asset(
-                    'assets/images/selfservice.png',
-                    width: 50,
-                    height: 50,
-                  ),
-                  trailing: const Icon(Icons.arrow_right),
-                  title: const Text("E-Polis"),
-                  subtitle: const Text("Unduh epolis Anda dalam format PDF"),
-                  onTap: () => Get.offNamed(Konstan.rute_pilih_no_kontrak, arguments: {'detail': Konstan.rute_epolis}),
-                )
+                        leading: Image.asset(
+                          'assets/images/selfservice.png',
+                          width: 50,
+                          height: 50,
+                        ),
+                        trailing: const Icon(Icons.arrow_right),
+                        title: const Text("E-Polis"),
+                        subtitle:
+                            const Text("Unduh epolis Anda dalam format PDF"),
+                        onTap: () => Get.offNamed(Konstan.rute_pilih_no_kontrak,
+                            arguments: {'detail': Konstan.rute_epolis}),
+                      )
                     : Container()
               ],
             ),
@@ -256,8 +275,12 @@ class HomeLogic extends BaseLogic {
       Get.bottomSheet(FractionallySizedBox(
           widthFactor: 0.9,
           child: Container(
-            decoration:
-            BoxDecoration(border: Border.all(color: Colors.black12), color: Colors.white, borderRadius: const BorderRadius.only(topRight: Radius.circular(30), topLeft: Radius.circular(30))),
+            decoration: BoxDecoration(
+                border: Border.all(color: Colors.black12),
+                color: Colors.white,
+                borderRadius: const BorderRadius.only(
+                    topRight: Radius.circular(30),
+                    topLeft: Radius.circular(30))),
             padding: const EdgeInsets.all(10),
             child: Wrap(
               children: [
@@ -285,41 +308,43 @@ class HomeLogic extends BaseLogic {
                   onTap: () => Get.offNamed(Konstan.rute_list_cabang),
                 ),
                 const Padding(padding: EdgeInsets.only(top: 20)),
-
-                state.isDebitur == "1" ?
-                ListTile(
-                  leading: Image.asset(
-                    'assets/images/selfservice.png',
-                    width: 50,
-                    height: 50,
-                  ),
-                  title: const Text("Pengkinian Data"),
-                  trailing: is_loading.value ? const CircularProgressIndicator() : const Icon(Icons.arrow_right),
-                  subtitle: const Text("Pembaharuan data Anda terkini"),
-                  onTap: () {
-                    //cek apakah sudah melakukan pengkinian data/belum?
-                    // cekPengkinianData();
-                    Fungsi.warningToast("Menu belum tersedia");
-                  },
-                ):Container(),
-
-                state.isDebitur == "1" ?
-                const Padding(padding: EdgeInsets.only(top: 20)) : Container(),
-
-                state.isDebitur == "1" ?
-                ListTile(
-                  leading: Image.asset(
-                    'assets/images/selfservice.png',
-                    width: 50,
-                    height: 50,
-                  ),
-                  title: const Text("eSignHub"),
-                  trailing: const Icon(Icons.arrow_right),
-                  subtitle: const Text("Tanda tangan elektronik"),
-                  onTap: () {
-                    Get.offNamed(Konstan.rute_esign_home);
-                  },
-                ):Container()
+                state.isDebitur == "1"
+                    ? ListTile(
+                        leading: Image.asset(
+                          'assets/images/selfservice.png',
+                          width: 50,
+                          height: 50,
+                        ),
+                        title: const Text("Pengkinian Data"),
+                        trailing: is_loading.value
+                            ? const CircularProgressIndicator()
+                            : const Icon(Icons.arrow_right),
+                        subtitle: const Text("Pembaharuan data Anda terkini"),
+                        onTap: () {
+                          //cek apakah sudah melakukan pengkinian data/belum?
+                          // cekPengkinianData();
+                          Fungsi.warningToast("Menu belum tersedia");
+                        },
+                      )
+                    : Container(),
+                state.isDebitur == "1"
+                    ? const Padding(padding: EdgeInsets.only(top: 20))
+                    : Container(),
+                state.isDebitur == "1"
+                    ? ListTile(
+                        leading: Image.asset(
+                          'assets/images/selfservice.png',
+                          width: 50,
+                          height: 50,
+                        ),
+                        title: const Text("eSignHub"),
+                        trailing: const Icon(Icons.arrow_right),
+                        subtitle: const Text("Tanda tangan elektronik"),
+                        onTap: () {
+                          Get.offNamed(Konstan.rute_esign_home);
+                        },
+                      )
+                    : Container()
               ],
             ),
           )));
@@ -413,8 +438,10 @@ class HomeLogic extends BaseLogic {
     final String noKTP = loginStorage.data!.noKtp!;
     var audit = Audit(callerId: Endpoint.TAG_ESIGN_CALLER_ID);
 
-    var body = CekRegistrasiesignRequest(audit: audit, dataType: "NIK", userData: noKTP);
-    final cekRegistrasi = await getService<CekRegistrasiesignService>()?.cekRegistrasi(noKTP);
+    var body = CekRegistrasiesignRequest(
+        audit: audit, dataType: "NIK", userData: noKTP);
+    final cekRegistrasi =
+        await getService<CekRegistrasiesignService>()?.cekRegistrasi(noKTP);
     if (cekRegistrasi is CekregistrasiesignError || cekRegistrasi == null) {
       Fungsi.errorToast("Gagal cek registrasi Esign!");
     } else {
@@ -437,17 +464,19 @@ class HomeLogic extends BaseLogic {
     nama_user.value = Fungsi.splitNamaUser(loginRespon.data!.namaUser!);
     final gradeRespon = await getService<GradeService>()?.getGrade(state.noKTP);
     loading_grade.value = false;
-    if (gradeRespon == null){
+    if (gradeRespon == null) {
       grade.value = "";
       point.value = "0";
-    }else{
+    } else {
       if (gradeRespon is GradeError) {
         grade.value = "";
         point.value = "0";
       } else {
         var data = gradeRespon.data!.first;
         grade.value = data.grade!;
-        point.value = data.point!.toString().isEmpty ? '0' : Fungsi.formatNumber(data.point!, 0);
+        point.value = data.point!.toString().isEmpty
+            ? '0'
+            : Fungsi.formatNumber(data.point!, 0);
       }
     }
     //simpan grade dan point di session
@@ -465,7 +494,6 @@ class HomeLogic extends BaseLogic {
       icon_jenis_member.value = "";
     }
     debugPrint('icon jenis member ' + icon_jenis_member.value.toString());
-
   }
 
   void checkIsLogin() async {
@@ -478,9 +506,9 @@ class HomeLogic extends BaseLogic {
       //menu pengkinian data hanya bisa diklik kalau cabang sudah insert data debitur
       //ke mysystem
       //ini cuma di iPhone/iOS saja ya...
-      if (storageAuth.data!.loginUserId!.replaceAll(" ", "") == "68"){
+      if (storageAuth.data!.loginUserId!.replaceAll(" ", "") == "68") {
         obsAppleVisibility.value = true;
-      }else{
+      } else {
         obsAppleVisibility.value = false;
       }
       // debugPrint( "login userid " + storageAuth.data!.loginUserId!);
@@ -488,6 +516,9 @@ class HomeLogic extends BaseLogic {
       //ask permission kalo sdh login
       askPermission();
       state.isDebitur = storageAuth.data!.jenisdebitur!.removeAllWhitespace;
+
+      // Ambil jumlah notif belum dibaca
+      getUnreadNotifCount();
     } else {
       sdhLogin.value = false;
     }
@@ -495,11 +526,25 @@ class HomeLogic extends BaseLogic {
     debugPrint('sdh login ' + sdhLogin.value.toString());
   }
 
+  void getUnreadNotifCount() async {
+    final auth = await getStorage<LoginRespon>();
+    final login_user_id = auth.data!.loginUserId;
+    if (login_user_id != null) {
+      final respon =
+          await getService<OnesignalgetnotifService>()?.getNotif(login_user_id);
+      if (respon != null && respon is! NotifError) {
+        // Hitung notif yang isRead == '0'
+        obsUnreadNotifCount.value =
+            respon.data?.where((element) => element.isRead == '0').length ?? 0;
+      }
+    }
+  }
+
   void getSlides() async {
     is_loading.value = true;
     //get slideshow
     var slideshow = await getService<SlideService>()?.getSlideshow();
-    if (slideshow != null){
+    if (slideshow != null) {
       if (slideshow is SlideshowError || slideshow?.data?.length == 0) {
         Fungsi.errorToast("Error get slide data");
         jmlArraySlideshow.value = 0;
@@ -507,7 +552,7 @@ class HomeLogic extends BaseLogic {
         arraySlideshow.value = slideshow;
         jmlArraySlideshow.value = slideshow.data!.length;
       }
-    }else{
+    } else {
       Fungsi.koneksiError();
       jmlArraySlideshow.value = 0;
     }
@@ -517,9 +562,9 @@ class HomeLogic extends BaseLogic {
     //get slide produk
     is_loading.value = true;
     var produks = await getService<SlideService>()?.getSlideProduk();
-    if (produks == null){
+    if (produks == null) {
       jmlProduk.value = 0;
-    }else{
+    } else {
       if (produks is ProdukError || produks?.data?.length == 0) {
         // Fungsi.koneksiError();
         jmlProduk.value = 0;
@@ -534,10 +579,10 @@ class HomeLogic extends BaseLogic {
     is_loading.value = true;
     //get slide promo
     var promos = await getService<SlideService>()?.getSlidePromo();
-    if (promos == null){
+    if (promos == null) {
       jmlPromo.value = 0;
       // Fungsi.koneksiError();
-    }else{
+    } else {
       if (promos is PromoError) {
         Fungsi.errorToast("Error memproses data!");
         jmlPromo.value = 0;
@@ -557,5 +602,4 @@ class HomeLogic extends BaseLogic {
   void showDetailSlide(String detail) {
     debugPrint("detail " + detail);
   }
-
 }
