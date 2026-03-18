@@ -26,7 +26,7 @@ class OnesignalnotifScreen extends StatelessWidget {
                     : RefreshIndicator(
                         child: ListView.builder(
                             padding: const EdgeInsets.symmetric(vertical: 8),
-                            itemCount: logic.obsRowCount.value,
+                            itemCount: logic.obsNotifRespon.value.data!.length,
                             itemBuilder: (BuildContext context, int index) {
                               final itemNotif =
                                   logic.obsNotifRespon.value.data![index];
@@ -128,42 +128,6 @@ class OnesignalnotifScreen extends StatelessWidget {
                                                                 ),
                                                               ),
                                                             ),
-                                                            // if (isUnread)
-                                                            //   Container(
-                                                            //     margin:
-                                                            //         const EdgeInsets
-                                                            //             .only(
-                                                            //             left:
-                                                            //                 8),
-                                                            //     padding: const EdgeInsets
-                                                            //         .symmetric(
-                                                            //         horizontal:
-                                                            //             8,
-                                                            //         vertical:
-                                                            //             2),
-                                                            //     decoration:
-                                                            //         BoxDecoration(
-                                                            //       color: Warna
-                                                            //           .hijau,
-                                                            //       borderRadius:
-                                                            //           BorderRadius
-                                                            //               .circular(
-                                                            //                   10),
-                                                            //     ),
-                                                            //     child:
-                                                            //         const Text(
-                                                            //       "BARU",
-                                                            //       style:
-                                                            //           TextStyle(
-                                                            //         color: Colors
-                                                            //             .white,
-                                                            //         fontSize: 9,
-                                                            //         fontWeight:
-                                                            //             FontWeight
-                                                            //                 .bold,
-                                                            //       ),
-                                                            //     ),
-                                                            //   ),
                                                           ],
                                                         ),
                                                         const SizedBox(

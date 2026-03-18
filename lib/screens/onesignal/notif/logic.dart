@@ -46,16 +46,20 @@ class OnesignalnotifLogic extends BaseLogic {
 
   void isReadNotifikasi(String idNotifikasi, Data itemNotif) async {
     if (itemNotif.isRead == '0') {
-      try {
-        await getService<PostReadNotifikasiService>()!
-            .isReadNotifikasi(idNotifikasi: idNotifikasi);
-      } catch (e) {
-        debugPrint("Error: $e");
+      int index = obsNotifRespon.value.data!.indexOf(itemNotif);
+      if (index != -1) {
+        obsNotifRespon.value.data![index].isRead = '1';
+
+        obsNotifRespon.refresh();
       }
+
+      getService<PostReadNotifikasiService>()!
+          .isReadNotifikasi(idNotifikasi: idNotifikasi)
+          .catchError(
+            (e) => debugPrint('Error Update isRead di server: $e'),
+          );
     }
 
-    await Get.toNamed(Konstan.rute_detail_notif, arguments: itemNotif);
-
-    getNotif();
+    Get.toNamed(Konstan.rute_detail_notif, arguments: itemNotif);
   }
 }
