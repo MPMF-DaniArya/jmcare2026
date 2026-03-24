@@ -33,10 +33,16 @@ class LayananPengaduanLogic extends BaseLogic {
   String email = '';
   File? gambarDipilih;
 
+  String? argNomorKontrak;
+
   @override
   void onInit() {
     // TODO: implement onInit
     super.onInit();
+
+    if (Get.arguments != null) {
+      argNomorKontrak = Get.arguments[Konstan.tag_detail];
+    }
 
     getListKontrak();
 
@@ -84,21 +90,37 @@ class LayananPengaduanLogic extends BaseLogic {
 
           ddNomorKontrak.clear();
 
-          //get array pertama, untuk get nomor kontrak pertama
-          //asign pada var idxDdNomorKontrak
           if (realKontrak.data!.isNotEmpty) {
-            final kontrakPertama = realKontrak.data!.first;
-            idxDdNomorKontrak.value = kontrakPertama.aGRMNTNO!;
-            state.tecNamaLengkap!.text = kontrakPertama.cUSTFULLNAME!;
-            state.tecNoPlat!.text = kontrakPertama.pLATNO!;
-            state.tecTipeUnit!.text = kontrakPertama.merkType!;
-          }
+            if (argNomorKontrak != null && argNomorKontrak!.isNotEmpty) {
 
-          //tambahkan ke dropdown
-          realKontrak.data?.forEach((e) {
-            ddNomorKontrak.add(
-                DropdownMenuItem(value: e.aGRMNTNO, child: Text(e.aGRMNTNO!)));
-          });
+              final kontrakDicari = realKontrak.data!.firstWhere(
+                  (element) => element.aGRMNTNO == argNomorKontrak,
+                  orElse: () => realKontrak.data!
+                      .first);
+
+              idxDdNomorKontrak.value = kontrakDicari.aGRMNTNO!;
+              state.tecNamaLengkap!.text = kontrakDicari.cUSTFULLNAME!;
+              state.tecNoPlat!.text = kontrakDicari.pLATNO!;
+              state.tecTipeUnit!.text = kontrakDicari.merkType!;
+
+              ddNomorKontrak.add(DropdownMenuItem(
+                  value: kontrakDicari.aGRMNTNO,
+                  child: Text(kontrakDicari.aGRMNTNO!)));
+            } else {
+
+              final kontrakPertama = realKontrak.data!.first;
+              idxDdNomorKontrak.value = kontrakPertama.aGRMNTNO!;
+              state.tecNamaLengkap!.text = kontrakPertama.cUSTFULLNAME!;
+              state.tecNoPlat!.text = kontrakPertama.pLATNO!;
+              state.tecTipeUnit!.text = kontrakPertama.merkType!;
+
+              // Tambahkan semua kontrak ke dropdown
+              realKontrak.data?.forEach((e) {
+                ddNomorKontrak.add(DropdownMenuItem(
+                    value: e.aGRMNTNO, child: Text(e.aGRMNTNO!)));
+              });
+            }
+          }
         }
       }
     }
