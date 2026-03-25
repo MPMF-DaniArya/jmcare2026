@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:jmcare/model/api/DownloadPdfPdpRespon.dart';
 import 'package:jmcare/model/api/LoginRespon.dart';
 import 'package:jmcare/screens/base/base_logic.dart';
@@ -78,9 +79,11 @@ class UnduhPdfDataPribadiLogic extends BaseLogic {
           Fungsi.errorToast(data.pesan.toString());
         } else {
           if (data.base64Pdf != null) {
-            // penamaan file pdf yang tersimpan di hp user
-            String fileName =
-                "Data_Pribadi_JMCare_${DateTime.now().millisecondsSinceEpoch}";
+            DateTime now = DateTime.now();
+
+            String formattedDate = DateFormat('yyMMdd_HHmm').format(now);
+
+            String fileName = "DP_$formattedDate.pdf";
             await savePdfSdpDialog(data.base64Pdf!, fileName);
           } else {
             Fungsi.errorToast("Data Pribadi tidak ditemukan");
