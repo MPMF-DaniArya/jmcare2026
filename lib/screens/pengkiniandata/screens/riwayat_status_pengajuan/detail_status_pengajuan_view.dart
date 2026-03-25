@@ -54,10 +54,12 @@ class DetailStatusPengajuan extends StatelessWidget {
                           height: 12,
                         ),
                         RowDetailPermintaan(
-                            label: 'Tipe Pengajuan',
-                            value: pengajuanDetail.jenisPerubahanData == 'Penghapusan Data Pribadi'
-                                ? pengajuanDetail.jenisPerubahanData ?? '-'
-                                : 'Pengkinian ${pengajuanDetail.jenisPerubahanData}',),
+                          label: 'Tipe Pengajuan',
+                          value: pengajuanDetail.jenisPerubahanData ==
+                                  'Penghapusan Data Pribadi'
+                              ? pengajuanDetail.jenisPerubahanData ?? '-'
+                              : 'Pengkinian ${pengajuanDetail.jenisPerubahanData}',
+                        ),
                         const SizedBox(
                           height: 12,
                         ),
@@ -73,12 +75,10 @@ class DetailStatusPengajuan extends StatelessWidget {
                         const SizedBox(
                           height: 12,
                         ),
-                        pengajuanDetail.status == 'SELESAI'
-                            ? RowDetailPermintaan(
-                                label: 'Keterangan',
-                                value: pengajuanDetail.keterangan,
-                              )
-                            : const SizedBox.shrink()
+                        RowDetailPermintaan(
+                          label: 'Keterangan',
+                          value: pengajuanDetail.keterangan,
+                        )
                       ],
                     )),
                     const SizedBox(

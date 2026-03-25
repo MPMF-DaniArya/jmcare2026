@@ -256,8 +256,8 @@ class RequestPengkinianDataPribadiLogic extends BaseLogic {
 
     if (hasil != null) {
       PlatformFile file = hasil.files.first;
-      if (file.size >= 10000000) {
-        Fungsi.warningToast("File tidak boleh lebih besar dari 10MB");
+      if (file.size >= 5000000) {
+        Fungsi.warningToast("File tidak boleh lebih besar dari 5MB");
         return;
       }
 
@@ -364,7 +364,7 @@ class RequestPengkinianDataPribadiLogic extends BaseLogic {
           return;
         }
 
-        if (response.code.toString() != '200' &&
+        if (response.code != '200' &&
             response.status != "Success") {
           Fungsi.errorToast("Terjadi kesalahan: ${response.message}");
           return;

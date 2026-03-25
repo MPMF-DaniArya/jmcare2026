@@ -99,7 +99,7 @@ class PerbaruiInformasiPribadiSection extends StatelessWidget {
                   logic.state.formList[index]['dataLama'] ?? "-";
 
               return TextFormField(
-                key: ValueKey("data_saat_ini_$index" + displayData),
+                key: ValueKey("data_saat_ini_$index$displayData"),
                 initialValue: displayData,
                 readOnly: true,
                 maxLines: 4,
@@ -138,6 +138,7 @@ class PerbaruiInformasiPribadiSection extends StatelessWidget {
             TextFormField(
               controller: item['tecDataBaru'],
               minLines: 1,
+              keyboardType: currentValue ==  logic.state.jenisData[3] ? TextInputType.number : TextInputType.text,
               maxLines: 3,
               validator: (value) {
                 if (value == null || value.trim().isEmpty) {
