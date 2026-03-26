@@ -192,8 +192,7 @@ class DetailStatusPengajuan extends StatelessWidget {
                               _buildDokumenSection(
                                   'Dokumen Pendukung',
                                   textTheme,
-                                  () =>
-                                      logic.previewFilePendukung(item.id!)),
+                                  () => logic.previewFilePendukung(item.id!)),
                             ],
                           ],
                         ),
