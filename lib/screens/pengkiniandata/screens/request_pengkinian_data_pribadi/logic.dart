@@ -21,6 +21,7 @@ class RequestPengkinianDataPribadiLogic extends BaseLogic {
       RequestPengkinianDataPribadiState();
   var ddJenisData = <DropdownMenuItem<String>>[].obs;
   RxString dataSaatIni = "".obs;
+  RxBool isSetuju = false.obs;
 
   // ini adalah jenis data yang wajib untuk upload dokumen
   final List<String> jenisDataWajibUploadDokumen = [
