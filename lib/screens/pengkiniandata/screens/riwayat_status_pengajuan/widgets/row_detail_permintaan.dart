@@ -10,29 +10,27 @@ class RowDetailPermintaan extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
-    return Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Expanded(
-            child: Text(
-              label,
-              textAlign: TextAlign.start,
-              style: textTheme.bodyMedium!.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
-            ),
+    return Row(crossAxisAlignment: CrossAxisAlignment.end, children: [
+      Expanded(
+        flex: 1,
+        child: Text(
+          label,
+          textAlign: TextAlign.start,
+          style: textTheme.bodyMedium!.copyWith(
+            fontWeight: FontWeight.bold,
           ),
-          const SizedBox(
-            width: 45,
-          ),
-          Expanded(
-            child: Text(
-              value.isNotEmpty ? ': $value' : ': -',
-              style:
-                  textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.bold),
-            ),
-          )
-        ]);
+        ),
+      ),
+      const SizedBox(
+        width: 32,
+      ),
+      Expanded(
+        flex: 2,
+        child: Text(
+          value.isNotEmpty ? ': $value' : ': -',
+          style: textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.bold),
+        ),
+      )
+    ]);
   }
 }

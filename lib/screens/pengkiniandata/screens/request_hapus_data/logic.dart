@@ -76,7 +76,6 @@ class RequestHapusDataLogic extends BaseLogic {
               ] else ...[
                 // Tampilan saat loading
                 Komponen.getLoadingWidget(),
-                const Text("Sedang memproses..."),
               ],
             ],
           )),

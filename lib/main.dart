@@ -50,7 +50,7 @@ import 'package:jmcare/screens/pengkiniandata/screens/penampilan_data_pribadi/vi
 import 'package:jmcare/screens/pengkiniandata/screens/penampilan_data_pribadi/screens/unduh_pdf_data_pribadi/view.dart';
 import 'package:jmcare/screens/pengkiniandata/screens/request_hapus_data/view.dart';
 import 'package:jmcare/screens/pengkiniandata/screens/request_pengkinian_data_pribadi/view.dart';
-import 'package:jmcare/screens/pengkiniandata/screens/riwayat_status_pengajuan/detail_status_pengajuan_view.dart';
+import 'package:jmcare/screens/pengkiniandata/screens/riwayat_status_pengajuan/detail_status_pengajuan/view.dart';
 import 'package:jmcare/screens/pengkiniandata/screens/riwayat_status_pengajuan/view.dart';
 import 'package:jmcare/screens/pengkiniandata/view.dart';
 import 'package:jmcare/screens/pilihkontrak/view.dart';

@@ -27,6 +27,7 @@ import 'package:jmcare/service/EsignsignService.dart';
 import 'package:jmcare/service/EsignstatussignService.dart';
 import 'package:jmcare/service/FaqService.dart';
 import 'package:jmcare/service/GantipasswordService.dart';
+import 'package:jmcare/service/GetDetailRiwayatSdpService.dart';
 import 'package:jmcare/service/GetDetailSdpService.dart';
 import 'package:jmcare/service/GetRiyawatPdpService.dart';
 import 'package:jmcare/service/GradeService.dart';
@@ -172,6 +173,7 @@ class Service {
       PreviewFileKkService: PreviewFileKkService.instance,
       PreviewFilePendukungService: PreviewFilePendukungService.instance,
       CekSebelumHapusSpdService: CekSebelumHapusSpdService.instance,
+      GetDetailRiwayatSdpService: GetDetailRiwayatSdpService.instance,
     };
   }
 

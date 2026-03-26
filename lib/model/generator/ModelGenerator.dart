@@ -21,6 +21,7 @@ import 'package:jmcare/model/api/EsignunsignedRespon.dart';
 import 'package:jmcare/model/api/FaqRespon.dart';
 import 'package:jmcare/model/api/FormawalRespon.dart';
 import 'package:jmcare/model/api/FormlanjutanRespon.dart';
+import 'package:jmcare/model/api/GetDetailRiwayatSdpRespon.dart';
 import 'package:jmcare/model/api/GetRiwayatPpdRespon.dart';
 import 'package:jmcare/model/api/GradeRespon.dart';
 import 'package:jmcare/model/api/HistoripoinRespon.dart';
@@ -110,7 +111,9 @@ class ModelGenerator {
       SubjekDataPribadiRespon: (json) => SubjekDataPribadiRespon.fromJson(json),
       DownloadPdfPdpRespon: (json) => DownloadPdfPdpRespon.fromJson(json),
       GetRiwayatPpdRespon: (json) => GetRiwayatPpdRespon.fromJson(json),
-      PreviewFilePdpRespon: (json) => PreviewFilePdpRespon.fromJson(json)
+      PreviewFilePdpRespon: (json) => PreviewFilePdpRespon.fromJson(json),
+      GetDetailRiwayatSpdRespon: (json) => GetDetailRiwayatSpdRespon.fromJson(json),
+
     };
   }
 
