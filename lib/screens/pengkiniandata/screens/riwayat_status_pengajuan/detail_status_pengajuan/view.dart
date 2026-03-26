@@ -41,7 +41,9 @@ class DetailStatusPengajuan extends StatelessWidget {
                     const Divider(thickness: 1.5),
                     RowDetailPermintaan(
                         label: 'ID Pengajuan', value: detail['noTiket'] ?? '-'),
-                    const SizedBox(height: 8,),
+                    const SizedBox(
+                      height: 8,
+                    ),
                     RowDetailPermintaan(
                       label: 'Tipe Pengajuan',
                       value: permintaanPerubahan[0].jenisPerubahanData ==
@@ -49,37 +51,167 @@ class DetailStatusPengajuan extends StatelessWidget {
                           ? 'Penghapusan Data Pribadi'
                           : 'Pengkinian Data Pribadi',
                     ),
-                    const SizedBox(height: 8,),
+                    const SizedBox(
+                      height: 8,
+                    ),
                     RowDetailPermintaan(
                         label: 'Tanggal Pengajuan',
                         value: detail['tanggalPengkinian'] ?? '-'),
-                    const SizedBox(height: 8,),
+                    const SizedBox(
+                      height: 8,
+                    ),
                     RowDetailPermintaan(
                         label: 'Status Pengajuan',
                         value: detail['status'] ?? '-'),
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    RowDetailPermintaan(
+                        label: 'Keterangan',
+                        value: '-'),
                   ],
                 ),
               ),
               const SizedBox(height: 16),
-              // ContainerMenu(
-              //   child: Column(
-              //     children: [
-              //       Text('Unggahan Dokumen',
-              //           style: textTheme.titleLarge!
-              //               .copyWith(fontWeight: FontWeight.bold)),
-              //       const Divider(thickness: 1.5),
-              //       if (detail.jenisPerubahanData == 'Nama Lengkap') ...[
-              //         _buildDokumenSection('Dokumen KTP', textTheme,
-              //             () => logic.previewFileKtp(detail.idPdp!)),
-              //         _buildDokumenSection('Dokumen KK', textTheme,
-              //             () => logic.previewFileKk(detail.idPdp!)),
-              //       ] else ...[
-              //         _buildDokumenSection('Dokumen Pendukung', textTheme,
-              //             () => logic.previewFilePendukung(detail.idPdp!)),
-              //       ],
-              //     ],
-              //   ),
-              // )
+              ListView.separated(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, index) {
+                    final item = permintaanPerubahan[index];
+
+                    return Padding(
+                      padding: const EdgeInsets.only(top: 24),
+                      child: ContainerMenu(
+                        child: Column(
+                          children: [
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text('Permintaan Perubahan #${index + 1}',
+                                  style: textTheme.titleLarge!
+                                      .copyWith(fontWeight: FontWeight.bold)),
+                            ),
+                            const Divider(thickness: 1.5),
+                            const SizedBox(height: 12),
+                            Align(
+                              alignment: AlignmentGeometry.centerLeft,
+                              child: Text('Jenis Data',
+                                  style: textTheme.bodyMedium!
+                                      .copyWith(fontWeight: FontWeight.bold)),
+                            ),
+                            const SizedBox(height: 8),
+                            TextFormField(
+                              initialValue: item.jenisPerubahanData,
+                              readOnly: true,
+                              maxLines: 4,
+                              minLines: 1,
+                              style: textTheme.bodyMedium!
+                                  .copyWith(color: Colors.black87),
+                              decoration: InputDecoration(
+                                contentPadding: const EdgeInsets.symmetric(
+                                    horizontal: 12, vertical: 16),
+                                filled: true,
+                                fillColor: Colors.grey.shade200,
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                  borderSide: BorderSide.none,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 8,
+                            ),
+                            Align(
+                              alignment: AlignmentGeometry.centerLeft,
+                              child: Text('Data Saat Ini',
+                                  style: textTheme.bodyMedium!
+                                      .copyWith(fontWeight: FontWeight.bold)),
+                            ),
+                            const SizedBox(height: 8),
+                            TextFormField(
+                              initialValue: item.dataSaatIni,
+                              readOnly: true,
+                              maxLines: 4,
+                              minLines: 1,
+                              style: textTheme.bodyMedium!
+                                  .copyWith(color: Colors.black87),
+                              decoration: InputDecoration(
+                                contentPadding: const EdgeInsets.symmetric(
+                                    horizontal: 12, vertical: 16),
+                                filled: true,
+                                fillColor: Colors.grey.shade200,
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                  borderSide: BorderSide.none,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 8,
+                            ),
+                            Align(
+                              alignment: AlignmentGeometry.centerLeft,
+                              child: Text('Perubahan Data',
+                                  style: textTheme.bodyMedium!
+                                      .copyWith(fontWeight: FontWeight.bold)),
+                            ),
+                            const SizedBox(height: 8),
+                            TextFormField(
+                              initialValue: item.perubahanData,
+                              readOnly: true,
+                              maxLines: 4,
+                              minLines: 1,
+                              style: textTheme.bodyMedium!
+                                  .copyWith(color: Colors.black87),
+                              decoration: InputDecoration(
+                                contentPadding: const EdgeInsets.symmetric(
+                                    horizontal: 12, vertical: 16),
+                                filled: true,
+                                fillColor: Colors.grey.shade200,
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                  borderSide: BorderSide.none,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 8,
+                            ),
+                            const Divider(thickness: 1.5),
+                            const SizedBox(
+                              height: 8,
+                            ),
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text('Unggahan Dokumen',
+                                  style: textTheme.titleMedium!
+                                      .copyWith(fontWeight: FontWeight.bold)),
+                            ),
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text('Unggahan dokumen sebagai bukti perubahan',
+                                  style: textTheme.bodyMedium),
+                            ),
+                            const SizedBox(
+                              height: 8,
+                            ),
+                            if (item.jenisPerubahanData == 'Nama Lengkap') ...[
+                              _buildDokumenSection('Dokumen KTP', textTheme,
+                                  () => logic.previewFileKtp(item.idPdp!)),
+                              _buildDokumenSection('Dokumen KK', textTheme,
+                                  () => logic.previewFileKk(item.idPdp!)),
+                            ] else ...[
+                              _buildDokumenSection('Dokumen Pendukung', textTheme,
+                                  () => logic.previewFilePendukung(item.idPdp!)),
+                            ],
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                  separatorBuilder: (context, index) => const SizedBox(
+                        height: 8,
+                      ),
+                  itemCount: permintaanPerubahan.length)
             ],
           ),
         );

@@ -18,7 +18,7 @@ class GetRiwayatPpdRespon {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['create_datZZe'] = createDate;
+    data['create_date'] = createDate;
     data['no_tiket'] = noTiket;
     data['status'] = status;
 
