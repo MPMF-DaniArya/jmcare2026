@@ -26,7 +26,7 @@ class DetailStatusPengajuan extends StatelessWidget {
           return Komponen.getLoadingWidget();
         }
 
-        final Map<String, dynamic> detail = Get.arguments;
+        final header = logic.headerPengajuan.value;
         final permintaanPerubahan = logic.listPengajuanDetail;
 
         return SingleChildScrollView(
@@ -40,35 +40,23 @@ class DetailStatusPengajuan extends StatelessWidget {
                             .copyWith(fontWeight: FontWeight.bold)),
                     const Divider(thickness: 1.5),
                     RowDetailPermintaan(
-                        label: 'ID Pengajuan', value: detail['noTiket'] ?? '-'),
-                    const SizedBox(
-                      height: 8,
-                    ),
+                        label: 'ID Pengajuan',
+                        value: header.idPengajuan ?? '-'),
+                    const SizedBox(height: 8),
                     RowDetailPermintaan(
-                      label: 'Tipe Pengajuan',
-                      value: permintaanPerubahan[0].jenisPerubahanData ==
-                              'Penghapusan Data Pribadi'
-                          ? 'Penghapusan Data Pribadi'
-                          : 'Pengkinian Data Pribadi',
-                    ),
-                    const SizedBox(
-                      height: 8,
-                    ),
+                        label: 'Tipe Pengajuan',
+                        value: header.tipePengajuan ?? '-'),
+                    const SizedBox(height: 8),
                     RowDetailPermintaan(
                         label: 'Tanggal Pengajuan',
-                        value: detail['tanggalPengkinian'] ?? '-'),
-                    const SizedBox(
-                      height: 8,
-                    ),
+                        value: header.tanggalPengajuan ?? '-'),
+                    const SizedBox(height: 8),
                     RowDetailPermintaan(
                         label: 'Status Pengajuan',
-                        value: detail['status'] ?? '-'),
-                    const SizedBox(
-                      height: 8,
-                    ),
+                        value: header.statusPengajuan ?? '-'),
+                    const SizedBox(height: 8),
                     RowDetailPermintaan(
-                        label: 'Keterangan',
-                        value: '-'),
+                        label: 'Keterangan', value: header.keterangan ?? '-'),
                   ],
                 ),
               ),
@@ -105,7 +93,7 @@ class DetailStatusPengajuan extends StatelessWidget {
                               maxLines: 4,
                               minLines: 1,
                               style: textTheme.bodyMedium!
-                                  .copyWith(color: Colors.black87),
+                                  .copyWith(fontWeight: FontWeight.bold),
                               decoration: InputDecoration(
                                 contentPadding: const EdgeInsets.symmetric(
                                     horizontal: 12, vertical: 16),
@@ -133,7 +121,7 @@ class DetailStatusPengajuan extends StatelessWidget {
                               maxLines: 4,
                               minLines: 1,
                               style: textTheme.bodyMedium!
-                                  .copyWith(color: Colors.black87),
+                                  .copyWith(fontWeight: FontWeight.bold),
                               decoration: InputDecoration(
                                 contentPadding: const EdgeInsets.symmetric(
                                     horizontal: 12, vertical: 16),
@@ -161,7 +149,7 @@ class DetailStatusPengajuan extends StatelessWidget {
                               maxLines: 4,
                               minLines: 1,
                               style: textTheme.bodyMedium!
-                                  .copyWith(color: Colors.black87),
+                                  .copyWith(fontWeight: FontWeight.bold),
                               decoration: InputDecoration(
                                 contentPadding: const EdgeInsets.symmetric(
                                     horizontal: 12, vertical: 16),
@@ -188,7 +176,8 @@ class DetailStatusPengajuan extends StatelessWidget {
                             ),
                             Align(
                               alignment: Alignment.centerLeft,
-                              child: Text('Unggahan dokumen sebagai bukti perubahan',
+                              child: Text(
+                                  'Unggahan dokumen sebagai bukti perubahan',
                                   style: textTheme.bodyMedium),
                             ),
                             const SizedBox(
@@ -196,12 +185,15 @@ class DetailStatusPengajuan extends StatelessWidget {
                             ),
                             if (item.jenisPerubahanData == 'Nama Lengkap') ...[
                               _buildDokumenSection('Dokumen KTP', textTheme,
-                                  () => logic.previewFileKtp(item.idPdp!)),
+                                  () => logic.previewFileKtp(item.id!)),
                               _buildDokumenSection('Dokumen KK', textTheme,
-                                  () => logic.previewFileKk(item.idPdp!)),
+                                  () => logic.previewFileKk(item.id!)),
                             ] else ...[
-                              _buildDokumenSection('Dokumen Pendukung', textTheme,
-                                  () => logic.previewFilePendukung(item.idPdp!)),
+                              _buildDokumenSection(
+                                  'Dokumen Pendukung',
+                                  textTheme,
+                                  () =>
+                                      logic.previewFilePendukung(item.id!)),
                             ],
                           ],
                         ),

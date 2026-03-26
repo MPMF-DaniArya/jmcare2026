@@ -8,7 +8,8 @@ import '../model/api/GetDetailRiwayatSdpRespon.dart';
 class GetDetailRiwayatSdpService extends BaseService {
   static GetDetailRiwayatSdpService instance = GetDetailRiwayatSdpService();
 
-  Future<dynamic> getDetailSdpByNoTiket({required String noTiket}) async {
+  Future<Map<String, dynamic>?> getDetailSdpByNoTiket(
+      {required String noTiket}) async {
     await Future.delayed(const Duration(seconds: 0));
     try {
       var client = BaseService.client;
@@ -18,7 +19,10 @@ class GetDetailRiwayatSdpService extends BaseService {
           data: {'no_tiket': noTiket},
           options: Options(headers: BaseService.headerJSON));
 
-      return response.data;
+      if (response.data != null && response.data is Map<String, dynamic>) {
+        return response.data;
+      }
+      return null;
     } catch (e) {
       debugPrint('Error service: $e');
       return null;

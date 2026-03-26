@@ -18,13 +18,14 @@ import '../../../../../service/preview_file_pdp_riwayat_status_pengajuan/Preview
 import '../../../../../service/preview_file_pdp_riwayat_status_pengajuan/PreviewFilePendukungService.dart';
 
 class DetailStatusPengajuanLogic extends BaseLogic {
-  var listPengajuanDetail = <GetDetailRiwayatSpdRespon>[].obs;
+  var headerPengajuan = HeaderData().obs;
+  var listPengajuanDetail = <DetailData>[].obs;
 
   @override
   void onInit() {
     // TODO: implement onInit
     super.onInit();
-    if (Get.arguments != null) {
+    if (Get.arguments != null && Get.arguments['noTiket'] != null) {
       getDetailRiwayatSdp(Get.arguments['noTiket']);
     }
   }
@@ -35,19 +36,22 @@ class DetailStatusPengajuanLogic extends BaseLogic {
       final response = await getService<GetDetailRiwayatSdpService>()!
           .getDetailSdpByNoTiket(noTiket: noTiket);
 
-      if (response != null && response is List) {
-        List<GetDetailRiwayatSpdRespon> rawList = response
-            .map(
-              (e) => GetDetailRiwayatSpdRespon.fromJson(e),
-            )
-            .toList();
+      if (response != null) {
+        GetDetailRiwayatSpdRespon parsedData =
+            GetDetailRiwayatSpdRespon.fromJson(response);
 
-        listPengajuanDetail.value = rawList;
+        if (parsedData.header != null) {
+          headerPengajuan.value = parsedData.header!;
+        }
+
+        if (parsedData.detail != null) {
+          listPengajuanDetail.value = parsedData.detail!;
+        }
       } else {
         Fungsi.errorToast('Gagal Memuat Riwayat Dengan No Tiket Ini.');
       }
     } catch (e) {
-      debugPrint("Error: $e");
+      debugPrint("Error GetDetail: $e");
     } finally {
       is_loading.value = false;
     }

@@ -346,10 +346,11 @@ class RequestPengkinianDataPribadiLogic extends BaseLogic {
 
           requestBody.add({
             "login_user_id": userId,
+            "tipe_perubahan_data": "Pengkinian Data Pribadi",
             "jenis_perubahan_data": form['jenisDataTerpilih'],
             "data_saat_ini": form['dataLama'],
             "perubahan_data":
-            (form['tecDataBaru'] as TextEditingController).text,
+                (form['tecDataBaru'] as TextEditingController).text,
             "file_pendukung": filePendukung,
             "file_ktp": fileKtp,
             "file_kk": fileKk,
@@ -357,16 +358,15 @@ class RequestPengkinianDataPribadiLogic extends BaseLogic {
         }
 
         final response =
-        await getService<PengkinianDataPribadiSubmitFormService>()!
-            .submitFormPengkinianDataPribadi(requestBody: requestBody);
+            await getService<PengkinianDataPribadiSubmitFormService>()!
+                .submitFormPengkinianDataPribadi(requestBody: requestBody);
 
         if (response == null || response is BaseError) {
           Fungsi.errorToast("Terjadi error. Gagal mengirimkan pengajuan.");
           return;
         }
 
-        if (response.code != '200' &&
-            response.status != "Success") {
+        if (response.code != '200' && response.status != "Success") {
           Fungsi.errorToast("Terjadi kesalahan: ${response.message}");
           return;
         }
@@ -375,7 +375,6 @@ class RequestPengkinianDataPribadiLogic extends BaseLogic {
 
         await Future.delayed(const Duration(milliseconds: 300));
         Fungsi.suksesToast('Semua Pengkinian Data Berhasil Diajukan.');
-
       } catch (e) {
         Fungsi.errorToast("Terjadi kesalahan sistem: $e");
       } finally {

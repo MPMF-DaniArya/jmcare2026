@@ -51,14 +51,12 @@ class HistoryCard extends StatelessWidget {
                   _buildStatusChip(data.status ?? '-'),
                 ],
               ),
-              const SizedBox(height: 8),
-              // Text(
-              //   data.jenisPerubahanData == 'Penghapusan Data Pribadi'
-              //       ? data.jenisPerubahanData ?? '-'
-              //       : 'Pengkinian ${data.jenisPerubahanData}',
-              //   style: const TextStyle(fontSize: 14),
-              // ),
-              // const SizedBox(height: 4),
+              const SizedBox(height: 4),
+              Text(
+                data.tipePerubahanData!.isNotEmpty ? data.tipePerubahanData! : '-',
+                style: const TextStyle(fontSize: 14),
+              ),
+              const SizedBox(height: 4),
               Text(
                 "Pengajuan: $tanggalPengkinian",
                 style: const TextStyle(fontSize: 12),
