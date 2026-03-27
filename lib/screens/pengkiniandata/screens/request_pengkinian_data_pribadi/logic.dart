@@ -257,8 +257,8 @@ class RequestPengkinianDataPribadiLogic extends BaseLogic {
 
     if (hasil != null) {
       PlatformFile file = hasil.files.first;
-      if (file.size >= 5000000) {
-        Fungsi.warningToast("File tidak boleh lebih besar dari 5MB");
+      if (file.size >= 1000000) {
+        Fungsi.warningToast("File tidak boleh lebih besar dari 1MB");
         return;
       }
 

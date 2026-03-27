@@ -122,7 +122,7 @@ class RequestHapusDataLogic extends BaseLogic {
       List<Map<String, dynamic>> requestBody = [
         {
           "login_user_id": userId,
-          "tipe_perubahan_data": "Penghapusan Data Pribad",
+          "tipe_perubahan_data": "Penghapusan Data Pribadi",
           "jenis_perubahan_data": "Penghapusan Data Pribadi",
           "file_pendukung": state.base64_file
         }
