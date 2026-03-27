@@ -207,7 +207,7 @@ class Endpoint {
       requestHeader: false,
       requestBody: false,
       responseHeader: false,
-      responseBody: false,
+      responseBody: true,
     )
   ];
 }
