@@ -26,7 +26,6 @@ class PenampilanDataPribadiLogic extends BaseLogic {
       final dataSdpRespon = await getService<GetDetailSdpService>()!
           .getDetailSdp(login_user_id: int.tryParse(auth.data!.loginUserId!)!);
 
-
       if (dataSdpRespon != null) {
         if (dataSdpRespon is SubjekDataPribadiError) {
           Fungsi.errorToast(
@@ -38,7 +37,8 @@ class PenampilanDataPribadiLogic extends BaseLogic {
               '${dataSdpRespon.alamatLegalAlamat}, RT ${dataSdpRespon.alamatLegalRt}/ RW ${dataSdpRespon.alamatLegalRw}, Kel. ${dataSdpRespon.alamatLegalKelurahan}, Kec. ${dataSdpRespon.alamatLegalKecamatan}, ${dataSdpRespon.alamatLegalKota}, ${dataSdpRespon.alamatLegalKodepos}';
           String rawTempatTanggalLahir =
               "${dataSdpRespon.tempatLahir}, ${dataSdpRespon.tanggalLahir}";
-          String? rawAlamatDomisili = dataSdpRespon.alamatDomisili;
+          String? rawAlamatDomisili =
+              '${dataSdpRespon.alamatDomisili}, RT ${dataSdpRespon.alamatDomisiliRt}/ RW ${dataSdpRespon.alamatDomisiliRw}, Kel. ${dataSdpRespon.alamatDomisiliKelurahan}, Kec. ${dataSdpRespon.alamatDomisiliKecamatan}, ${dataSdpRespon.alamatDomisiliKecamatan}, ${dataSdpRespon.alamatDomisiliKodepos}';
 
           state.namaLengkapUser =
               Fungsi.formatTitleCase(dataSdpRespon.namaLengkap);
