@@ -90,6 +90,9 @@ void main() async {
       bool isRealDevice = await SafeDevice.isRealDevice;
       bool isDevelopmentMode = await SafeDevice.isDevelopmentModeEnable;
 
+      print("Is Rooted: $isRooted");
+      print("Is Real Device: $isRealDevice");
+
       if (isRooted || !isRealDevice || isDevelopmentMode) {
         isDeviceUnsafe = true;
       }

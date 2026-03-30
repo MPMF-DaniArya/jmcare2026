@@ -42,6 +42,14 @@
         <intent>
             <action android:name="android.support.customtabs.action.CustomTabsService" />
         </intent>
+
+        // safe device untuk cek isRooted || isEmulator
+        <package android:name="com.noshufou.android.su" />
+        <package android:name="com.thirdparty.superuser" />
+        <package android:name="eu.chainfire.supersu" />
+        <package android:name="com.koushikdutta.superuser" />
+        <package android:name="com.zacharee1.systemuituner" />
+        <package android:name="com.topjohnwu.magisk" />
     </queries>
     <application
         android:name="${applicationName}"
