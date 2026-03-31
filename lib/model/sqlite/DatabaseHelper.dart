@@ -1,18 +1,25 @@
+import 'dart:async';
+import 'dart:convert';
+import 'dart:io';
+import 'dart:math';
+
+import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:jmcare/model/sqlite/entity/EContract.dart';
 import 'package:jmcare/model/sqlite/entity/Epolis.dart';
-import 'package:sqflite/sqflite.dart';
-import 'dart:async';
-import 'dart:io';
 import 'package:path_provider/path_provider.dart';
-import 'package:flutter/material.dart';
+import 'package:sqflite_sqlcipher/sqflite.dart';
 
 class DatabaseHelper {
   static DatabaseHelper? _databaseHelper;
   static Database? _database;
+  final _storage = const FlutterSecureStorage();
 
   String nama_db = 'database.db';
-  String create_table_epolis = 'CREATE TABLE epolis(id INTEGER PRIMARY KEY, agreement_no TEXT, filepath TEXT, create_date TEXT)';
-  String create_table_eContract = 'CREATE TABLE eContract(id INTEGER PRIMARY KEY, agreement_no TEXT, filepath TEXT, create_date TEXT)';
+  String create_table_epolis =
+      'CREATE TABLE epolis(id INTEGER PRIMARY KEY, agreement_no TEXT, filepath TEXT, create_date TEXT)';
+  String create_table_eContract =
+      'CREATE TABLE eContract(id INTEGER PRIMARY KEY, agreement_no TEXT, filepath TEXT, create_date TEXT)';
   String tabel_epolis = 'epolis';
   String tabel_eContract = 'eContract';
 
@@ -33,10 +40,26 @@ class DatabaseHelper {
     return _database!;
   }
 
+  Future<String> _getOrCreateDBKey() async {
+    String? key = await _storage.read(key: 'db_encryption_key');
+
+    if (key == null) {
+      var random = Random.secure();
+      var values = List<int>.generate(32, (i) => random.nextInt(256));
+      key = base64Url.encode(values);
+
+      await _storage.write(key: 'db_encryption_key', value: key);
+    }
+
+    return key;
+  }
+
   Future<Database> initializeDatabase() async {
+    String password = await _getOrCreateDBKey();
     Directory directory = await getApplicationDocumentsDirectory();
     String path = directory.path + nama_db;
-    var notesDatabase = await openDatabase(path, version: 1, onCreate: _createDb);
+    var notesDatabase = await openDatabase(path,
+        version: 1, onCreate: _createDb, password: password);
     return notesDatabase;
   }
 
@@ -60,8 +83,7 @@ class DatabaseHelper {
           id: maps[i]['id'],
           agreement_no: maps[i]['agreement_no'],
           filepath: maps[i]['filepath'],
-          create_date: maps[i]['create_date']
-      );
+          create_date: maps[i]['create_date']);
     });
   }
 
@@ -73,8 +95,7 @@ class DatabaseHelper {
           id: maps[i]['id'],
           agreement_no: maps[i]['agreement_no'],
           filepath: maps[i]['filepath'],
-          create_date: maps[i]['create_date']
-      );
+          create_date: maps[i]['create_date']);
     });
   }
 
@@ -94,14 +115,16 @@ class DatabaseHelper {
 
   Future<int?> selectEpolis(String agreement_no) async {
     Database db = await this.database;
-    List<Map<String, dynamic>> x = await db.rawQuery("SELECT COUNT (*) from $tabel_epolis WHERE agreement_no = '$agreement_no'");
+    List<Map<String, dynamic>> x = await db.rawQuery(
+        "SELECT COUNT (*) from $tabel_epolis WHERE agreement_no = '$agreement_no'");
     int? result = Sqflite.firstIntValue(x);
     return result;
   }
 
   Future<int?> selectEContract(String agreement_no) async {
     Database db = await this.database;
-    List<Map<String, dynamic>> x = await db.rawQuery("SELECT COUNT (*) from $tabel_eContract WHERE agreement_no = '$agreement_no'");
+    List<Map<String, dynamic>> x = await db.rawQuery(
+        "SELECT COUNT (*) from $tabel_eContract WHERE agreement_no = '$agreement_no'");
     int? result = Sqflite.firstIntValue(x);
     return result;
   }
@@ -113,10 +136,10 @@ class DatabaseHelper {
     var y = x.where((e) => e.agreement_no == agreement_no);
     //jika ada row yang match
     //return field filepath
-    if (y.isNotEmpty){
+    if (y.isNotEmpty) {
       var z = y.first;
       return z.filepath!;
-    }else{
+    } else {
       return "";
     }
   }
@@ -128,12 +151,11 @@ class DatabaseHelper {
     var y = x.where((e) => e.agreement_no == agreement_no);
     //jika ada row yang match
     //return field filepath
-    if (y.isNotEmpty){
+    if (y.isNotEmpty) {
       var z = y.first;
       return z.filepath!;
-    }else{
+    } else {
       return "";
     }
   }
-
 }

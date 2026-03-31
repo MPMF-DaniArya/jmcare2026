@@ -197,9 +197,10 @@ class Endpoint {
   static const String TAG_DOWNLOAD_PDP_PDF = "download_PDP_PDF.json";
   static const String TAG_SUBMIT_REQ_PENGKINIAN_DATA_PRIBADI =
       "submitRequestSDP.json";
-  static const String TAG_HISTORY_PENGKINIAN_DATA_PRIBADI = "getListSDP.json";
+  static const String TAG_HISTORY_PENGKINIAN_DATA_PRIBADI = "getMasterSDP.json";
   static const String TAG_DOWNLOAD_FILE_PDP = 'downloadFileSDP.json';
   static const String TAG_CEK_SEBELUM_HAPUS_SDP = 'cekSebelumHapusSDP.json';
+  static const String TAG_GET_DETAIL_RIWAYAT_SDP = 'getDetailMasterSDP.json';
 
   static const String TAG_READ_NOTIFIKASI = 'onesignal/read_notification';
 

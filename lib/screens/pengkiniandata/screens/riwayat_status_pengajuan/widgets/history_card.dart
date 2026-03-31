@@ -19,7 +19,11 @@ class HistoryCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
         onTap: () => Get.toNamed(
             Konstan.rute_detail_status_pengkinian_data_pribadi,
-            arguments: data),
+            arguments: {
+              'noTiket': data.noTiket,
+              'tanggalPengkinian': tanggalPengkinian,
+              'status': data.status,
+            }),
         child: Container(
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
@@ -47,11 +51,9 @@ class HistoryCard extends StatelessWidget {
                   _buildStatusChip(data.status ?? '-'),
                 ],
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: 4),
               Text(
-                data.jenisPerubahanData == 'Penghapusan Data Pribadi'
-                    ? data.jenisPerubahanData ?? '-'
-                    : 'Pengkinian ${data.jenisPerubahanData}',
+                data.tipePerubahanData!.isNotEmpty ? data.tipePerubahanData! : '-',
                 style: const TextStyle(fontSize: 14),
               ),
               const SizedBox(height: 4),

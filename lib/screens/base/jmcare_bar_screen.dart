@@ -5,6 +5,7 @@ import '../../helper/Tema.dart';
 class JmcareBarScreen extends StatelessWidget {
   final String? title;
   final Widget? body;
+
   const JmcareBarScreen({super.key, this.title, this.body});
 
   @override
@@ -12,10 +13,7 @@ class JmcareBarScreen extends StatelessWidget {
     return Scaffold(
       appBar: Komponen.getAppBar(context, this.title!),
       resizeToAvoidBottomInset: true,
-      body: Container(
-        padding: const EdgeInsets.all(20),
-        child: body
-      ),
+      body: SafeArea(child: Container(padding: const EdgeInsets.all(20), child: body)),
     );
   }
 }

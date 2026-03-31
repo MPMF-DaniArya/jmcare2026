@@ -513,64 +513,77 @@ class Komponen {
 
   static Widget getMainDrawer(
       BuildContext context, Function onLogout, Function onDeleteAccount) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return Drawer(
       shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(topLeft: Radius.circular(20))),
-      child: ListView(
+        borderRadius: BorderRadius.only(topLeft: Radius.circular(20)),
+      ),
+      child: Column(
         children: [
-          Container(
-              height: 200,
-              decoration: const BoxDecoration(
-                  color: Warna.hijau,
-                  image: DecorationImage(
-                      filterQuality: FilterQuality.low,
-                      fit: BoxFit.fill,
-                      image: AssetImage("assets/images/drawer_bg.png"))),
-              child: Stack(
-                children: [
-                  Align(
-                      alignment: Alignment.center,
-                      child: SizedBox(
-                          width: 180,
-                          height: 80,
-                          child: Card(
-                              elevation: 12.0,
-                              color: Colors.white,
-                              child: Padding(
-                                  padding: const EdgeInsets.all(10),
-                                  child: Image.asset(
-                                      "assets/images/ic_logo_jaccs.png"))))),
-                  Align(
-                      alignment: Alignment.topRight,
-                      child: IconButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          icon: const Icon(
-                            Icons.close,
-                            color: Colors.white,
-                            size: 30,
-                          )))
-                ],
-              )),
-          ListTile(
-            // tileColor: Colors.white,
-            title: const Text('Logout'),
-            onTap: () {
-              onLogout();
-            },
+          Stack(
+            children: [
+              Image.asset(
+                'assets/images/drawer_bg.png',
+                height: 200,
+                width: double.infinity,
+                fit: BoxFit.cover,
+                frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
+                  if (wasSynchronouslyLoaded) return child;
+                  return AnimatedOpacity(
+                    opacity: frame == null ? 0 : 1,
+                    duration: const Duration(milliseconds: 300),
+                    curve: Curves.easeOut,
+                    child: child,
+                  );
+                },
+              ),
+              Positioned.fill(
+                child: Center(
+                  child: SizedBox(
+                    width: 180,
+                    height: 80,
+                    child: Card(
+                      elevation: 12.0,
+                      // Warna card adaptif agar tidak "silau" di dark mode
+                      color: isDark ? Colors.grey[100] : Colors.white,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8)),
+                      child: Padding(
+                        padding: const EdgeInsets.all(12),
+                        child: Image.asset("assets/images/ic_logo_jaccs.png"),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Positioned(
+                top: 10,
+                right: 10,
+                child: IconButton(
+                  onPressed: () => Navigator.pop(context),
+                  icon: const Icon(Icons.close, color: Colors.white, size: 28),
+                ),
+              ),
+            ],
           ),
-          ListTile(
-            // tileColor: Colors.white,
-            title: const Text('Hapus akun'),
-            onTap: () {
-              onDeleteAccount();
-            },
+          Expanded(
+            child: ListView(
+              padding: EdgeInsets.zero,
+              children: [
+                ListTile(
+                  leading: const Icon(Icons.logout, color: Colors.redAccent),
+                  title: const Text('Logout'),
+                  onTap: () => onLogout(),
+                ),
+                ListTile(
+                  leading: const Icon(Icons.delete_forever, color: Colors.grey),
+                  title: const Text('Hapus Akun'),
+                  onTap: () => onDeleteAccount(),
+                ),
+              ],
+            ),
           ),
-          Container(
-            color: Colors.white,
-            constraints: const BoxConstraints(maxHeight: double.infinity),
-          )
         ],
       ),
     );

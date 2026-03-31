@@ -23,18 +23,20 @@ class KebijakanPerlindunganDataScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: Stack(
-        children: [
-          WebViewWidget(controller: state.controller),
-          Obx(() => logic.is_loading.value
-              ? Container(
-            color: Colors.white,
-            child: const Center(
-              child: CircularProgressIndicator(),
-            ),
-          )
-              : const SizedBox.shrink()),
-        ],
+      body: SafeArea(
+        child: Stack(
+          children: [
+            WebViewWidget(controller: state.controller),
+            Obx(() => logic.is_loading.value
+                ? Container(
+              color: Colors.white,
+              child: const Center(
+                child: CircularProgressIndicator(),
+              ),
+            )
+                : const SizedBox.shrink()),
+          ],
+        ),
       ),
     );
   }

@@ -18,6 +18,8 @@ import '../../../../helper/Fungsi.dart';
 class RequestHapusDataLogic extends BaseLogic {
   final RequestHapusDataState state = RequestHapusDataState();
 
+  RxBool isSetuju = false.obs;
+
   void pickFile() async {
     state.lampiran = await FilePicker.platform.pickFiles(
         type: FileType.custom,
@@ -52,58 +54,61 @@ class RequestHapusDataLogic extends BaseLogic {
       titleStyle: const TextStyle(fontWeight: FontWeight.bold),
       contentPadding: const EdgeInsets.all(20),
       content: Obx(() => Column(
-        children: [
-          if (!is_loading.value) ...[
-            const Icon(
-              Icons.info_outline_rounded,
-              color: Colors.red,
-              size: 100,
-            ),
-            const SizedBox(height: 16),
-            const Text(
-              'Konfirmasi Request Hapus Data',
-              textAlign: TextAlign.center,
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-            ),
-            const SizedBox(height: 8),
-            const Text(
-              'Apakah Anda yakin ingin menghapus akun ini?\nSemua data Anda akan dihapus secara permanen.',
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 14),
-            ),
-          ] else ...[
-            // Tampilan saat loading
-            Komponen.getLoadingWidget(),
-            const Text("Sedang memproses..."),
-          ],
-        ],
-      )),
+            children: [
+              if (!is_loading.value) ...[
+                const Icon(
+                  Icons.info_outline_rounded,
+                  color: Colors.red,
+                  size: 100,
+                ),
+                const SizedBox(height: 16),
+                const Text(
+                  'Konfirmasi Request Hapus Data',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                ),
+                const SizedBox(height: 8),
+                const Text(
+                  'Apakah Anda yakin ingin menghapus akun ini?\nSemua data Anda akan dihapus secara permanen.',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 14),
+                ),
+              ] else ...[
+                // Tampilan saat loading
+                Komponen.getLoadingWidget(),
+              ],
+            ],
+          )),
       confirm: Obx(() => is_loading.value
           ? const SizedBox.shrink()
           : SizedBox(
-        width: double.infinity,
-        child: ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.grey,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-          ),
-          onPressed: () => submitRequestPenghapusan(),
-          child: const Text('Yakin', style: TextStyle(color: Colors.white)),
-        ),
-      )),
+              width: double.infinity,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.grey,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8)),
+                ),
+                onPressed: () => submitRequestPenghapusan(),
+                child:
+                    const Text('Yakin', style: TextStyle(color: Colors.white)),
+              ),
+            )),
       cancel: Obx(() => is_loading.value
           ? const SizedBox.shrink()
           : SizedBox(
-        width: double.infinity,
-        child: ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.redAccent,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-          ),
-          onPressed: () => Get.back(),
-          child: const Text('Batal', style: TextStyle(color: Colors.white)),
-        ),
-      )),
+              width: double.infinity,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.redAccent,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8)),
+                ),
+                onPressed: () => Get.back(),
+                child:
+                    const Text('Batal', style: TextStyle(color: Colors.white)),
+              ),
+            )),
     );
   }
 
@@ -117,6 +122,7 @@ class RequestHapusDataLogic extends BaseLogic {
       List<Map<String, dynamic>> requestBody = [
         {
           "login_user_id": userId,
+          "tipe_perubahan_data": "Penghapusan Data Pribadi",
           "jenis_perubahan_data": "Penghapusan Data Pribadi",
           "file_pendukung": state.base64_file
         }

@@ -27,6 +27,8 @@ import 'package:jmcare/service/EsignsignService.dart';
 import 'package:jmcare/service/EsignstatussignService.dart';
 import 'package:jmcare/service/FaqService.dart';
 import 'package:jmcare/service/GantipasswordService.dart';
+import 'package:jmcare/service/GetDetailSdpService.dart';
+import 'package:jmcare/service/GetRiyawatPdpService.dart';
 import 'package:jmcare/service/GradeService.dart';
 import 'package:jmcare/service/HistoripoinService.dart';
 import 'package:jmcare/service/JumlahdownloadService.dart';
@@ -72,9 +74,11 @@ import 'package:jmcare/service/klaimasuransi/UpdatechecklistdocumentService.dart
 import 'package:jmcare/service/preview_file_pdp_riwayat_status_pengajuan/PreviewFileKkService.dart';
 import 'package:jmcare/service/preview_file_pdp_riwayat_status_pengajuan/PreviewFileKtpService.dart';
 import 'package:jmcare/service/preview_file_pdp_riwayat_status_pengajuan/PreviewFilePendukungService.dart';
+
 import 'BaseService.dart';
 import 'CekSebelumHapusSpdService.dart';
 import 'DownloadPdpPdfService.dart';
+import 'GetDetailRiwayatSdpService.dart';
 import 'GetDetailSdpService.dart';
 import 'GetRiyawatPdpService.dart';
 import 'LoginService.dart';
@@ -175,6 +179,7 @@ class Service {
       PreviewFileKkService: PreviewFileKkService.instance,
       PreviewFilePendukungService: PreviewFilePendukungService.instance,
       CekSebelumHapusSpdService: CekSebelumHapusSpdService.instance,
+      GetDetailRiwayatSdpService: GetDetailRiwayatSdpService.instance,
     };
   }
 

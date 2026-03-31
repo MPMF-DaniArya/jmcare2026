@@ -283,28 +283,26 @@ class Fungsi{
 
   // fungsi untuk membuat kalimat format title case (Hanya huruf awal yang kapital)
   static String formatTitleCase(String? text) {
-    if (text == null) return "-";
+    if (text == null || text.trim().isEmpty) return "-";
 
-    String cleanText = text.replaceAll(RegExp(r'^[a-zA-Z0-9+]+\s*,\s*'), '');
+    String cleanText = text.trim();
 
     String checkEmpty = cleanText
-        .replaceAll(RegExp(r'RT\s*/\s*RW'), '')
-        .replaceAll('Kel.', '')
-        .replaceAll('Kec.', '')
-        .replaceAll(',', '')
-        .replaceAll('-', '')
+        .replaceAll(RegExp(r'RT\s*/\s*RW|Kel\.|Kec\.|,|-'), '')
         .trim();
 
     if (checkEmpty.isEmpty) return "-";
 
-    return cleanText.toLowerCase().split(' ').map((word) {
-      String cleanWord = word.replaceAll(RegExp(r'[^\w]'), '');
-      if (cleanWord == 'rt' || cleanWord == 'rw') return word.toUpperCase();
+    return cleanText.split(' ').map((word) {
+      if (word.isEmpty) return "";
 
-      if (word.isNotEmpty) {
-        return word[0].toUpperCase() + word.substring(1);
+      String lower = word.toLowerCase();
+
+      if (lower.contains('rt') || lower.contains('rw')) {
+        return word.toUpperCase();
       }
-      return word;
+
+      return lower[0].toUpperCase() + lower.substring(1);
     }).join(' ');
   }
 

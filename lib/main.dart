@@ -5,6 +5,7 @@ import 'dart:ui';
 
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';
@@ -50,7 +51,7 @@ import 'package:jmcare/screens/pengkiniandata/screens/penampilan_data_pribadi/vi
 import 'package:jmcare/screens/pengkiniandata/screens/penampilan_data_pribadi/screens/unduh_pdf_data_pribadi/view.dart';
 import 'package:jmcare/screens/pengkiniandata/screens/request_hapus_data/view.dart';
 import 'package:jmcare/screens/pengkiniandata/screens/request_pengkinian_data_pribadi/view.dart';
-import 'package:jmcare/screens/pengkiniandata/screens/riwayat_status_pengajuan/detail_status_pengajuan_view.dart';
+import 'package:jmcare/screens/pengkiniandata/screens/riwayat_status_pengajuan/detail_status_pengajuan/view.dart';
 import 'package:jmcare/screens/pengkiniandata/screens/riwayat_status_pengajuan/view.dart';
 import 'package:jmcare/screens/pengkiniandata/view.dart';
 import 'package:jmcare/screens/pilihkontrak/view.dart';
@@ -65,6 +66,7 @@ import 'package:jmcare/screens/resetpassword/pilihmetode/view.dart';
 import 'package:jmcare/screens/resetpassword/verifikasiotp/view.dart';
 import 'package:jmcare/screens/resetpassword/webview/view.dart';
 import 'package:jmcare/screens/searchuser/view.dart';
+import 'package:jmcare/screens/security_blocker/security_blocker_screen.dart';
 import 'package:jmcare/screens/splash/view.dart';
 import 'package:jmcare/screens/welcome/view.dart';
 import 'package:jmcare/service/BaseService.dart';
@@ -72,11 +74,39 @@ import 'package:jmcare/service/Service.dart';
 import 'package:jmcare/storage/storage.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:safe_device/safe_device.dart';
 
 import 'model/api/LoginRespon.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  bool isDeviceUnsafe = false;
+
+  // proteksi akan jalan jika aplikasi di build untuk release (production/pentest)
+  if (kReleaseMode) {
+    try {
+      bool isRooted = await SafeDevice.isJailBroken;
+      bool isRealDevice = await SafeDevice.isRealDevice;
+      bool isDevelopmentMode = await SafeDevice.isDevelopmentModeEnable;
+
+      print("Is Rooted: $isRooted");
+      print("Is Real Device: $isRealDevice");
+
+      if (isRooted || !isRealDevice || isDevelopmentMode) {
+        isDeviceUnsafe = true;
+      }
+    } catch (e) {
+      // kalau ada error saat deteksi, demi keamanan aplikasi akan dihentikan
+      print(e);
+      isDeviceUnsafe = true;
+    }
+  }
+
+  if (isDeviceUnsafe) {
+    runApp(const SecurityBlockerApp());
+    return;
+  }
 
   //Remove this method to stop OneSignal Debugging
   OneSignal.Debug.setLogLevel(OSLogLevel.verbose);

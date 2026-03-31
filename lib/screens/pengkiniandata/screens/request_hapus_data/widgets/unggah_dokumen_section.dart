@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:jmcare/helper/Warna.dart';
 import 'package:jmcare/screens/pengkiniandata/screens/request_hapus_data/logic.dart';
 
 import '../../../../../custom/container_menu.dart';
@@ -95,15 +96,15 @@ class UnggahDokumenSection extends StatelessWidget {
                 onPressed: () => logic.pickFile(),
                 icon: const Icon(
                   Icons.upload_sharp,
-                  color: Colors.black45,
+                  color: Colors.white,
                 ),
                 label: Text(
                   'Pilih Dokumen',
                   style: textTheme.labelLarge!.copyWith(
-                      fontWeight: FontWeight.bold, color: Colors.black45),
+                      fontWeight: FontWeight.bold, color: Colors.white),
                 ),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.grey.shade200,
+                  backgroundColor: Warna.hijau1,
                   minimumSize: const Size(double.infinity, 45),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8)),
