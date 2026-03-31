@@ -165,7 +165,7 @@ class PilihkontrakLogic extends BaseLogic {
               if (hasil == null) {
                 Fungsi.koneksiError();
                 //kalau download error, arahkan ke form keluhan
-                Get.toNamed(Konstan.rute_eContract, arguments: {
+                Get.toNamed(Konstan.rute_layanan_pengaduan, arguments: {
                   Konstan.tag_detail: pilihKontrak.value.data![index].aGRMNTNO
                 });
               } else {
@@ -177,7 +177,7 @@ class PilihkontrakLogic extends BaseLogic {
                   String namaFile = "$no_kontrak.pdf";
                   debugPrint("msgg_ ${hasil.message!}");
                   if (hasil.message == null) {
-                    Get.toNamed(Konstan.rute_eContract, arguments: {
+                    Get.toNamed(Konstan.rute_layanan_pengaduan, arguments: {
                       Konstan.tag_detail:
                           pilihKontrak.value.data![index].aGRMNTNO
                     });
@@ -209,7 +209,7 @@ class PilihkontrakLogic extends BaseLogic {
                         obsLoadJumlahDownload.value = false;
                       } catch (e) {
                         Fungsi.errorToast("Terjadi error download file");
-                        Get.toNamed(Konstan.rute_eContract, arguments: {
+                        Get.toNamed(Konstan.rute_layanan_pengaduan, arguments: {
                           Konstan.tag_detail:
                               pilihKontrak.value.data![index].aGRMNTNO
                         });
@@ -248,7 +248,7 @@ class PilihkontrakLogic extends BaseLogic {
                       } catch (err) {
                         Fungsi.errorToast(
                             "Gagal mendapatkan path folder: $err");
-                        Get.toNamed(Konstan.rute_eContract, arguments: {
+                        Get.toNamed(Konstan.rute_layanan_pengaduan, arguments: {
                           Konstan.tag_detail:
                               pilihKontrak.value.data![index].aGRMNTNO
                         });
@@ -263,7 +263,7 @@ class PilihkontrakLogic extends BaseLogic {
                   }
                 } else {
                   Fungsi.errorToast(hasil.message!);
-                  Get.toNamed(Konstan.rute_eContract, arguments: {
+                  Get.toNamed(Konstan.rute_layanan_pengaduan, arguments: {
                     Konstan.tag_detail: pilihKontrak.value.data![index].aGRMNTNO
                   });
                 }
@@ -274,7 +274,9 @@ class PilihkontrakLogic extends BaseLogic {
           }
         } else {
           if (usiaGoLive == "lebih dari 90 hari") {
-            Get.toNamed(Konstan.rute_layanan_pengaduan);
+            Get.toNamed(Konstan.rute_layanan_pengaduan, arguments: {
+              Konstan.tag_detail: pilihKontrak.value.data![index].aGRMNTNO
+            });
             Fungsi.warningToast(
                 "Nomor kontrak yang Anda pilih sudah lebih dari 90 hari dari tanggal golive. Silakan isi form kritik & saran / pengaduan berikut.");
           } else {
@@ -313,7 +315,7 @@ class PilihkontrakLogic extends BaseLogic {
               if (hasil == null) {
                 Fungsi.koneksiError();
                 //kalau download error, arahkan ke form keluhan
-                Get.toNamed(Konstan.rute_eContract, arguments: {
+                Get.toNamed(Konstan.rute_layanan_pengaduan, arguments: {
                   Konstan.tag_detail: pilihKontrak.value.data![index].aGRMNTNO
                 });
               } else {
@@ -352,7 +354,7 @@ class PilihkontrakLogic extends BaseLogic {
                         obsLoadJumlahDownload.value = false;
                       } catch (e) {
                         Fungsi.errorToast("Terjadi error download file");
-                        Get.toNamed(Konstan.rute_eContract, arguments: {
+                        Get.toNamed(Konstan.rute_layanan_pengaduan, arguments: {
                           Konstan.tag_detail:
                               pilihKontrak.value.data![index].aGRMNTNO
                         });
@@ -365,7 +367,7 @@ class PilihkontrakLogic extends BaseLogic {
                       if (angka == 0) {
                         Fungsi.warningToast(
                             "Nomor kontrak yang Anda pilih belum tersedia file E-Contract. Silakan menghubungi customer service atau mengisi form ini.");
-                        Get.toNamed(Konstan.rute_eContract, arguments: {
+                        Get.toNamed(Konstan.rute_layanan_pengaduan, arguments: {
                           Konstan.tag_detail:
                               pilihKontrak.value.data![index].aGRMNTNO
                         });
@@ -396,7 +398,7 @@ class PilihkontrakLogic extends BaseLogic {
                         } catch (err) {
                           Fungsi.errorToast(
                               "Gagal mendapatkan path folder: $err");
-                          Get.toNamed(Konstan.rute_eContract, arguments: {
+                          Get.toNamed(Konstan.rute_layanan_pengaduan, arguments: {
                             Konstan.tag_detail:
                                 pilihKontrak.value.data![index].aGRMNTNO
                           });
@@ -406,7 +408,7 @@ class PilihkontrakLogic extends BaseLogic {
                   }
                 } else {
                   Fungsi.errorToast(hasil.message!);
-                  Get.toNamed(Konstan.rute_eContract, arguments: {
+                  Get.toNamed(Konstan.rute_layanan_pengaduan, arguments: {
                     Konstan.tag_detail: pilihKontrak.value.data![index].aGRMNTNO
                   });
                 }

@@ -202,6 +202,8 @@ class Endpoint {
   static const String TAG_CEK_SEBELUM_HAPUS_SDP = 'cekSebelumHapusSDP.json';
   static const String TAG_GET_DETAIL_RIWAYAT_SDP = 'getDetailMasterSDP.json';
 
+  static const String TAG_READ_NOTIFIKASI = 'onesignal/read_notification';
+
   static List<Interceptor> dioInterceptors = [
     PrettyDioLogger(
       requestHeader: false,
