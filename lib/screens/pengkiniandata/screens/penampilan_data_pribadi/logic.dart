@@ -37,7 +37,7 @@ class PenampilanDataPribadiLogic extends BaseLogic {
           String rawTempatTanggalLahir =
               "${dataSdpRespon.tempatLahir}, ${dataSdpRespon.tanggalLahir}";
           String? rawAlamatDomisili =
-              '${dataSdpRespon.alamatDomisili}, RT ${dataSdpRespon.alamatDomisiliRt}/ RW ${dataSdpRespon.alamatDomisiliRw}, Kel. ${dataSdpRespon.alamatDomisiliKelurahan}, Kec. ${dataSdpRespon.alamatDomisiliKecamatan}, ${dataSdpRespon.alamatDomisiliKecamatan}, ${dataSdpRespon.alamatDomisiliKodepos}';
+              '${dataSdpRespon.alamatDomisili}, RT ${dataSdpRespon.alamatDomisiliRt}/ RW ${dataSdpRespon.alamatDomisiliRw}, Kel. ${dataSdpRespon.alamatDomisiliKelurahan}, Kec. ${dataSdpRespon.alamatDomisiliKecamatan}, ${dataSdpRespon.alamatDomisiliKota}, ${dataSdpRespon.alamatDomisiliKodepos}';
 
           state.namaLengkapUser =
               Fungsi.formatTitleCase(dataSdpRespon.namaLengkap);
