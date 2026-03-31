@@ -1,16 +1,16 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
+import 'package:jmcare/model/api/BaseRespon.dart';
 import 'package:jmcare/service/AddantrianService.dart';
 import 'package:jmcare/service/AgreementcardService.dart';
 import 'package:jmcare/service/AntriansekarangService.dart';
 import 'package:jmcare/service/CabangService.dart';
 import 'package:jmcare/service/CekRegistrasiesignService.dart';
-import 'package:jmcare/service/CekSebelumHapusSpdService.dart';
 import 'package:jmcare/service/CekkuisionerService.dart';
 import 'package:jmcare/service/CeknomorhpService.dart';
 import 'package:jmcare/service/CekpengkiniandataService.dart';
 import 'package:jmcare/service/DeleteakunService.dart';
 import 'package:jmcare/service/DialogjmoService.dart';
-import 'package:jmcare/service/DownloadPdpPdfService.dart';
 import 'package:jmcare/service/DownloadepolisService.dart';
 import 'package:jmcare/service/DropdownService.dart';
 import 'package:jmcare/service/EContractdownloadService.dart';
@@ -27,8 +27,6 @@ import 'package:jmcare/service/EsignsignService.dart';
 import 'package:jmcare/service/EsignstatussignService.dart';
 import 'package:jmcare/service/FaqService.dart';
 import 'package:jmcare/service/GantipasswordService.dart';
-import 'package:jmcare/service/GetDetailSdpService.dart';
-import 'package:jmcare/service/GetRiyawatPdpService.dart';
 import 'package:jmcare/service/GradeService.dart';
 import 'package:jmcare/service/HistoripoinService.dart';
 import 'package:jmcare/service/JumlahdownloadService.dart';
@@ -74,10 +72,14 @@ import 'package:jmcare/service/klaimasuransi/UpdatechecklistdocumentService.dart
 import 'package:jmcare/service/preview_file_pdp_riwayat_status_pengajuan/PreviewFileKkService.dart';
 import 'package:jmcare/service/preview_file_pdp_riwayat_status_pengajuan/PreviewFileKtpService.dart';
 import 'package:jmcare/service/preview_file_pdp_riwayat_status_pengajuan/PreviewFilePendukungService.dart';
-
 import 'BaseService.dart';
+import 'CekSebelumHapusSpdService.dart';
+import 'DownloadPdpPdfService.dart';
+import 'GetDetailSdpService.dart';
+import 'GetRiyawatPdpService.dart';
 import 'LoginService.dart';
 import 'PengkinianDataPribadiSubmitFormService.dart';
+import 'PostReadNotifikasiService.dart';
 
 class Service {
   Dio? client;
@@ -163,6 +165,7 @@ class Service {
       DetailFormLanjutanService: DetailFormLanjutanService.instance,
       LayananPengaduanSubmitFormService:
           LayananPengaduanSubmitFormService.instance,
+      PostReadNotifikasiService: PostReadNotifikasiService.instance,
       GetDetailSdpService: GetDetailSdpService.instance,
       DownloadPdpPdfService: DownloadPdpPdfService.instance,
       PengkinianDataPribadiSubmitFormService:

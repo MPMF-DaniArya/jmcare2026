@@ -201,6 +201,8 @@ class Endpoint {
   static const String TAG_DOWNLOAD_FILE_PDP = 'downloadFileSDP.json';
   static const String TAG_CEK_SEBELUM_HAPUS_SDP = 'cekSebelumHapusSDP.json';
 
+  static const String TAG_READ_NOTIFIKASI = 'onesignal/read_notification';
+
   static List<Interceptor> dioInterceptors = [
     PrettyDioLogger(
       requestHeader: false,
