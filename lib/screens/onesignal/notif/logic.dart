@@ -58,6 +58,7 @@ class OnesignalnotifLogic extends BaseLogic {
           .catchError(
             (e) => debugPrint('Error Update isRead di server: $e'),
           );
+
     }
 
     Get.toNamed(Konstan.rute_detail_notif, arguments: itemNotif);

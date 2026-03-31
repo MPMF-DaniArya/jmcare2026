@@ -48,6 +48,8 @@
         android:icon="@mipmap/launcher_icon"
         android:label="JM CARE"
         android:requestLegacyExternalStorage="true"
+        android:allowBackup="false"
+        android:fullBackupContent="false"
         android:usesCleartextTraffic="true">
         <provider
             android:name="androidx.core.content.FileProvider"

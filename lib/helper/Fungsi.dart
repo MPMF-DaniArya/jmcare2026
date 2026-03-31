@@ -281,4 +281,72 @@ class Fungsi{
     }
   }
 
+  // fungsi untuk membuat kalimat format title case (Hanya huruf awal yang kapital)
+  static String formatTitleCase(String? text) {
+    if (text == null) return "-";
+
+    String cleanText = text.replaceAll(RegExp(r'^[a-zA-Z0-9+]+\s*,\s*'), '');
+
+    String checkEmpty = cleanText
+        .replaceAll(RegExp(r'RT\s*/\s*RW'), '')
+        .replaceAll('Kel.', '')
+        .replaceAll('Kec.', '')
+        .replaceAll(',', '')
+        .replaceAll('-', '')
+        .trim();
+
+    if (checkEmpty.isEmpty) return "-";
+
+    return cleanText.toLowerCase().split(' ').map((word) {
+      String cleanWord = word.replaceAll(RegExp(r'[^\w]'), '');
+      if (cleanWord == 'rt' || cleanWord == 'rw') return word.toUpperCase();
+
+      if (word.isNotEmpty) {
+        return word[0].toUpperCase() + word.substring(1);
+      }
+      return word;
+    }).join(' ');
+  }
+
+  static String formatTanggalOnly(String? tanggalDanWaktu) {
+    DateFormat inputFormat = DateFormat("dd MMM yyyy HH:mm:ss");
+    DateFormat outputFormat = DateFormat("dd MMM yyyy");
+
+    String dateDisplay = "-";
+
+    if (tanggalDanWaktu != null && tanggalDanWaktu.isNotEmpty) {
+      try {
+        // parse ke DateTime
+        DateTime dateTime = inputFormat.parse(tanggalDanWaktu);
+        // format ke String
+        return dateDisplay = outputFormat.format(dateTime);
+      } catch (e) {
+        // jika format dari API tidak sesuai, tampilkan string aslinya atau '-'
+        debugPrint("Error parsing date: $e");
+        return dateDisplay = tanggalDanWaktu ?? "-";
+      }
+    } else {
+      return dateDisplay = "-";
+    }
+  }
+
+  // fungsi untuk membedakan ekstensi file berdasarkan magic bytes dari base64 file
+  static String getFileExtension(Uint8List bytes) {
+    // magic bytes untuk .pdf
+    if (bytes[0] == 0x25 &&
+        bytes[1] == 0x50 &&
+        bytes[2] == 0x44 &&
+        bytes[3] == 0x46) {
+      return '.pdf';
+    }
+
+    // magic bytes untuk .jpg
+    if (bytes[0] == 0xFF &&
+        bytes[1] == 0xD8 &&
+        bytes[2] == 0xFF) {
+      return '.jpg';
+    }
+
+    return '.pdf';
+  }
 }

@@ -26,6 +26,7 @@ class AuthpinScreen extends StatelessWidget {
             controller: state.tecPIN,
             obscureText: true,
             obscuringCharacter: "*",
+            autofocus: true,
           ),
           const Padding(padding: EdgeInsets.only(top: 10)),
           ElevatedButton(

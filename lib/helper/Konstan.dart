@@ -77,6 +77,9 @@ class Konstan {
       '/riwayat_pengkinian_data_pribadi';
   static const String rute_detail_status_pengkinian_data_pribadi =
       '/detail_status_pengkinian_data_pribadi';
+  static const String rute_unduh_pdf_data_pribadi =
+      '/unduh_pdf_data_pribadi';
+
 
   static const String tag_pdf_data_pribadi =
       'File PDF dilindungi Dengan PIN yang Sama Dengan PIN Aplikasi Anda';

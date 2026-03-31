@@ -44,7 +44,6 @@ import 'package:jmcare/service/PaginationuserService.dart';
 import 'package:jmcare/service/PengkiniandataService.dart';
 import 'package:jmcare/service/PertanyaanService.dart';
 import 'package:jmcare/service/PilihkontrakService.dart';
-import 'package:jmcare/service/PostReadNotifikasiService.dart';
 import 'package:jmcare/service/RegisterDebiturService.dart';
 import 'package:jmcare/service/RegisterNonDebiturService.dart';
 import 'package:jmcare/service/ResetpasswordService.dart';
@@ -70,8 +69,17 @@ import 'package:jmcare/service/klaimasuransi/MpmiDocumentChecklistService.dart';
 import 'package:jmcare/service/klaimasuransi/MpmiTokenService.dart';
 import 'package:jmcare/service/klaimasuransi/RiwayatformawalService.dart';
 import 'package:jmcare/service/klaimasuransi/UpdatechecklistdocumentService.dart';
+import 'package:jmcare/service/preview_file_pdp_riwayat_status_pengajuan/PreviewFileKkService.dart';
+import 'package:jmcare/service/preview_file_pdp_riwayat_status_pengajuan/PreviewFileKtpService.dart';
+import 'package:jmcare/service/preview_file_pdp_riwayat_status_pengajuan/PreviewFilePendukungService.dart';
 import 'BaseService.dart';
+import 'CekSebelumHapusSpdService.dart';
+import 'DownloadPdpPdfService.dart';
+import 'GetDetailSdpService.dart';
+import 'GetRiyawatPdpService.dart';
 import 'LoginService.dart';
+import 'PengkinianDataPribadiSubmitFormService.dart';
+import 'PostReadNotifikasiService.dart';
 
 class Service {
   Dio? client;
@@ -157,7 +165,16 @@ class Service {
       DetailFormLanjutanService: DetailFormLanjutanService.instance,
       LayananPengaduanSubmitFormService:
           LayananPengaduanSubmitFormService.instance,
-      PostReadNotifikasiService: PostReadNotifikasiService.instance
+      PostReadNotifikasiService: PostReadNotifikasiService.instance,
+      GetDetailSdpService: GetDetailSdpService.instance,
+      DownloadPdpPdfService: DownloadPdpPdfService.instance,
+      PengkinianDataPribadiSubmitFormService:
+          PengkinianDataPribadiSubmitFormService.instance,
+      GetRiyawatPdpService: GetRiyawatPdpService.instance,
+      PreviewFileKtpService: PreviewFileKtpService.instance,
+      PreviewFileKkService: PreviewFileKkService.instance,
+      PreviewFilePendukungService: PreviewFilePendukungService.instance,
+      CekSebelumHapusSpdService: CekSebelumHapusSpdService.instance,
     };
   }
 
