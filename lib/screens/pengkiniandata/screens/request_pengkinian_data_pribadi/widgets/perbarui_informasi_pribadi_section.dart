@@ -104,15 +104,25 @@ class PerbaruiInformasiPribadiSection extends StatelessWidget {
                 readOnly: true,
                 maxLines: 4,
                 minLines: 1,
-                style: textTheme.bodyMedium!.copyWith(color: Colors.black87),
+                style: textTheme.bodyMedium!.copyWith(
+                    color: Get.isDarkMode ? Colors.white : Colors.black87),
                 decoration: InputDecoration(
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: BorderSide(
+                      color: Get.isDarkMode ? Colors.white24 : Colors.black12,
+                    ),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: BorderSide(
+                      color: Get.isDarkMode ? Colors.white24 : Colors.black12,
+                    ),
+                  ),
                   contentPadding:
                       const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
-                  filled: true,
-                  fillColor: Colors.grey.shade200,
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide.none,
                   ),
                 ),
               );
@@ -138,7 +148,9 @@ class PerbaruiInformasiPribadiSection extends StatelessWidget {
             TextFormField(
               controller: item['tecDataBaru'],
               minLines: 1,
-              keyboardType: currentValue ==  logic.state.jenisData[3] ? TextInputType.number : TextInputType.text,
+              keyboardType: currentValue == logic.state.jenisData[3]
+                  ? TextInputType.number
+                  : TextInputType.text,
               maxLines: 3,
               validator: (value) {
                 if (value == null || value.trim().isEmpty) {

@@ -110,13 +110,18 @@ class DetailStatusPengajuan extends StatelessWidget {
                                   readOnly: true,
                                   maxLines: 4,
                                   minLines: 1,
-                                  style: textTheme.bodyMedium!
-                                      .copyWith(fontWeight: FontWeight.bold),
+                                  style: textTheme.bodyMedium!.copyWith(
+                                      fontWeight: FontWeight.bold,
+                                      color: Get.isDarkMode
+                                          ? Colors.white
+                                          : Colors.black87),
                                   decoration: InputDecoration(
                                     contentPadding: const EdgeInsets.symmetric(
                                         horizontal: 12, vertical: 16),
                                     filled: true,
-                                    fillColor: Colors.grey.shade200,
+                                    fillColor: Get.isDarkMode
+                                        ? const Color(0xFF353535)
+                                        : Colors.grey.shade200,
                                     border: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(12),
                                       borderSide: BorderSide.none,
@@ -138,13 +143,18 @@ class DetailStatusPengajuan extends StatelessWidget {
                                   readOnly: true,
                                   maxLines: 4,
                                   minLines: 1,
-                                  style: textTheme.bodyMedium!
-                                      .copyWith(fontWeight: FontWeight.bold),
+                                  style: textTheme.bodyMedium!.copyWith(
+                                      fontWeight: FontWeight.bold,
+                                      color: Get.isDarkMode
+                                          ? Colors.white
+                                          : Colors.black87),
                                   decoration: InputDecoration(
                                     contentPadding: const EdgeInsets.symmetric(
                                         horizontal: 12, vertical: 16),
                                     filled: true,
-                                    fillColor: Colors.grey.shade200,
+                                    fillColor: Get.isDarkMode
+                                        ? const Color(0xFF353535)
+                                        : Colors.grey.shade200,
                                     border: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(12),
                                       borderSide: BorderSide.none,
@@ -166,13 +176,18 @@ class DetailStatusPengajuan extends StatelessWidget {
                                   readOnly: true,
                                   maxLines: 4,
                                   minLines: 1,
-                                  style: textTheme.bodyMedium!
-                                      .copyWith(fontWeight: FontWeight.bold),
+                                  style: textTheme.bodyMedium!.copyWith(
+                                      fontWeight: FontWeight.bold,
+                                      color: Get.isDarkMode
+                                          ? Colors.white
+                                          : Colors.black87),
                                   decoration: InputDecoration(
                                     contentPadding: const EdgeInsets.symmetric(
                                         horizontal: 12, vertical: 16),
                                     filled: true,
-                                    fillColor: Colors.grey.shade200,
+                                    fillColor: Get.isDarkMode
+                                        ? const Color(0xFF353535)
+                                        : Colors.grey.shade200,
                                     border: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(12),
                                       borderSide: BorderSide.none,
