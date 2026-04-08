@@ -48,7 +48,7 @@ class DetailRiwayatLogic extends BaseLogic {
   void tampilKuisioner() {
     //ke screen kuisioner dengan membawa id antrian
     Get.toNamed(Konstan.rute_kuisioner,
-        arguments: {Konstan.tag_id_antrian: state.id});
+        arguments: {Konstan.tag_id_antrian: state.id, 'isFromNotif': false});
   }
 
   void showDialogNomorAntrian(String nomorAntrian) {
@@ -139,8 +139,8 @@ class DetailRiwayatLogic extends BaseLogic {
       //kalau sudah dapat lat long posisi user, hitung jarak dengan kantor tujuan
       double lat_kantor_tujuan = double.parse(state.office_lat);
       double long_kantor_tujuan = double.parse(state.office_long);
-      obxJarak.value = fungsi.calculateDistance(obxLat.value,
-          obxLong.value, lat_kantor_tujuan, long_kantor_tujuan);
+      obxJarak.value = fungsi.calculateDistance(
+          obxLat.value, obxLong.value, lat_kantor_tujuan, long_kantor_tujuan);
       // Fungsi.warningToast("jarak " + obxJarak.value.toString());
     } else {
       //jika ini bukan hari yang sama (bisa besok/kemarin/expired)

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jmcare/helper/Fungsi.dart';
+import 'package:jmcare/helper/Komponen.dart';
 import 'package:jmcare/model/api/LoginRespon.dart';
 import 'package:jmcare/model/api/NotifRespon.dart';
 import 'package:jmcare/screens/base/base_logic.dart';
@@ -11,6 +12,7 @@ import 'package:jmcare/service/Service.dart';
 import 'package:jmcare/storage/storage.dart';
 
 import '../../../helper/Konstan.dart';
+import '../../../service/CekkuisionerService.dart';
 
 class OnesignalnotifLogic extends BaseLogic {
   final OnesignalnotifState state = OnesignalnotifState();
@@ -58,7 +60,33 @@ class OnesignalnotifLogic extends BaseLogic {
           .catchError(
             (e) => debugPrint('Error Update isRead di server: $e'),
           );
+    }
 
+    if (itemNotif.namaNotif!.toUpperCase() == 'KUISIONER') {
+      Komponen.getLoadingWidget();
+
+      try {
+        final authStorage = await getStorage<LoginRespon>();
+        final userID = authStorage.data!.loginUserId;
+
+        final baseRespon = await getService<CekkuisionerService>()
+            ?.cekKuisioner(userID!, itemNotif.onesignalId!);
+
+        Get.back();
+
+        if (baseRespon != null && baseRespon.code == "200") {
+          Fungsi.warningToast(baseRespon.message!);
+        } else {
+          Get.toNamed(Konstan.rute_kuisioner, arguments: {
+            Konstan.tag_id_antrian: itemNotif.onesignalId,
+            'isFromNotif': true
+          });
+        }
+      } catch (e) {
+        Get.back();
+        Fungsi.errorToast("Gagal mengecek status kuisioner");
+      }
+      return;
     }
 
     Get.toNamed(Konstan.rute_detail_notif, arguments: itemNotif);
