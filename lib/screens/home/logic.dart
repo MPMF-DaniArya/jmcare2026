@@ -1,12 +1,10 @@
 import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:in_app_update/in_app_update.dart';
 import 'package:jmcare/helper/Endpoint.dart';
 import 'package:jmcare/helper/Fungsi.dart';
-import 'package:jmcare/helper/Komponen.dart';
 import 'package:jmcare/helper/Konstan.dart';
 import 'package:jmcare/model/api/BaseRespon.dart';
 import 'package:jmcare/model/api/CekRegistrasiesignRequest.dart';
@@ -17,18 +15,17 @@ import 'package:jmcare/model/api/NotifRespon.dart';
 import 'package:jmcare/model/api/ProdukRespon.dart';
 import 'package:jmcare/model/api/PromoRespon.dart';
 import 'package:jmcare/model/api/SlideshowRespon.dart';
-import 'package:jmcare/model/api/VersiRespon.dart';
 import 'package:jmcare/screens/base/base_logic.dart';
 import 'package:jmcare/screens/home/state.dart';
+import 'package:jmcare/service/BaseService.dart';
 import 'package:jmcare/service/CekRegistrasiesignService.dart';
-import 'package:jmcare/service/CekpengkiniandataService.dart';
 import 'package:jmcare/service/GradeService.dart';
 import 'package:jmcare/service/OnesignalgetnotifService.dart';
 import 'package:jmcare/service/Service.dart';
-import 'package:jmcare/service/VersiService.dart';
 import 'package:jmcare/storage/storage.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import '../../model/api/VersiModel.dart';
+import 'package:url_launcher/url_launcher.dart';
+
 import '../../service/DeleteakunService.dart';
 import '../../service/SlideService.dart';
 
@@ -62,7 +59,10 @@ class HomeLogic extends BaseLogic {
     getSlides();
     getGrade();
 
-    checkForUpdate();
+    // Jalankan pengecekan update setelah frame pertama selesai
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      checkForUpdate();
+    });
 
     if (Platform.isAndroid) {
       cekVersi();
@@ -77,9 +77,103 @@ class HomeLogic extends BaseLogic {
           await InAppUpdate.performImmediateUpdate();
         }
       } catch (e) {
-        print("Update Error: $e");
+        debugPrint("Update Error: $e");
+      }
+    } else if (Platform.isIOS) {
+      try {
+        final packageInfo = await PackageInfo.fromPlatform();
+        final currentVersion = packageInfo.version;
+        final bundleId = packageInfo.packageName;
+
+        final dio = BaseService.client;
+
+        // hit iTunes API menggunakan bundleId
+        final response = await dio.get(
+          'https://itunes.apple.com/lookup',
+          queryParameters: {
+            'bundleId': 'com.mpm.jmcare',
+            'country': 'id',
+          },
+        );
+
+        if (response.statusCode == 200) {
+          final data = response.data;
+          if (data['resultCount'] > 0) {
+            final storeVersion = data['results'][0]['version'];
+            final appStoreUrl = data['results'][0]['trackViewUrl'];
+
+            if (storeVersion != currentVersion) {
+              _showUpdateDialogIos(appStoreUrl);
+            }
+          }
+        }
+      } catch (e) {
+        debugPrint("iOS Update Error via Dio: $e");
       }
     }
+  }
+
+  void _showUpdateDialogIos(String url) {
+    Get.dialog(
+      Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 40),
+            child: Container(
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.all(
+                  Radius.circular(20),
+                ),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Material(
+                  child: Column(
+                    children: [
+                      const SizedBox(height: 10),
+                      const Text(
+                        "PEMBARUAN TERSEDIA",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(height: 10),
+                      const Text(
+                        "Versi terbaru JMCare sudah tersedia di App Store. Perbarui aplikasi Anda sekarang untuk mendapatkan fitur terbaru dan peningkatan keamanan.",
+                        textAlign: TextAlign.center,
+                      ),
+                      const SizedBox(height: 15),
+                      //Buttons
+                      Row(
+                        children: [
+                          Expanded(
+                            child: TextButton(
+                              onPressed: () async {
+                                final Uri uri = Uri.parse(url);
+                                if (await canLaunchUrl(uri)) {
+                                  await launchUrl(uri,
+                                      mode: LaunchMode.externalApplication);
+                                }
+                              },
+                              child: const Text('UPDATE',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.green)),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+      barrierDismissible: false,
+    );
   }
 
   void changeTheme(bool newValue) {
