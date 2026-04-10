@@ -30,7 +30,8 @@ class KuisionerLogic extends BaseLogic {
     super.onInit();
     //get argumen id antrian yang dilempar dari screen detailriwayat antrian
     state.id_antrian = Get.arguments[Konstan.tag_id_antrian];
-    //hit api untuk cek apakah kuisioner ini sudah dikerjakan apa belum
+
+    // kalau dari detail riwayat, cek kuisioner apakah sudah di kerjakan atau belum
     if (Get.arguments['isFromNotif'] == false) {
       debugPrint("ini dari detail riwayat");
       cekKuisioner();

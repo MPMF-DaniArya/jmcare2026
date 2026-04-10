@@ -27,14 +27,15 @@ class AuthpinScreen extends StatelessWidget {
             obscureText: true,
             obscuringCharacter: "*",
             autofocus: true,
+            onCompleted: (pin) => logic.checkPIN(),
           ),
-          const Padding(padding: EdgeInsets.only(top: 10)),
-          ElevatedButton(
-              onPressed: () => logic.checkPIN(),
-              child: const Text(
-                "Cek PIN"
-              )
-          ),
+          // const Padding(padding: EdgeInsets.only(top: 10)),
+          // ElevatedButton(
+          //     onPressed: () => logic.checkPIN(),
+          //     child: const Text(
+          //       "Cek PIN"
+          //     )
+          // ),
           const Padding(padding: EdgeInsets.only(top: 10)),
           Obx(
                   () => logic.is_loading.value

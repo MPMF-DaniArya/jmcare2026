@@ -1,34 +1,25 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
 import 'dart:typed_data';
-import 'dart:ui';
-import 'package:device_info_plus/device_info_plus.dart';
+
 import 'package:flutter/material.dart';
-import 'package:flutter_background_service/flutter_background_service.dart';
-import 'package:flutter_background_service_android/flutter_background_service_android.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:jmcare/helper/Fungsi.dart';
 import 'package:jmcare/helper/Konstan.dart';
-import 'package:jmcare/model/api/EsignSentotpRespon.dart';
 import 'package:jmcare/model/api/GradeRespon.dart';
 import 'package:jmcare/model/api/LoginRespon.dart';
-import 'package:jmcare/model/api/MpmiSubmitClaimDetail.dart';
-import 'package:jmcare/model/api/MpmiSubmitClaimRegister.dart';
-import 'package:jmcare/model/api/MpmiSubmitDocumentChecklist.dart';
 import 'package:jmcare/model/api/PaginationuserRespon.dart';
 import 'package:jmcare/model/session/RegisterpinModel.dart';
 import 'package:jmcare/model/session/ResetPassModel.dart';
 import 'package:jmcare/model/session/SelectedMethod.dart';
 import 'package:jmcare/service/Service.dart';
-import 'package:jmcare/service/klaimasuransi/MpmiClaimDetailService.dart';
-import 'package:jmcare/service/klaimasuransi/MpmiClaimRegisterService.dart';
-import 'package:jmcare/service/klaimasuransi/MpmiDocumentChecklistService.dart';
 import 'package:jmcare/storage/storage.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 import '../../helper/Komponen.dart';
 import '../../model/api/MpmiBaseRespon.dart';
 import '../../model/api/SlideshowRespon.dart';
@@ -36,7 +27,6 @@ import '../../model/api/VersiModel.dart';
 import '../../model/api/VersiRespon.dart';
 import '../../service/VersiService.dart';
 import '../../service/klaimasuransi/MpmiTokenService.dart';
-import 'package:onesignal_flutter/onesignal_flutter.dart';
 
 class BaseLogic extends GetxController {
   var is_loading = false.obs;
@@ -45,7 +35,7 @@ class BaseLogic extends GetxController {
   var obsVersiSalah = false.obs;
   var obsAppleVisibility = false.obs;
 
-  void back(){
+  void back() {
     Get.back();
   }
 
@@ -240,10 +230,10 @@ class BaseLogic extends GetxController {
 
   Future<String> fetchTokenMpmi() async {
     final respon = await getService<MpmitokenService>()?.getToken();
-    if (respon is MpmibaseError || respon == null){
+    if (respon is MpmibaseError || respon == null) {
       print("token error");
       return "";
-    }else{
+    } else {
       print("token sukses");
       print(respon!.token!);
       //simpan token di session
@@ -254,21 +244,21 @@ class BaseLogic extends GetxController {
 
   Future<String> getTokenMpmi() async {
     final token = await getStorage<MpmiBaseRespon>();
-    if (token.data == null || token == null){
+    if (token.data == null || token == null) {
       return await fetchTokenMpmi();
-    }else{
+    } else {
       return token.data!.token!;
     }
   }
 
-  void thousandSeparator(TextEditingController tec){
+  void thousandSeparator(TextEditingController tec) {
     int a = int.parse(tec.text);
     final NumberFormat formatter = NumberFormat("##,##0");
     final b = formatter.format(a);
     tec.text = b;
   }
 
-  Future<VersiModel> getVersiDevice() async{
+  Future<VersiModel> getVersiDevice() async {
     final info = await PackageInfo.fromPlatform();
     VersiModel versiModel = VersiModel();
     versiModel.appName = info.appName;
@@ -283,15 +273,20 @@ class BaseLogic extends GetxController {
     return versiModel;
   }
 
-  void alertUpgradeAplikasi(String linkDownload){
+  void alertUpgradeAplikasi(String linkDownload) {
     Get.defaultDialog(
       title: "Upgrade Aplikasi",
       content: Column(
         children: [
-          const Text("Silakan uninstal aplikasi ini dan download aplikasi terbaru", textAlign: TextAlign.center,),
-          ElevatedButton(onPressed: (){
-            Get.back();
-          }, child: const Text("OK"))
+          const Text(
+            "Silakan uninstal aplikasi ini dan download aplikasi terbaru",
+            textAlign: TextAlign.center,
+          ),
+          ElevatedButton(
+              onPressed: () {
+                Get.back();
+              },
+              child: const Text("OK"))
         ],
       ),
     );
@@ -300,9 +295,9 @@ class BaseLogic extends GetxController {
   void cekVersi() async {
     obsLoadVersi.value = true;
     var versiRespon = await getService<VersiService>()?.getVersion();
-    if (versiRespon == null){
+    if (versiRespon == null) {
       Fungsi.errorToast("Gagal mendapatkan versi aplikasi");
-    }else{
+    } else {
       if (versiRespon is VersiError) {
         debugPrint('versi error!');
       } else {
@@ -332,12 +327,10 @@ class BaseLogic extends GetxController {
   }
 
   Uint8List dataFromBase64String(String base64String) {
-    try{
-      return base64Decode(base64String.replaceAll(RegExp(r'\s+'),''));
-    }catch(e){
+    try {
+      return base64Decode(base64String.replaceAll(RegExp(r'\s+'), ''));
+    } catch (e) {
       return Uint8List(0);
     }
   }
-
-
 }

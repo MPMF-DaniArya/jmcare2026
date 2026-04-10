@@ -28,7 +28,13 @@ class RegisterpinScreen extends StatelessWidget {
                   length: 6,
                   controller: state.tecPin1,
                   obscureText: true,
+                  autofocus: true,
                   obscuringCharacter: "*",
+                  onCompleted: (pin) {
+                    WidgetsBinding.instance.addPostFrameCallback((_) {
+                      state.focusNodePin2.requestFocus();
+                    });
+                  },
                 ),
 
                 const Padding(padding: EdgeInsets.only(top: 30)),
@@ -36,6 +42,7 @@ class RegisterpinScreen extends StatelessWidget {
                 const Padding(padding: EdgeInsets.only(top: 10)),
                 Pinput(
                   length: 6,
+                  focusNode: state.focusNodePin2,
                   controller: state.tecPin2,
                   obscureText: true,
                   obscuringCharacter: "*",

@@ -511,8 +511,8 @@ class Komponen {
     );
   }
 
-  static Widget getMainDrawer(
-      BuildContext context, Function onLogout, Function onDeleteAccount) {
+  static Widget getMainDrawer(BuildContext context, Function onLogout,
+      Function onDeleteAccount, Function onGantiPassword) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Drawer(
@@ -572,12 +572,26 @@ class Komponen {
               padding: EdgeInsets.zero,
               children: [
                 ListTile(
-                  leading: const Icon(Icons.logout, color: Colors.redAccent),
+                  horizontalTitleGap: 5,
+                  leading: const SizedBox(
+                      width: 30, child: Icon(Icons.key, color: Colors.grey)),
+                  title: const Text('Ganti Password'),
+                  onTap: () => onGantiPassword(),
+                ),
+                ListTile(
+                  horizontalTitleGap: 5,
+                  leading: const SizedBox(
+                      width: 30,
+                      child: Icon(Icons.logout, color: Colors.redAccent)),
                   title: const Text('Logout'),
                   onTap: () => onLogout(),
                 ),
                 ListTile(
-                  leading: const Icon(Icons.delete_forever, color: Colors.grey),
+                  horizontalTitleGap: 5,
+                  leading: const SizedBox(
+                      width: 30,
+                      child: Icon(Icons.delete_forever,
+                          color: Colors.redAccent)),
                   title: const Text('Hapus Akun'),
                   onTap: () => onDeleteAccount(),
                 ),
