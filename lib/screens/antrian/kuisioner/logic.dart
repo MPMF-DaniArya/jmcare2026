@@ -35,6 +35,9 @@ class KuisionerLogic extends BaseLogic {
     if (Get.arguments['isFromNotif'] == false) {
       debugPrint("ini dari detail riwayat");
       cekKuisioner();
+    } else {
+      debugPrint("ini dari notifikasi");
+      getPertanyaan();
     }
   }
 

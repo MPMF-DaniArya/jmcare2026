@@ -47,6 +47,7 @@ class OnesignalnotifLogic extends BaseLogic {
   }
 
   void isReadNotifikasi(String idNotifikasi, Data itemNotif) async {
+    // menandai notif telah dibaca di lokal tanpa refresh atau update status di api lalu get lagi data isread yang baru
     if (itemNotif.isRead == '0') {
       int index = obsNotifRespon.value.data!.indexOf(itemNotif);
       if (index != -1) {
@@ -62,9 +63,8 @@ class OnesignalnotifLogic extends BaseLogic {
           );
     }
 
+    // cek apakah notif kuisioner
     if (itemNotif.namaNotif!.toUpperCase() == 'KUISIONER') {
-      Komponen.getLoadingWidget();
-
       try {
         final authStorage = await getStorage<LoginRespon>();
         final userID = authStorage.data!.loginUserId;
@@ -72,7 +72,6 @@ class OnesignalnotifLogic extends BaseLogic {
         final baseRespon = await getService<CekkuisionerService>()
             ?.cekKuisioner(userID!, itemNotif.onesignalId!);
 
-        Get.back();
 
         if (baseRespon != null && baseRespon.code == "200") {
           Fungsi.warningToast(baseRespon.message!);
@@ -89,6 +88,7 @@ class OnesignalnotifLogic extends BaseLogic {
       return;
     }
 
+    // ke detail notif jika bukan kuisioner
     Get.toNamed(Konstan.rute_detail_notif, arguments: itemNotif);
   }
 }
