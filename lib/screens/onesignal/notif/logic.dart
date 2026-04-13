@@ -72,7 +72,6 @@ class OnesignalnotifLogic extends BaseLogic {
         final baseRespon = await getService<CekkuisionerService>()
             ?.cekKuisioner(userID!, itemNotif.onesignalId!);
 
-
         if (baseRespon != null && baseRespon.code == "200") {
           Fungsi.warningToast(baseRespon.message!);
         } else {
